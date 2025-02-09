@@ -29,11 +29,6 @@ Before you begin, ensure you have the following installed:
 
 1.  **Clone the Repository:**
 
-    ```bash
-    git clone <your-repository-url>  # Replace with the actual URL
-    cd llmproxy
-    ```
-
 2.  **Install Dependencies:**
 
     ```bash
@@ -100,7 +95,7 @@ Before you begin, ensure you have the following installed:
 6.  **Configure Sequelize (`config/config.json`):**
 
     *   Open `config/config.json`.
-    *   Modify the `development`, `test` and `production` sections to match your PostgreSQL settings. Ensure `username`, `password`, `database`, `host`, and `dialect` are correct. Add the `schema` option.
+    *   Modify the `development`, `test` and `production` sections to match your PostgreSQL settings. Ensure `username`, `password`, `database`, `host`, and `dialect` are correct (values below are just examples). Add the `schema` option.
     ```json
     {
       "development": {
@@ -129,7 +124,7 @@ Before you begin, ensure you have the following installed:
       }
     }
     ```
-      *  Also, open models/index.js, and find this line:
+    * Also, open models/index.js, and find this line:
     ```javascript
     sequelize = new Sequelize(config.database, config.username, config.password, config);
     ```
@@ -143,7 +138,9 @@ Before you begin, ensure you have the following installed:
     ```
 
 7.  **Create Models and Migrations:**
-    You already have created. Just in case, run these commands:
+ 
+    Just in case, run these commands:
+    
     ```bash
     npx sequelize-cli model:generate --name User --attributes virtualKey:string,openaiKey:string,mistralKey:string,requestsPerMinute:integer,tokensPerMinute:integer,totalCost:float
     npx sequelize-cli model:generate --name LLMModel --attributes name:string,provider:string,fallback:string,inputCostPer1k:float,outputCostPer1k:float
@@ -155,7 +152,7 @@ Before you begin, ensure you have the following installed:
         *   The `fallback` field in `models/model.js` (and its getter/setter).
         *   The `tableName` option in each model to ensure the correct table names are used.
 
-8.  **Run Migrations:**
+9.  **Run Migrations:**
 
     ```bash
     npx sequelize-cli db:migrate
@@ -163,7 +160,7 @@ Before you begin, ensure you have the following installed:
 
     This creates the tables.  Verify with `psql` and `\dt`.
 
-9.  **Create and Run Seeders:**
+10.  **Create and Run Seeders:**
 
     Create a file named `{timestamp}-add-providers-and-models.js` inside the `seeders` folder (you can use `npx sequelize-cli seed:generate --name add-providers-and-models` to create the file with the timestamp automatically), and add the following content:
 
@@ -271,48 +268,46 @@ Before you begin, ensure you have the following installed:
 export ENCRYPTION_KEY=$(openssl rand -hex 32)  # If NOT using .env
 export IV=$(openssl rand -hex 16)          # If NOT using .env
 node app.js
+```
 
+You should see "LLM proxy server listening on port 3000. Connected to PostgreSQL via Sequelize".
 
-You should see "LLM proxy server listening on port 3000".
+## Testing the API
 
-
-
-Testing the API
 Use curl (or Postman, Insomnia, etc.):
 
-1. Generate a Virtual Key:
+### 1. Generate a Virtual Key:
 
+```bash
 curl -X POST http://localhost:3000/api/generate-virtual-key
+```
 
+This returns a line similar to:
 
+```
+{ "virtualKey": "a1b2c3d4-e5f6-7890-1234-567890abcdef" }  
+```
 
-This returns:
+### 2. Save API Keys:
 
-{ "virtualKey": "a1b2c3d4-e5f6-7890-1234-567890abcdef" }  // Example
-
-
-
-2. Save API Keys:
-
+```
 curl -X POST -H "Content-Type: application/json" -d '{
   "virtualKey": "YOUR_GENERATED_VIRTUAL_KEY",
   "openaiKey": "sk-your-test-openai-key",
   "mistralKey": "your-test-mistral-key"
 }' http://localhost:3000/api/save-keys
-
+```
 
 Replace:
 
-YOUR_GENERATED_VIRTUAL_KEY with the key from step 1.
-
-sk-your-test-openai-key with a test OpenAI key (or "").
-
-your-test-mistral-key with a test Mistral key (or "").
+- YOUR_GENERATED_VIRTUAL_KEY with the key from step 1.
+- sk-your-test-openai-key with a test OpenAI key (or "").
+- your-test-mistral-key with a test Mistral key (or "").
 
 
+### 3. Send a Chat Completion Request:
 
-3. Send a Chat Completion Request:
-
+```
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_VIRTUAL_KEY" -d '{
   "model": "gpt-3.5-turbo",
   "messages": [
@@ -326,62 +321,59 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_
     }
   ]
 }' http://localhost:3000/chat/completions
-
+```
 
 Replace: YOUR_VIRTUAL_KEY with your generated key.
 
+### 4. Test Fallback: 
 
+Temporarily invalidate your OpenAI key in the database (using psql) and make another request. The proxy should fall back to Mistral. Then, restore your valid OpenAI key.
 
+### 5. Test Rate Limiting:
 
-4. Test Fallback: Temporarily invalidate your OpenAI key in the database (using psql) and make another request. The proxy should fall back to Mistral. Then, restore your valid OpenAI key.
+- Requests Per Minute: Send more than 60 requests (or your configured lower limit for easy testing) within a minute. You should get `429 Too Many Requests` errors.
+- Tokens Per Minute: Send requests with very long prompts to exceed the token limit within a minute.
 
-5. Test Rate Limiting:
+### 6. Verify Cost Tracking: Connect to your database using psql and check the totalCost column in the Users table. It should be increasing:
 
-Requests Per Minute: Send more than 60 requests (or your configured limit) within a minute. You should get 429 Too Many Requests errors.
-
-Tokens Per Minute: Send requests with very long prompts to exceed the token limit within a minute.
-
-6. Verify Cost Tracking: Connect to your database using psql and check the totalCost column in the Users table. It should be increasing:
-
+```
 psql -U llmproxy -d llmproxy -h localhost
 SELECT * FROM "Users";
+```
 
-
-
-7. Test Error Handling (Should return 401 Unauthorized):
+### 7. Test Error Handling (Should return 401 Unauthorized):
 
 Invalid Virtual Key:
-curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer invalid_key" -d '{"model": "gpt-3.5-turbo", "messages": []}' http://localhost:3000/chat/completions
 
+```
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer invalid_key" -d '{"model": "gpt-3.5-turbo", "messages": []}' http://localhost:3000/chat/completions
+```
 
 Missing Bearer: (Should return 401 Unauthorized)
 
-
+```
 curl -X POST -H "Content-Type: application/json" -H "Authorization: your_virtual_key" -d '{"model": "gpt-3.5-turbo", "messages": []}' http://localhost:3000/chat/completions
-
+```
 
 Invalid Model: (Should return 400 Bad Request)
 
-
+```
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_VIRTUAL_KEY" -d '{"model": "invalid-model", "messages": []}' http://localhost:3000/chat/completions
+```
 
-
-
-Limitations and roadmap
+## Limitations and roadmap
 
 This setup is for development. For production:
-- Use strong, unique passwords.
+
 - Never store API keys or encryption keys in your code or .env file in production. Use environment variables or a key management service.
 - Use HTTPS.
 - Implement proper input validation.
 - Consider authentication/authorization for your API endpoints.
 - Regularly update dependencies.
 
-Improvements: 
+Potential improvements: 
 
-- Error Handling: This is basic error handling. Improve it.
-- Rate Limiting: This uses in-memory rate limiting. Consider using Redis for production.
+- Error Handling: This is basic error handling. Needs improvement.
+- Rate Limiting: This uses in-memory rate limiting. Redis should be considered for production.
 - Database: The database setup creates a public schema.
-
-
 
