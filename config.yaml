@@ -1,0 +1,68 @@
+providers:
+  openai:
+    api_base: https://api.openai.com/v1
+    api_version: '2023-05-15'
+    api_key: OPENAI_API_KEY
+  mistral:
+    api_base: https://api.mistral.ai/v1
+    api_version: '2023-10-26'
+    api_key: MISTRAL_AI_KEY
+models:
+  gpt-3.5-turbo:
+    provider: openai
+    fallback:
+      - mistral-tiny
+    cost_per_1k_tokens:
+      input: 0.0015
+      output: 0.002
+    rate_limit: openai-limit
+  gpt-4:
+    provider: openai
+    fallback:
+      - mistral-tiny
+    cost_per_1k_tokens:
+      input: 0.03
+      output: 0.06
+    rate_limit: openai-limit
+  mistral-tiny:
+    provider: mistral
+    fallback: []
+    cost_per_1k_tokens:
+      input: 0.00015
+      output: 0.00075
+    rate_limit: mistral-limit
+  mistral-small:
+    provider: mistral
+    fallback: []
+    cost_per_1k_tokens:
+      input: 0.0006
+      output: 0.0018
+    rate_limit: mistral-limit
+  mistral-medium:
+    provider: mistral
+    fallback: []
+    cost_per_1k_tokens:
+      input: 0.0027
+      output: 0.0081
+    rate_limit: mistral-limit
+  mistral-large:
+    provider: mistral
+    fallback: []
+    cost_per_1k_tokens:
+      input: 0.008
+      output: 0.024
+    rate_limit: mistral-limit
+rate_limits:
+  default:
+    requests_per_minute: 5
+    tokens_per_minute: 100000
+  openai-limit:
+    requests_per_minute: 5
+    tokens_per_minute: 40000
+  mistral-limit:
+    requests_per_minute: 5
+    tokens_per_minute: 150000
+users:
+  user1:
+    rate_limit: default
+    total_cost: 0.00253995

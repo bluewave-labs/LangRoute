@@ -1,0 +1,26 @@
+{
+  "name": "llm-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@dqbd/tiktoken": "^1.0.17",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "express-http-proxy": "^2.0.0",
+    "js-yaml": "^4.1.0",
+    "mongoose": "^8.10.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5",
+    "sequelize-cli": "^6.6.2",
+    "uuid": "^11.0.5"
+  }
+}

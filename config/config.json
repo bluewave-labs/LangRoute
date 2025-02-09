@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "llmproxy",
+    "password": "llmproxy",
+    "database": "llmproxy",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "llmproxy",
+    "password": "llmproxy",
+    "database": "llmproxy_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "llmproxy",
+    "password": "llmproxy",
+    "database": "llmproxy_prod",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
