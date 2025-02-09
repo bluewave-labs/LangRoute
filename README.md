@@ -1,8 +1,12 @@
-# LLM Proxy
+# LangRoute
 
-This is a robust and configurable LLM proxy server built with Node.js, Express, and PostgreSQL. It acts as an intermediary between your applications and various Large Language Model (LLM) providers, offering features like:
+This is a robust and configurable LLM proxy server built with Node.js, Express, and PostgreSQL. 
 
-**Key Features:**
+An LLM Proxy is a service that sits between your application and the LLM provider's API. It intercepts the requests and responses, allowing for features like caching, rate limiting, and key management.
+
+LangRoute has the following features:
+
+**Key features:**
 
 *   **Model Routing:** Direct requests to different LLM providers (currently OpenAI and Mistral AI) based on the requested model.
 *   **Fallback:** Automatically switch to a backup provider if the primary provider fails, ensuring high availability.
@@ -25,21 +29,21 @@ Before you begin, ensure you have the following installed:
 *   **`git`:** To clone the repository.
 *   **`curl`:** For testing the API (or use Postman, Insomnia, etc.).
 
-## Installation and Setup
+## Installation and setup
 
-1.  **Clone the Repository:**
+1.  **Clone the rrepository:**
 
-2.  **Install Dependencies:**
+2.  **Install dependencies:**
 
     ```bash
     npm install
     ```
 
-3.  **Set up Environment Variables (CRUCIAL):**
+3.  **Set up environment variables (CRUCIAL):**
 
     You *must* set two environment variables for encryption: `ENCRYPTION_KEY` and `IV`. *Do not skip this*.
 
-    *   **Generate Random Keys:** Use `openssl` to generate strong, random keys:
+    *   **Generate random keys:** Use `openssl` to generate strong, random keys:
 
         ```bash
         export ENCRYPTION_KEY=$(openssl rand -hex 32)
@@ -66,9 +70,9 @@ Before you begin, ensure you have the following installed:
 
 4.  **Set up PostgreSQL:**
 
-    *   **Ensure PostgreSQL is Running.**
+    *   **Ensure PostgreSQL is running.**
 
-    *   **Create Database and User:** Connect to PostgreSQL as the `postgres` superuser (or another superuser):
+    *   **Create database and user:** Connect to PostgreSQL as the `postgres` superuser (or another superuser):
 
         *   **Linux/macOS:** `sudo -u postgres psql`
         *   **Windows:** (Assuming `psql` is in your PATH) `psql -U postgres`
@@ -84,7 +88,7 @@ Before you begin, ensure you have the following installed:
 
         **SECURITY NOTE:** Using `llmproxy` for username, password, and database name is for *development convenience only*. *Never* do this in production.
 
-5.  **Initialize Sequelize:**
+5.  **Initialize sequelize:**
 
     ```bash
     npx sequelize-cli init
@@ -92,7 +96,7 @@ Before you begin, ensure you have the following installed:
 
     This creates the `config`, `models`, `migrations`, and `seeders` directories.
 
-6.  **Configure Sequelize (`config/config.json`):**
+6.  **Configure sequelize (`config/config.json`):**
 
     *   Open `config/config.json`.
     *   Modify the `development`, `test` and `production` sections to match your PostgreSQL settings. Ensure `username`, `password`, `database`, `host`, and `dialect` are correct (values below are just examples). Add the `schema` option.
@@ -137,7 +141,7 @@ Before you begin, ensure you have the following installed:
         });
     ```
 
-7.  **Create Models and Migrations:**
+7.  **Create models and migrations:**
  
     Just in case, run these commands:
     
@@ -152,7 +156,7 @@ Before you begin, ensure you have the following installed:
         *   The `fallback` field in `models/model.js` (and its getter/setter).
         *   The `tableName` option in each model to ensure the correct table names are used.
 
-9.  **Run Migrations:**
+9.  **Run migrations:**
 
     ```bash
     npx sequelize-cli db:migrate
@@ -160,7 +164,7 @@ Before you begin, ensure you have the following installed:
 
     This creates the tables.  Verify with `psql` and `\dt`.
 
-10.  **Create and Run Seeders:**
+10.  **Create and run seeders:**
 
 Create a file named `{timestamp}-add-providers-and-models.js` inside the `seeders` folder (you can use `npx sequelize-cli seed:generate --name add-providers-and-models` to create the file with the timestamp automatically), and add the following content:
 
@@ -264,7 +268,7 @@ npx sequelize-cli db:seed:all
 
 11. **Copy Code Files:** Place the provided `app.js`, `costTracker.js`, `database.js`, `rateLimiter.js`, `tokenCounter.js`, and `utils.js` files into your project directory.
 
-## Running the Application
+## Running the application
 
 ```bash
 export ENCRYPTION_KEY=$(openssl rand -hex 32)  # If NOT using .env
@@ -278,7 +282,7 @@ You should see "LLM proxy server listening on port 3000. Connected to PostgreSQL
 
 Use curl (or Postman, Insomnia, etc.):
 
-### 1. Generate a Virtual Key:
+### 1. Generate a virtual key:
 
 ```bash
 curl -X POST http://localhost:3000/api/generate-virtual-key
@@ -307,7 +311,7 @@ Replace:
 - your-test-mistral-key with a test Mistral key (or "").
 
 
-### 3. Send a Chat Completion Request:
+### 3. Send a chat completion request:
 
 ```
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_VIRTUAL_KEY" -d '{
@@ -327,37 +331,37 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_
 
 Replace: YOUR_VIRTUAL_KEY with your generated key.
 
-### 4. Test Fallback: 
+### 4. Test fallback: 
 
 Temporarily invalidate your OpenAI key in the database (using psql) and make another request. The proxy should fall back to Mistral. Then, restore your valid OpenAI key.
 
-### 5. Test Rate Limiting:
+### 5. Test rate limiting:
 
 - Requests Per Minute: Send more than 60 requests (or your configured lower limit for easy testing) within a minute. You should get `429 Too Many Requests` errors.
 - Tokens Per Minute: Send requests with very long prompts to exceed the token limit within a minute.
 
-### 6. Verify Cost Tracking: Connect to your database using psql and check the totalCost column in the Users table. It should be increasing:
+### 6. Verify cost tracking: Connect to your database using psql and check the totalCost column in the Users table. It should be increasing:
 
 ```
 psql -U llmproxy -d llmproxy -h localhost
 SELECT * FROM "Users";
 ```
 
-### 7. Test Error Handling (Should return 401 Unauthorized):
+### 7. Test error handling (should return 401 Unauthorized):
 
-Invalid Virtual Key:
+Invalid virtual key:
 
 ```
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer invalid_key" -d '{"model": "gpt-3.5-turbo", "messages": []}' http://localhost:3000/chat/completions
 ```
 
-Missing Bearer: (Should return 401 Unauthorized)
+Missing bearer: (Should return 401 Unauthorized)
 
 ```
 curl -X POST -H "Content-Type: application/json" -H "Authorization: your_virtual_key" -d '{"model": "gpt-3.5-turbo", "messages": []}' http://localhost:3000/chat/completions
 ```
 
-Invalid Model: (Should return 400 Bad Request)
+Invalid model: (Should return 400 Bad Request)
 
 ```
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_VIRTUAL_KEY" -d '{"model": "invalid-model", "messages": []}' http://localhost:3000/chat/completions
