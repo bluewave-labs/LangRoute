@@ -162,9 +162,11 @@ Before you begin, ensure you have the following installed:
 
 10.  **Create and Run Seeders:**
 
-    Create a file named `{timestamp}-add-providers-and-models.js` inside the `seeders` folder (you can use `npx sequelize-cli seed:generate --name add-providers-and-models` to create the file with the timestamp automatically), and add the following content:
+Create a file named `{timestamp}-add-providers-and-models.js` inside the `seeders` folder (you can use `npx sequelize-cli seed:generate --name add-providers-and-models` to create the file with the timestamp automatically), and add the following content:
 
-    ```javascript
+
+```
+    javascript
      'use strict';
 
      /** @type {import('sequelize-cli').Migration} */
@@ -252,13 +254,13 @@ Before you begin, ensure you have the following installed:
          await queryInterface.bulkDelete('Providers', null, {});
        }
      };
-    ```
+```
 
-    Then, run:
+Then, run:
 
-    ```bash
-    npx sequelize-cli db:seed:all
-    ```
+```bash
+npx sequelize-cli db:seed:all
+```
 
 11. **Copy Code Files:** Place the provided `app.js`, `costTracker.js`, `database.js`, `rateLimiter.js`, `tokenCounter.js`, and `utils.js` files into your project directory.
 
