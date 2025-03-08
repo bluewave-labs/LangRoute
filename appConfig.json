@@ -1,0 +1,19 @@
+async function loadConfigFromFile() {
+    const configPath = path.join(__dirname, 'appConfig.json');
+    const configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+
+    console.log('Config Data:', configData); // Log the config data
+
+    // Populate Providers
+    for (const provider of configData.providers) {
+      await db.Provider.upsert(provider);
+    }
+
+    // Populate Models
+    for (const model of configData.models) {
+      model.fallback = JSON.stringify(model.fallback); // Ensure fallback is stored as a JSON string
+      await db.LLMModel.upsert(model);
+    }
+
+    console.log('Configuration loaded from file and database populated.');
+  }

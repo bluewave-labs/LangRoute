@@ -1,16 +1,45 @@
-// app.js
+/**
+ * @fileoverview LangRoute - A Language Model Gateway Service
+ * 
+ * This service acts as an intelligent proxy for various LLM providers (OpenAI, Mistral).
+ * Features:
+ * - API key management with encryption
+ * - Rate limiting (requests and tokens)
+ * - Cost tracking
+ * - Model fallback support
+ * - Real-time logging
+ * - Dynamic configuration reloading
+ * 
+ * Environment variables required:
+ * - DATABASE_URL: PostgreSQL connection string
+ * - ENCRYPTION_KEY: Key for API key encryption
+ * 
+ * @author LangRoute Team
+ * @license MIT
+ */
+
+require('dotenv').config();
 const express = require('express');
 const proxy = require('express-http-proxy');
 const { countTokens } = require('./tokenCounter');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const db = require('./database'); // Sequelize models
 const { v4: uuidv4 } = require('uuid'); // For generating virtual keys
 const { checkRateLimit, updateRequestCount, checkTokenLimit, updateTokenCount, updateUserCost } = require('./rateLimiter');
 const { calculateCost } = require('./costTracker');
 const { getModel } = require('./utils'); // Import getModel
+const yaml = require('js-yaml');
 const app = express();
 
-// Reload configuration (modified to load from DB)
+/**
+ * Endpoint to reload configuration from the database.
+ * Updates provider and model configurations without server restart.
+ * 
+ * @route POST /reload-config
+ * @returns {Object} message - Success or error message
+ */
 app.post('/reload-config', async (req, res) => {
     try {
         // In a real implementation, you would likely reload *all*
@@ -28,7 +57,13 @@ app.post('/reload-config', async (req, res) => {
 
 app.use(express.json());
 
-// New endpoint: Generate Virtual Key
+/**
+ * Generates a new virtual key for API authentication.
+ * Creates a new user record with default rate limits.
+ * 
+ * @route POST /api/generate-virtual-key
+ * @returns {Object} virtualKey - The generated virtual key
+ */
 app.post('/api/generate-virtual-key', async (req, res) => {
     try {
         const virtualKey = uuidv4(); // Generate a unique key
@@ -49,7 +84,16 @@ app.post('/api/generate-virtual-key', async (req, res) => {
     }
 });
 
-// New endpoint: Save API Keys
+/**
+ * Saves encrypted provider API keys for a user.
+ * 
+ * @route POST /api/save-keys
+ * @param {Object} req.body
+ * @param {string} req.body.virtualKey - User's virtual key
+ * @param {string} req.body.openaiKey - OpenAI API key
+ * @param {string} req.body.mistralKey - Mistral API key
+ * @returns {Object} message - Success or error message
+ */
 app.post('/api/save-keys', async (req, res) => {
     try {
         const { virtualKey, openaiKey, mistralKey } = req.body;
@@ -81,7 +125,29 @@ app.post('/api/save-keys', async (req, res) => {
     }
 });
 
+/**
+ * Main chat completions endpoint.
+ * Handles routing requests to appropriate LLM providers with fallback support.
+ * 
+ * Features:
+ * - Authentication via virtual key
+ * - Rate limiting checks
+ * - Token counting
+ * - Cost tracking
+ * - Automatic fallback to alternative models
+ * - Response standardization
+ * - Real-time logging
+ * 
+ * @route POST /chat/completions
+ * @param {Object} req.headers
+ * @param {string} req.headers.authorization - Bearer token with virtual key
+ * @param {Object} req.body
+ * @param {string} req.body.model - Requested model name
+ * @param {Array} req.body.messages - Chat messages
+ * @returns {Object} Standardized chat completion response
+ */
 app.post('/chat/completions', async (req, res, next) => {
+    const requestStartTime = new Date();
     try {
         // 1. Require and Validate Virtual Key (Authentication)
         const authHeader = req.headers.authorization;
@@ -126,7 +192,15 @@ app.post('/chat/completions', async (req, res, next) => {
         }
 
         // 6.  Make Request Function (Modified to use DB config and decrypted keys)
-        async function makeRequest(modelName, requestData) {
+        /**
+ * Makes an API request to the specified LLM provider.
+ * 
+ * @param {string} modelName - Name of the model to use
+ * @param {Object} requestData - Request payload
+ * @returns {Promise<Object>} Provider's API response
+ * @throws {Error} If provider configuration is missing or request fails
+ */
+async function makeRequest(modelName, requestData) {
             const currentModelConfig = await db.LLMModel.findOne({ where: { name: modelName } }); //Fetch config
             if (!currentModelConfig) {
                 console.error(`ERROR: Model not configured: ${modelName}`);
@@ -183,8 +257,11 @@ app.post('/chat/completions', async (req, res, next) => {
         // 7. Request Handling (with Fallback)
         let response;
         let usedModel = requestedModelName; // Keep track of which model was *actually* used
+        let usedProvider;
         try {
             response = await makeRequest(requestedModelName, req.body);
+            const modelInfo = await db.LLMModel.findOne({ where: { name: usedModel } });
+            usedProvider = modelInfo.provider;
         } catch (primaryError) {
             if (modelConfig.fallback) {
                 const fallbackArray = typeof modelConfig.fallback === 'string' ? JSON.parse(modelConfig.fallback) : modelConfig.fallback;
@@ -195,6 +272,8 @@ app.post('/chat/completions', async (req, res, next) => {
                         response = await makeRequest(fallbackModelName, fallbackRequestData);
                         console.log(`INFO: Fallback successful for: ${fallbackModelName}`);
                         usedModel = fallbackModelName; // Update usedModel
+                        const modelInfo = await db.LLMModel.findOne({ where: { name: usedModel } });
+                        usedProvider = modelInfo.provider;
                         break; // Exit loop on success
                     } catch (fallbackError) {
                         console.error(`ERROR: Fallback failed for: ${fallbackModelName}`, fallbackError.response ? fallbackError.response.data: fallbackError.message);
@@ -209,15 +288,15 @@ app.post('/chat/completions', async (req, res, next) => {
         if (response) {
             if (response.status >= 200 && response.status < 300) {
                 let standardizedResponse;
-                if (response.data.choices && response.data.choices[0] && response.data.choices[0].message && response.data.choices[0].message.content) {
-                    //Already OpenAI format.
+                if (response.data.choices && response.data.choices[0] && response.data.choices[0].message) {
+                    // OpenAI format - handles both regular responses and function calls
                     standardizedResponse = response.data;
                 } else if (response.data.content && response.data.content[0] && response.data.content[0].text) {
-                    //Anthropic Format
+                    // Anthropic Format
                     standardizedResponse = {
                         choices: [{
                             message: {
-                                role: "assistant", //It's not inside original response.
+                                role: "assistant", // It's not inside original response.
                                 content: response.data.content[0].text
                             }
                         }]
@@ -243,14 +322,92 @@ app.post('/chat/completions', async (req, res, next) => {
                     total_tokens: costData.inputTokens + costData.outputTokens,
                 };
                 standardizedResponse.cost = costData;
+
+                // Store API log in the database with request duration
+                const requestEndTime = new Date();
+                await db.APILog.create({
+                    virtualKey: virtualKey,
+                    requestId: standardizedResponse.id || uuidv4(),
+                    model: usedModel,
+                    provider: usedProvider,
+                    inputTokens: costData.inputTokens,
+                    outputTokens: costData.outputTokens,
+                    inputCost: costData.inputCost,
+                    outputCost: costData.outputCost,
+                    totalCost: costData.totalCost,
+                    request: {
+                        ...req.body,
+                        method: req.method,
+                        path: req.path
+                    },
+                    response: {
+                        ...standardizedResponse,
+                        status: response.status
+                    },
+                    createdAt: requestStartTime,
+                    updatedAt: requestEndTime
+                });
+
                 res.status(response.status).send(standardizedResponse);
 
             } else {
                 console.error(`ERROR: Forwarding error from provider: ${response.status}`, response.data);
+                
+                // Log the failed request with duration
+                const requestEndTime = new Date();
+                await db.APILog.create({
+                    virtualKey: virtualKey,
+                    requestId: uuidv4(),
+                    model: usedModel,
+                    provider: usedProvider,
+                    inputTokens: 0,
+                    outputTokens: 0,
+                    inputCost: 0,
+                    outputCost: 0,
+                    totalCost: 0,
+                    request: {
+                        ...req.body,
+                        method: req.method,
+                        path: req.path
+                    },
+                    response: {
+                        ...response.data,
+                        status: response.status
+                    },
+                    createdAt: requestStartTime,
+                    updatedAt: requestEndTime
+                });
+                
                 res.status(response.status).send(response.data); // Forward the error
             }
         } else {
             console.error("ERROR: All providers failed.");
+            
+            // Log the failed request when all providers fail with duration
+            const requestEndTime = new Date();
+            await db.APILog.create({
+                virtualKey: virtualKey,
+                requestId: uuidv4(),
+                model: requestedModelName,
+                provider: modelConfig.provider,
+                inputTokens: 0,
+                outputTokens: 0,
+                inputCost: 0,
+                outputCost: 0,
+                totalCost: 0,
+                request: {
+                    ...req.body,
+                    method: req.method,
+                    path: req.path
+                },
+                response: {
+                    error: 'All providers failed',
+                    status: 500
+                },
+                createdAt: requestStartTime,
+                updatedAt: requestEndTime
+            });
+            
             res.status(500).send({ error: 'All providers failed.' });
         }
 
@@ -259,7 +416,52 @@ app.post('/chat/completions', async (req, res, next) => {
         res.status(500).send({ error: 'Internal Server Error' });
     }
 });
-const PORT = process.env.PORT || 3000;
+
+/**
+ * Loads initial configuration from YAML file and syncs to database.
+ * Sets up providers and models with their respective configurations.
+ * 
+ * @returns {Promise<void>}
+ * @throws {Error} If configuration file cannot be read or parsed
+ */
+async function loadConfigFromFile() {
+  const yaml = require('js-yaml');
+  const configPath = path.join(__dirname, 'config.yaml');
+  const configData = yaml.load(fs.readFileSync(configPath, 'utf8'));
+
+  // Populate Providers
+  for (const [providerName, providerData] of Object.entries(configData.providers)) {
+    await db.Provider.upsert({
+      name: providerName,
+      apiBase: providerData.api_base,
+      apiVersion: providerData.api_version
+    });
+  }
+
+  // Populate Models
+  for (const [modelName, modelData] of Object.entries(configData.models)) {
+    await db.LLMModel.upsert({
+      name: modelName,
+      provider: modelData.provider,
+      fallback: JSON.stringify(modelData.fallback),
+      inputCostPer1k: modelData.cost_per_1k_tokens.input,
+      outputCostPer1k: modelData.cost_per_1k_tokens.output
+    });
+  }
+
+  console.log('Configuration loaded from file and database populated.');
+}
+
+// Call this function when the server starts
+loadConfigFromFile().catch(err => {
+  console.error('Failed to load configuration:', err);
+});
+
+db.sequelize.sync().then(() => {
+  console.log('Database synchronized.');
+});
+
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`LLM proxy server listening on port ${PORT}`);
 });

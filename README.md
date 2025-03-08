@@ -80,18 +80,19 @@ Before you begin, ensure you have the following installed:
         Execute these SQL commands in `psql`:
 
         ```sql
-        CREATE DATABASE llmproxy;
-        CREATE USER llmproxy WITH PASSWORD 'llmproxy';  -- ***USE A STRONG PASSWORD IN PRODUCTION***
-        GRANT ALL PRIVILEGES ON DATABASE llmproxy TO llmproxy;
+        CREATE DATABASE langroute;
+        CREATE USER langroute WITH PASSWORD 'langroute';  -- ***USE A STRONG PASSWORD IN PRODUCTION***
+        GRANT ALL PRIVILEGES ON DATABASE langroute TO langroute;
         \q  -- Exit psql
         ```
 
-        **SECURITY NOTE:** Using `llmproxy` for username, password, and database name is for *development convenience only*. *Never* do this in production.
+        **SECURITY NOTE:** Using `langroute` for username, password, and database name is for *development convenience only*. *Never* do this in production.
 
 5.  **Initialize sequelize:**
 
     ```bash
     npx sequelize-cli init
+    node setup-config.js
     ```
 
     This creates the `config`, `models`, `migrations`, and `seeders` directories.
@@ -103,25 +104,25 @@ Before you begin, ensure you have the following installed:
     ```json
     {
       "development": {
-        "username": "llmproxy",
-        "password": "llmproxy",
-        "database": "llmproxy",
+        "username": "langroute",
+        "password": "langroute",
+        "database": "langroute",
         "host": "127.0.0.1",
         "dialect": "postgres",
         "schema": "public"
       },
       "test": {
-        "username": "llmproxy",
-        "password": "llmproxy",
-        "database": "llmproxy_test",
+        "username": "langroute",
+        "password": "langroute",
+        "database": "langroute_test",
         "host": "127.0.0.1",
         "dialect": "postgres",
         "schema": "public"
       },
       "production": {
-        "username": "llmproxy",
-        "password": "llmproxy",
-        "database": "llmproxy_prod",
+        "username": "langroute",
+        "password": "langroute",
+        "database": "langroute_prod",
         "host": "127.0.0.1",
         "dialect": "postgres",
         "schema": "public"
@@ -130,15 +131,11 @@ Before you begin, ensure you have the following installed:
     ```
     * Also, open models/index.js, and find this line:
     ```javascript
-    sequelize = new Sequelize(config.database, config.username, config.password, config);
+    const config = require(__dirname + '/../config.json')[env];
     ```
     And change it to:
     ```javascript
-     sequelize = new Sequelize(config.database, config.username, config.password, {
-          host: config.host,
-          dialect: config.dialect,
-          schema: config.schema, // Add this line
-        });
+    const config = require(__dirname + '/../config.json')[env];
     ```
 
 7.  **Create models and migrations:**
@@ -164,109 +161,15 @@ Before you begin, ensure you have the following installed:
 
     This creates the tables.  Verify with `psql` and `\dt`.
 
-10.  **Create and run seeders:**
+10.  **Run seeders:**
 
-Create a file named `{timestamp}-add-providers-and-models.js` inside the `seeders` folder (you can use `npx sequelize-cli seed:generate --name add-providers-and-models` to create the file with the timestamp automatically), and add the following content:
+    Run the following command to execute all seeders and populate the database with initial data:
 
+    ```bash
+    ./runseeders.sh
+    ```
 
-```
-    javascript
-     'use strict';
-
-     /** @type {import('sequelize-cli').Migration} */
-     module.exports = {
-       async up (queryInterface, Sequelize) {
-         // Add providers
-         await queryInterface.bulkInsert('Providers', [
-           {
-             name: 'openai',
-             apiBase: 'https://api.openai.com/v1',
-             apiVersion: '2023-05-15',
-             createdAt: new Date(),
-             updatedAt: new Date()
-           },
-           {
-             name: 'mistral',
-             apiBase: 'https://api.mistral.ai/v1',
-             apiVersion: '2023-10-26',
-             createdAt: new Date(),
-             updatedAt: new Date()
-           }
-         ], {});
-
-         // Add models
-         await queryInterface.bulkInsert('Models', [
-             {
-               name: 'gpt-3.5-turbo',
-               provider: 'openai',
-               fallback: JSON.stringify(['mistral-tiny']),
-               inputCostPer1k: 0.0015,
-               outputCostPer1k: 0.002,
-               createdAt: new Date(),
-               updatedAt: new Date()
-             },
-             {
-               name: 'gpt-4',
-               provider: 'openai',
-               fallback: JSON.stringify(['mistral-large']),
-               inputCostPer1k: 0.03,
-               outputCostPer1k: 0.06,
-               createdAt: new Date(),
-               updatedAt: new Date()
-             },
-             {
-               name: 'mistral-tiny',
-               provider: 'mistral',
-               fallback: JSON.stringify([]), // Empty array for no fallback
-               inputCostPer1k: 0.00015,
-               outputCostPer1k: 0.00075,
-               createdAt: new Date(),
-               updatedAt: new Date()
-             },
-             {
-                 name: 'mistral-small',
-                 provider: 'mistral',
-                 fallback: JSON.stringify([]), // Empty array for no fallback
-                 inputCostPer1k: 0.0006,
-                 outputCostPer1k: 0.0018,
-                 createdAt: new Date(),
-                 updatedAt: new Date()
-             },
-             {
-                 name: 'mistral-medium',
-                 provider: 'mistral',
-                 fallback: JSON.stringify([]), // Empty array for no fallback
-                 inputCostPer1k: 0.0027,
-                 outputCostPer1k: 0.0081,
-                 createdAt: new Date(),
-                 updatedAt: new Date()
-             },
-             {
-               name: 'mistral-large',
-               provider: 'mistral',
-               fallback: JSON.stringify([]), // Empty array for no fallback
-               inputCostPer1k: 0.008,
-               outputCostPer1k: 0.024,
-               createdAt: new Date(),
-               updatedAt: new Date()
-             }
-         ], {});
-       },
-
-       async down (queryInterface, Sequelize) {
-         await queryInterface.bulkDelete('Models', null, {});
-         await queryInterface.bulkDelete('Providers', null, {});
-       }
-     };
-```
-
-Then, run:
-
-```bash
-npx sequelize-cli db:seed:all
-```
-
-11. **Copy Code Files:** Place the provided `app.js`, `costTracker.js`, `database.js`, `rateLimiter.js`, `tokenCounter.js`, and `utils.js` files into your project directory.
+    This script will run all seeders using Sequelize CLI and populate your database with the necessary initial data.
 
 ## Running the application
 
@@ -343,7 +246,7 @@ Temporarily invalidate your OpenAI key in the database (using psql) and make ano
 ### 6. Verify cost tracking: Connect to your database using psql and check the totalCost column in the Users table. It should be increasing:
 
 ```
-psql -U llmproxy -d llmproxy -h localhost
+psql -U langroute -d langroute -h localhost
 SELECT * FROM "Users";
 ```
 

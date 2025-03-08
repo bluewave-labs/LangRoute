@@ -2,11 +2,9 @@ providers:
   openai:
     api_base: https://api.openai.com/v1
     api_version: '2023-05-15'
-    api_key: OPENAI_API_KEY
   mistral:
     api_base: https://api.mistral.ai/v1
     api_version: '2023-10-26'
-    api_key: MISTRAL_AI_KEY
 models:
   gpt-3.5-turbo:
     provider: openai

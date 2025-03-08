@@ -1,66 +1,116 @@
-// models/user.js
-'use strict';
-const { Model } = require('sequelize');
-const crypto = require('crypto'); // For encryption
+/**
+ * @fileoverview User model for LangRoute authentication and rate limiting.
+ * 
+ * This model manages user accounts, API key storage, and usage limits.
+ * It includes secure encryption for provider API keys and configurable
+ * rate limits for both request counts and token usage.
+ * 
+ * Security features:
+ * - AES-256-CBC encryption for API keys
+ * - Virtual key authentication
+ * - Configurable rate limits
+ * - Usage tracking
+ * 
+ * Environment variables required:
+ * - ENCRYPTION_KEY: 32-byte hex key for AES encryption
+ * - IV: 16-byte hex initialization vector
+ * 
+ * @module models/user
+ * @requires crypto
+ * @requires sequelize
+ */
 
+'use strict';
+
+const crypto = require('crypto');
+
+/**
+ * Initializes the User model.
+ * 
+ * @param {Sequelize} sequelize - Sequelize instance
+ * @param {DataTypes} DataTypes - Sequelize data types
+ * @returns {Model} Initialized User model
+ */
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init({
+  /**
+   * User model definition.
+   * Manages user authentication, API keys, and usage limits.
+   * 
+   * @type {Model}
+   */
+  const User = sequelize.define('User', {
+    /** @type {string} Unique identifier for authentication, used instead of user ID */
     virtualKey: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      primaryKey: true
     },
+    /** @type {string} Encrypted OpenAI API key */
     openaiKey: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.TEXT,
+      allowNull: true
     },
+    /** @type {string} Encrypted Mistral API key */
     mistralKey: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.TEXT,
+      allowNull: true
     },
+    /** @type {number} Maximum number of API requests allowed per minute */
     requestsPerMinute: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       defaultValue: 60
     },
+    /** @type {number} Maximum number of tokens allowed per minute */
     tokensPerMinute: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       defaultValue: 100000
     },
+    /** @type {number} Total accumulated cost in USD from all API requests */
     totalCost: {
       type: DataTypes.FLOAT,
-      defaultValue: 0.0
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
-    sequelize,
-    modelName: 'User',
-    tableName: 'Users'
+    tableName: 'Users',
+    timestamps: false
   });
 
-  // Encryption Method (CORRECTED to use Buffer for key)
+  /**
+   * Encrypts an API key using AES-256-CBC.
+   * Uses environment variables for encryption key and IV.
+   * 
+   * @param {string} key - The API key to encrypt
+   * @returns {string} Encrypted key in hex format
+   */
   User.prototype.encryptKey = function(key) {
-      if (!key) return '';
-      const ivBuffer = Buffer.from(process.env.IV, 'hex');
-      const keyBuffer = Buffer.from(process.env.ENCRYPTION_KEY, 'hex'); // Convert key to Buffer
-      const cipher = crypto.createCipheriv('aes-256-cbc', keyBuffer, ivBuffer); // Use keyBuffer
-      let encrypted = cipher.update(key, 'utf8', 'hex');
-      encrypted += cipher.final('hex');
-      return encrypted;
+    if (!key) return '';
+    // Convert hex strings to buffers
+    const encryptionKey = Buffer.from(process.env.ENCRYPTION_KEY.replace(/"/g, ''), 'hex');
+    const iv = Buffer.from(process.env.IV.replace(/"/g, ''), 'hex');
+    const cipher = crypto.createCipheriv('aes-256-cbc', encryptionKey, iv);
+    let encrypted = cipher.update(key, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return encrypted;
   };
 
-  // Decryption Method (CORRECTED to use Buffer for key)
+  /**
+   * Decrypts an encrypted API key using AES-256-CBC.
+   * Uses environment variables for encryption key and IV.
+   * 
+   * @param {string} encryptedKey - The encrypted API key in hex format
+   * @returns {string} Decrypted API key
+   */
   User.prototype.decryptKey = function(encryptedKey) {
-      if (!encryptedKey) return '';
-      const ivBuffer = Buffer.from(process.env.IV, 'hex');
-      const keyBuffer = Buffer.from(process.env.ENCRYPTION_KEY, 'hex'); // Convert key to Buffer
-      const decipher = crypto.createDecipheriv('aes-256-cbc', keyBuffer, ivBuffer); // Use keyBuffer
-      let decrypted = decipher.update(encryptedKey, 'hex', 'utf8');
-      decrypted += decipher.final('utf8');
-      return decrypted;
+    if (!encryptedKey) return '';
+    // Convert hex strings to buffers
+    const encryptionKey = Buffer.from(process.env.ENCRYPTION_KEY.replace(/"/g, ''), 'hex');
+    const iv = Buffer.from(process.env.IV.replace(/"/g, ''), 'hex');
+    const decipher = crypto.createDecipheriv('aes-256-cbc', encryptionKey, iv);
+    let decrypted = decipher.update(encryptedKey, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
   };
 
   return User;
