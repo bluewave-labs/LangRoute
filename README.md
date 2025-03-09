@@ -4,9 +4,9 @@
 <p align="center"><strong>A robust and configurable LLM proxy server built with Nextjs, Shadcn, Node.js, Express and PostgreSQL. </strong></p>
 
 <img width="1624" alt="image" src="https://github.com/user-attachments/assets/81c9eb78-e278-4f01-a8d7-b9bdad9e0812" />
+<p></p>
 
-
-An LLM Proxy is a service that sits between your application and the LLM provider's API. It intercepts the requests and responses, allowing for features like caching, rate limiting, and key management.
+LangRoute is an LLM Proxy is a service that sits between your application and the LLM provider's API. It intercepts the requests and responses, allowing for features like caching, rate limiting, and key management.
 
 LangRoute has the following features:
 
