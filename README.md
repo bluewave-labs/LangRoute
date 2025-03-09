@@ -1,6 +1,10 @@
-# LangRoute
 
-This is a robust and configurable LLM proxy server built with Node.js, Express, and PostgreSQL. 
+<h1 align="center"><a href="https://bluewavelabs.ca" target="_blank">LangRoute</a></h1>
+
+<p align="center"><strong>A robust and configurable LLM proxy server built with Nextjs, Shadcn, Node.js, Express and PostgreSQL. </strong></p>
+
+<img width="1624" alt="image" src="https://github.com/user-attachments/assets/81c9eb78-e278-4f01-a8d7-b9bdad9e0812" />
+
 
 An LLM Proxy is a service that sits between your application and the LLM provider's API. It intercepts the requests and responses, allowing for features like caching, rate limiting, and key management.
 
