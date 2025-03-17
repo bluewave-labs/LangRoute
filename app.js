@@ -465,3 +465,5 @@ const PORT = process.env.PORT || 3002;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`LLM proxy server listening on port ${PORT}`);
 });
+
+module.exports = { loadConfigFromFile };
