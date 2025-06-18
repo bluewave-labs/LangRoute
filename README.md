@@ -3,6 +3,8 @@
 
 <p align="center"><strong>A robust and configurable LLM proxy server built with Nextjs, Shadcn, Node.js, Express and PostgreSQL. </strong></p>
 
+<img width="1463" alt="image" src="https://github.com/user-attachments/assets/e5df3a9c-c948-42d4-b260-d7086ccb4650" />
+
 
 ## Overview  
 Langroute is a flexible LLM proxy that routes, throttles, and logs calls across multiple model providers. Core logic runs on Node.js, Express, and PostgreSQL, while a Next.js + shadcn UI lets admins tweak configs and watch metrics. One endpoint in, the best model out. 
