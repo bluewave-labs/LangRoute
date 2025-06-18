@@ -41,6 +41,4 @@ Langroute is a flexible LLM proxy that routes, throttles, and logs calls across 
 | Language | Typescript |
 | Data store | PostgreSQL (Redis optional) |
 
-# run dev server
-pnpm dev
 
