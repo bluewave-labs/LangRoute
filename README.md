@@ -1,7 +1,7 @@
 
 <h1 align="center"><a href="https://bluewavelabs.ca" target="_blank">LangRoute</a></h1>
 
-<p align="center"><strong>A robust and configurable LLM proxy server built with Nextjs, Shadcn, Node.js, Express and PostgreSQL. </strong></p>
+<p align="center"><strong>An LLM proxy server built with Nextjs, Shadcn, Node.js, Express and PostgreSQL. </strong></p>
 
 <img width="1463" alt="image" src="https://github.com/user-attachments/assets/e5df3a9c-c948-42d4-b260-d7086ccb4650" />
 
