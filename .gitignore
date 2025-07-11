@@ -20,10 +20,12 @@
 # production
 /build
 
+
 # misc
 .DS_Store
 *.pem
 /.personal
+/.github
 
 # debug
 npm-debug.log*
