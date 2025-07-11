@@ -50,3 +50,5 @@ next-env.d.ts
 !docker/
 !docs/
 !public/logo/
+
+/src/generated/prisma
