@@ -3,8 +3,8 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				background: '#ffffff',
-				foreground: '#171717',
+				background: 'var(--background)',
+				foreground: 'var(--foreground)',
 			},
 			fontFamily: {
 				sans: 'var(--font-geist-sans)',
