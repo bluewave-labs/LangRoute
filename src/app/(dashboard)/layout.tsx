@@ -5,13 +5,9 @@ export const metadata: Metadata = {
 	description: 'Dashboard pages',
 };
 
-export default function DashboardLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang='en'>
 			<body>{children}</body>
 		</html>
 	);
