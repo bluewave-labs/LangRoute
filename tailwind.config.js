@@ -3,8 +3,15 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				background: 'var(--background)',
-				foreground: 'var(--foreground)',
+				background: 'var(--color-background)',
+				foreground: 'var(--color-foreground)',
+				border: 'var(--color-border)',
+			},
+			borderRadius: {
+				sm: 'var(--radius-sm)',
+				md: 'var(--radius-md)',
+				lg: 'var(--radius-lg)',
+				xl: 'var(--radius-xl)',
 			},
 			fontFamily: {
 				sans: 'var(--font-geist-sans)',
