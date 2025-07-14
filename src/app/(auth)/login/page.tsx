@@ -1,5 +1,12 @@
 import React from 'react';
 
+/**
+ * Renders a centered login form UI with email and password input fields.
+ *
+ * Displays a styled card containing labeled input fields for email and password, along with a submit button. No form logic or state management is included.
+ *
+ * @returns The React element representing the login page UI.
+ */
 export default function LoginPage() {
 	return (
 		<div className='flex min-h-screen items-center justify-center bg-gray-100'>

@@ -1,5 +1,10 @@
 import Image from 'next/image';
 
+/**
+ * Renders the main landing page with instructions, call-to-action links, and resource navigation for a Next.js application.
+ *
+ * Displays the Next.js logo, editing instructions, deployment and documentation links, and a footer with additional learning resources. Uses responsive layout and styling with Tailwind CSS and Next.js's optimized Image component.
+ */
 export default function Home() {
 	return (
 		<div className='grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20'>
