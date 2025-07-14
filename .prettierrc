@@ -15,7 +15,10 @@
 	"proseWrap": "preserve",
 	"quoteProps": "as-needed",
 	"embeddedLanguageFormatting": "auto",
-	"plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+	"plugins": [
+		"@trivago/prettier-plugin-sort-imports",
+		"prettier-plugin-tailwindcss"
+	],
 	"tailwindConfig": "./tailwind.config.js",
 	"importOrder": [
 		"^node:.*",
