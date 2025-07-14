@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Renders a centered "Forgot Password" page with a form for users to request a password reset by entering their email address.
+ *
+ * The component displays a styled container with a heading, an email input field, and a submit button. No form submission logic or validation is included.
+ */
 export default function ForgotPasswordPage() {
 	return (
 		<div className='flex min-h-screen items-center justify-center bg-gray-100'>

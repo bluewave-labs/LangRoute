@@ -1,5 +1,12 @@
 import React from 'react';
 
+/**
+ * Renders a centered user registration form with fields for username, email, and password.
+ *
+ * The form is styled with a card-like appearance and includes labeled input fields and a submit button. No form submission logic or validation is implemented.
+ *
+ * @returns A React element displaying the registration form UI.
+ */
 export default function RegisterPage() {
 	return (
 		<div className='flex min-h-screen items-center justify-center bg-gray-100'>
