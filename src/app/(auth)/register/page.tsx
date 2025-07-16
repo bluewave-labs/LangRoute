@@ -14,7 +14,7 @@ export default function RegisterPage() {
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		router.push('/login');
+		router.push('/dashboard');
 	};
 
 	return (
@@ -53,7 +53,7 @@ export default function RegisterPage() {
 					<FormInput
 						label='Confirm password'
 						type='password'
-						name='ConfirmPassword'
+						name='confirmPassword'
 						placeHolder='Confirm your password'
 					/>
 				</div>

@@ -48,7 +48,7 @@ export default function LoginPage() {
 					</Button>
 				</div>
 			</form>
-			<NextLink href='#'>Forgot your password?</NextLink>
+			<NextLink href='/forgot-password'>Forgot your password?</NextLink>
 		</AuthFormWrapper>
 	);
 }
