@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 
+import AppSidebar from '@/components/sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
+
 export const metadata: Metadata = {
 	title: 'Dashboard',
 	description: 'Dashboard pages',
@@ -14,8 +17,11 @@ export const metadata: Metadata = {
  */
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang='en'>
-			<body>{children}</body>
-		</html>
+		<div className='text-secondary-foreground flex h-screen w-screen flex-col overflow-hidden bg-gray-50 md:flex-row dark:bg-gray-900'>
+			<SidebarProvider>
+				<AppSidebar />
+			</SidebarProvider>
+			<div className='flex h-full grow flex-col'>{children}</div>
+		</div>
 	);
 }
