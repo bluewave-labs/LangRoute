@@ -117,4 +117,20 @@
 	body {
 		@apply text-foreground bg-background;
 	}
+
+	/* Typography scale: heading + body text variants */
+	.h1{
+		@apply text-2xl font-semibold;
+	}
+	.body1{
+		@apply text-sm font-normal;
+	}
+	.body2{
+		@apply text-sm font-normal text-muted-foreground;
+	}
+
+	 /* Base link style */
+	a{
+		@apply text-sm underline underline-offset-4 hover:text-primary/80;
+	}
 }
