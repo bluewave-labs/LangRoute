@@ -1,8 +1,10 @@
+import { HTMLAttributes } from 'react';
+
 import { SearchIcon } from '@/assets/icons';
 import { Input } from '@/components';
 import { cn } from '@/lib/utils';
 
-interface SearchBarProps {
+interface SearchBarProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 

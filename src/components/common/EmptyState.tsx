@@ -1,16 +1,15 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { EmptyStateIcon } from '@/assets/icons';
 import { Button } from '@/components';
 import { cn } from '@/lib/utils';
 
-interface EmptyStateProps {
+interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
 	message: string;
 	icon?: ReactNode;
 	buttonText?: string;
 	buttonAction?: () => void;
 	children?: ReactNode;
-	className?: string;
 }
 
 /**
@@ -23,7 +22,6 @@ interface EmptyStateProps {
  * @param {string} [buttonText] - The button text of empty states. Optional.
  * @param {() => void} [buttonAction] - The button action of empty states. Optional.
  * @param {ReactNode} [children] - Custom JSX elements for more complex empty states (e.g., multiple buttons or additional text). Optional.
- * @param {string} [className] - Additional Tailwind/CSS classes for the root wrapper. Optional.
  *
  * @returns {JSX.Element} A scalable and responsive design including a message, icon, button, or passed children.
  */

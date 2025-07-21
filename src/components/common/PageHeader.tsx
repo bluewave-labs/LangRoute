@@ -1,11 +1,10 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { Separator } from '@/components';
 import { cn } from '@/lib/utils';
 
-interface PageHeaderProps {
+interface PageHeaderProps extends HTMLAttributes<HTMLDivElement> {
 	children: ReactNode;
-	className?: string;
 }
 
 export default function PageHeader({ children, className, ...props }: PageHeaderProps) {
