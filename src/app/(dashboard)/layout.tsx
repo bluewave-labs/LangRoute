@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import Header from '@/components/header';
 import AppSidebar from '@/components/sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
@@ -21,7 +22,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 			<SidebarProvider>
 				<AppSidebar />
 			</SidebarProvider>
-			<div className='flex h-full grow flex-col'>{children}</div>
+			<div className='flex h-full grow flex-col'>
+				<Header />
+				{children}
+			</div>
 		</div>
 	);
 }

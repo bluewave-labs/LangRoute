@@ -1,18 +1,12 @@
 'use client';
 
-import {
-	BookOpen,
-	ChartLine,
-	ChevronsUpDown,
-	KeyRound,
-	SlidersHorizontal,
-	SquareTerminal,
-} from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import logoLight from '@/assets/images/logo-light.svg';
+import pages from '@/lib/pages';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
@@ -28,37 +22,9 @@ import {
 	SidebarTrigger,
 } from '../ui/sidebar';
 
-const items = [
-	{
-		icon: SquareTerminal,
-		text: 'Dashboard',
-		href: '/',
-	},
-	{
-		icon: ChartLine,
-		text: 'Analytics',
-		href: '/analytics',
-	},
-	{
-		icon: BookOpen,
-		text: 'Logs',
-		href: '/logs',
-	},
-	{
-		icon: SlidersHorizontal,
-		text: 'Settings',
-		href: '/settings',
-	},
-	{
-		icon: KeyRound,
-		text: 'Key management',
-		href: '/keys',
-	},
-];
-
 const MobileHeader = () => {
 	const pathname = usePathname();
-	const item = items.find(({ href }) => href === pathname);
+	const item = pages.find(({ href }) => href === pathname);
 	return (
 		<SidebarHeader className='w-full flex-row items-center justify-between shadow-sm md:shadow-none'>
 			<div className='flex w-full items-center gap-2'>
@@ -98,7 +64,7 @@ const AppSidebar = () => {
 			<SidebarContent>
 				<SidebarGroup>
 					<SidebarMenu>
-						{items.map((item) => (
+						{pages.map((item) => (
 							<SidebarMenuItem key={item.text}>
 								<SidebarMenuButton
 									asChild
