@@ -1,7 +1,7 @@
-import { withAuth } from 'next-auth/middleware';
+// import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
-import { MIDDLEWARE_MATCHER_PATTERN } from '@/lib/config/routesConfig';
+// import { MIDDLEWARE_MATCHER_PATTERN } from '@/lib/config/routesConfig';
 
 /**
  * Middleware placeholder for authentication and rate-limiting logic in Next.js.
@@ -14,12 +14,22 @@ export function middleware() {
 	return NextResponse.next();
 }
 
-export default withAuth({
-	pages: {
-		// TODO: Define sign-in page
-	},
-});
+// export default withAuth({
+// 	pages: {
+// 		// TODO: Define sign-in page
+// 	},
+// });
 
 export const config = {
-	matcher: [MIDDLEWARE_MATCHER_PATTERN],
+	// matcher: [MIDDLEWARE_MATCHER_PATTERN],
+	matcher: [
+		/*
+		 * Match all request paths except for the ones starting with:
+		 * - api (API routes)
+		 * - _next/static (static files)
+		 * - _next/image (image optimization files)
+		 * - favicon.ico (favicon file)
+		 */
+		'/((?!api|_next/static|_next/image|favicon.ico).*)',
+	],
 };
