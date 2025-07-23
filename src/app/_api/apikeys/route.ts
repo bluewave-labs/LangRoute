@@ -64,10 +64,7 @@ async function handleDeleteApiKey(request: Request) {
 	});
 
 	if (!apiKey) {
-		return new Response(JSON.stringify({ error: 'API key not found' }), {
-			status: 404,
-			headers: { 'Content-Type': 'application/json' },
-		});
+		throw new BadRequestError('API key not found');
 	}
 
 	await prisma.apiKey.delete({ where: { id: apiKeyId } });
