@@ -2,7 +2,8 @@ import prisma from '@/lib/db/prisma';
 import { BadRequestError, UnauthorizedError } from '@/lib/errors';
 
 export async function requireApiKey(request: Request): Promise<void> {
-	const token = request.headers.get('authorization')?.replace('Bearer ', '');
+	const authHeader = request.headers.get('authorization');
+	const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 	if (!token) {
 		throw new UnauthorizedError();
 	}
