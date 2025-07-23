@@ -87,12 +87,10 @@ async function getUserIdFromApiKey(request: Request): Promise<string> {
 	return apiKey.userId;
 }
 
+import { randomBytes } from 'crypto';
+
 function generateApiKey(): string {
-	return (
-		'lr_' +
-		Math.random().toString(36).substring(2, 15) +
-		Math.random().toString(36).substring(2, 15)
-	);
+	return 'lr_' + randomBytes(16).toString('hex');
 }
 
 export const GET = apiKeyHandler;
