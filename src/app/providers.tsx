@@ -1,9 +1,52 @@
-import React from 'react';
+'use client';
 
-const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-	// TODO: Wrap QueryClientProvider and other providers here later
-	return <>{children}</>;
-};
+import { Toaster } from 'react-hot-toast';
 
-export { Providers };
-export default Providers;
+import { QueryClientProvider } from '@tanstack/react-query';
+import { SessionProvider } from 'next-auth/react';
+
+import { getQueryClient } from '@/lib/queryClient';
+
+/**
+ * Global providers wrapper for the LangRoute application.
+ * Provides React Query state management, NextAuth session management,
+ * and react-hot-toast notification system.
+ *
+ * @param children - The app content to wrap with providers
+ */
+export default function Providers({ children }: { children: React.ReactNode }) {
+	const queryClient = getQueryClient();
+
+	return (
+		<QueryClientProvider client={queryClient}>
+			<SessionProvider>
+				{children}
+
+				{/* React Hot Toast - positioned top-right with 5s default duration */}
+				<Toaster
+					position='top-right'
+					toastOptions={{
+						duration: 5000,
+						style: {
+							background: 'var(--background)',
+							color: 'var(--foreground)',
+							border: '1px solid var(--border)',
+						},
+						success: {
+							iconTheme: {
+								primary: 'var(--primary)',
+								secondary: 'var(--primary-foreground)',
+							},
+						},
+						error: {
+							iconTheme: {
+								primary: 'var(--destructive)',
+								secondary: 'var(--background)',
+							},
+						},
+					}}
+				/>
+			</SessionProvider>
+		</QueryClientProvider>
+	);
+}
