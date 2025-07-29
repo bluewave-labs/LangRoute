@@ -30,7 +30,7 @@ export default function ModelCreateModal() {
 					<div>
 						<Select>
 							<SelectTrigger className='w-full'>
-								<SelectValue placeholder='OpenAI' />
+								<SelectValue placeholder='Select a provider' />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>{/* <SelectItem value=''></SelectItem> */}</SelectGroup>
@@ -40,7 +40,7 @@ export default function ModelCreateModal() {
 
 					{/* Model */}
 					<Label>Model</Label>
-					<div className='w-ful'>
+					<div>
 						<MultipleSelector
 							defaultOptions={OPTIONS}
 							placeholder='Select models you like...'
