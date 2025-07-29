@@ -9,7 +9,7 @@ export const PUBLIC_ROUTE_PATTERNS: readonly RegExp[] = [
 	/^\/forgot-password$/,
 	/^\/reset-password.*$/,
 	/^\/403$/, // forbidden page
-	/^\/api\/auth\/.*/, // next-auth & custom auth APIs
+	/^\/_api\/auth\/.*/, // next-auth & custom auth APIs
 	/^\/invite\/.*/, // invite splash (future)
 	/^\/_next\/.*/, // next asset pipeline
 	/^\/favicon.ico$/,

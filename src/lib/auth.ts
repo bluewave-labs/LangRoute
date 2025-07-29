@@ -11,7 +11,6 @@ import prisma from '@/lib/db/prisma';
 
 const {
 	NEXTAUTH_SECRET,
-	NEXTAUTH_URL = 'http://localhost:3000',
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
 	// GITHUB_CLIENT_ID,
@@ -110,7 +109,7 @@ export const authOptions: NextAuthOptions = {
 		maxAge: 30 * 24 * 60 * 60, // 30 days
 	},
 	pages: {
-		signIn: '/(auth)/login',
+		signIn: '/login',
 	},
 	callbacks: {
 		async session({ session, user }) {
@@ -122,10 +121,6 @@ export const authOptions: NextAuthOptions = {
 			return session;
 		},
 	},
-	// Explicitly set base URL for emails / redirects
-	// (helps when deploying behind a proxy)
-	// @ts-expect-error — property exists in runtime options
-	url: NEXTAUTH_URL,
 };
 
 export function getServerAuthSession() {
