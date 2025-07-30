@@ -1,21 +1,26 @@
-import { withAuth } from 'next-auth/middleware';
+import { auth } from '@/lib/auth';
+import { MIDDLEWARE_MATCHER_PATTERN } from '@/middleware/matcher';
 
-export default withAuth({
-	pages: { signIn: '/login' },
+export default auth((req) => {
+	// Access the user session via req.auth
+	const { pathname } = req.nextUrl;
+
+	// If user is not authenticated and not on a public route, redirect to login
+	if (!req.auth && pathname !== '/login') {
+		const newUrl = new URL('/login', req.nextUrl.origin);
+		return Response.redirect(newUrl);
+	}
+
+	// Optional: Redirect authenticated users away from auth pages
+	if (req.auth && ['/login', '/register', '/forgot-password'].includes(pathname)) {
+		const newUrl = new URL('/', req.nextUrl.origin);
+		return Response.redirect(newUrl);
+	}
+
+	// Allow the request to proceed
+	return;
 });
 
 export const config = {
-	matcher: [
-		/*
-		 * Match all request paths except for the ones starting with:
-		 * - / (landing page)
-		 * - /login, /register, /forgot-password, /reset-password (auth pages)
-		 * - /403 (forbidden page)
-		 * - /_api/auth/ (NextAuth API routes using _api)
-		 * - /invite/ (future invite pages)
-		 * - /_next/ (Next.js internals)
-		 * - /favicon.ico (static assets)
-		 */
-		'/((?!$|login$|register$|forgot-password$|reset-password.*$|403$|_api/auth/.*|invite/.*|_next/.*|favicon.ico$).*)',
-	],
+	matcher: [MIDDLEWARE_MATCHER_PATTERN],
 };
