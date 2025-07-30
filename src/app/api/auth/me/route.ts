@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { getServerAuthSession } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 import { handleApiError } from '@/services';
 
 /**
@@ -16,7 +16,7 @@ import { handleApiError } from '@/services';
 export async function GET(): Promise<NextResponse> {
 	try {
 		// Retrieve server-side session using NextAuth
-		const session = await getServerAuthSession();
+		const session = await auth();
 
 		// Return null for unauthenticated requests (not an error condition)
 		if (!session?.user) {
