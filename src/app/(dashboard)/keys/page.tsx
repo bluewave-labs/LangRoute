@@ -4,5 +4,5 @@
  * Displays a static "Auth Page" message.
  */
 export default function AuthPage() {
-	return <div>Auth Page</div>;
+	return <div>Keys management Page</div>;
 }
