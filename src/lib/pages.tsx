@@ -1,4 +1,11 @@
-import { BookOpen, ChartLine, KeyRound, SlidersHorizontal, SquareTerminal } from 'lucide-react';
+import {
+	BookOpen,
+	Brain,
+	ChartLine,
+	KeyRound,
+	SlidersHorizontal,
+	SquareTerminal,
+} from 'lucide-react';
 
 const pages = [
 	{
@@ -25,6 +32,11 @@ const pages = [
 		icon: KeyRound,
 		text: 'Key management',
 		href: '/keys',
+	},
+	{
+		icon: Brain,
+		text: 'Models',
+		href: '/models',
 	},
 ];
 
