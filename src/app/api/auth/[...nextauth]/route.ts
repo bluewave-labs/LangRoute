@@ -1,8 +1,1 @@
-import NextAuth from 'next-auth';
-
-import { authOptions } from '@/lib/auth';
-
-const handler = NextAuth(authOptions) as unknown as (req: Request) => Promise<Response>;
-
-export const GET = handler;
-export const POST = handler;
+export { GET, POST } from '@/lib/auth';
