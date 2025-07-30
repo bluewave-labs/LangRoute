@@ -14,6 +14,19 @@
 /* ------------------------------------------------------------------ */
 
 /**
+ * Data structure for user login requests.
+ * Used by login forms, validation schemas, and API endpoints.
+ *
+ * @interface LoginData
+ */
+export interface LoginData {
+	/** User's email address */
+	email: string;
+	/** User's password for authentication */
+	password: string;
+}
+
+/**
  * Data structure for user registration requests.
  * Used by registration forms, validation schemas, and API endpoints.
  *

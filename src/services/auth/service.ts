@@ -2,7 +2,7 @@ import { Role } from '@prisma/client';
 import argon2 from 'argon2';
 import crypto from 'crypto';
 
-import { getServerAuthSession } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 import prisma from '@/lib/db/prisma';
 import type {
 	ChangePasswordData,
@@ -24,7 +24,7 @@ import { ServiceError } from '@/services/system/errorService';
  * @returns The authenticated user's database ID.
  */
 export async function authenticate(): Promise<string> {
-	const session = await getServerAuthSession();
+	const session = await auth();
 	if (!session?.user?.id) throw new ServiceError('Unauthenticated', 401);
 	return session.user.id;
 }
@@ -36,7 +36,7 @@ export async function authenticate(): Promise<string> {
  * @returns void
  */
 export async function requireRole(roles: Role[]): Promise<void> {
-	const session = await getServerAuthSession();
+	const session = await auth();
 	if (!session?.user?.role || !roles.includes(session.user.role)) {
 		throw new ServiceError('Forbidden', 403);
 	}

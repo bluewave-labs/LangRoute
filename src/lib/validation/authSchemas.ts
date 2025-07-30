@@ -44,6 +44,17 @@ export const RegisterSchema = z
 	});
 
 /**
+ * Validation schema for user login requests.
+ * Validates email format and password for authentication.
+ */
+export const LoginSchema = z.object({
+	/** User's email address - must be valid email format */
+	email: EmailField,
+	/** Password for authentication - no complexity rules on login */
+	password: z.string().min(1, { error: 'Password is required' }),
+});
+
+/**
  * Validation schema for forgot password requests.
  * Requires a valid email address to initiate password reset flow.
  */
@@ -95,6 +106,9 @@ export const ChangePasswordSchema = z
  * Type inference exports that match domain models in @/lib/models/Auth.
  * These provide validated data types for use in API routes and services.
  */
+
+/** Type inference for LoginSchema - matches LoginData domain model */
+export type LoginData = z.infer<typeof LoginSchema>;
 
 /** Type inference for RegisterSchema - matches RegisterUserData domain model */
 export type RegisterData = z.infer<typeof RegisterSchema>;

@@ -9,6 +9,6 @@ export async function middleware() {
 		return NextResponse.next();
 	} catch {
 		// Redirect UI visitors to a simple 403 page
-		return NextResponse.redirect(new URL('/403', process.env.NEXTAUTH_URL!));
+		return NextResponse.redirect(new URL('/403', process.env.AUTH_URL!));
 	}
 }

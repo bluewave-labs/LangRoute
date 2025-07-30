@@ -15,7 +15,7 @@ export function useSessionUser(): UseSessionUserReturn {
 	const { data, isLoading, isError } = useQuery<SessionQueryResult>({
 		queryKey: ['sessionUser'],
 		queryFn: async (): Promise<SessionQueryResult> => {
-			const response = await fetch('/_api/auth/me', {
+			const response = await fetch('/api/auth/me', {
 				method: 'GET',
 				credentials: 'include',
 				headers: {

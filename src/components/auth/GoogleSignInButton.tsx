@@ -1,8 +1,5 @@
-'use client';
-
-import { signIn } from 'next-auth/react';
-
 import { Button } from '@/components/ui/button';
+import { signIn } from '@/lib/auth';
 
 /**
  * Google Sign-In button component for OAuth authentication.
@@ -10,26 +7,12 @@ import { Button } from '@/components/ui/button';
  * Styled to match the application's design system.
  */
 export function GoogleSignInButton() {
-	const handleGoogleSignIn = async () => {
-		try {
-			const result = await signIn('google', {
-				callbackUrl: '/',
-				redirect: false,
-			});
-
-			if (result?.error) {
-				console.error('Google sign-in error:', result.error);
-			} else if (result?.url) {
-				window.location.href = result.url;
-			}
-		} catch (error) {
-			console.error('Sign-in failed:', error);
-		}
-	};
-
 	return (
 		<Button
-			onClick={handleGoogleSignIn}
+			onClick={async () => {
+				'use server';
+				await signIn('google', { callbackUrl: '/' });
+			}}
 			variant='outline'
 			className='inline-flex items-center gap-2 px-4 py-2 text-sm font-medium'
 		>
