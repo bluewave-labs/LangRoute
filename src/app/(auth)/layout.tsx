@@ -11,9 +11,5 @@ export const metadata: Metadata = {
  * @param children - The content to display within the authentication layout
  */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-	return (
-		<html lang='en'>
-			<body>{children}</body>
-		</html>
-	);
+	return <div>{children}</div>;
 }

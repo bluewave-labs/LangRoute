@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: langroute-db
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: UTC
+    ports:
+      - '5432:5432'
+    volumes:
+      - langroute_pgdata:/var/lib/postgresql/data
+    networks:
+      - langroute-net
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  langroute_pgdata:
+networks:
+  langroute-net:
+    driver: bridge
