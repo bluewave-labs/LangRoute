@@ -134,3 +134,21 @@ model InviteToken {
 
   @@index([teamId])
 }
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  surname   String
+  password  String
+  createdAt DateTime @default(now())
+  apiKeys   ApiKey[]
+}
+
+model ApiKey {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}

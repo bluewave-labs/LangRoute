@@ -11,6 +11,7 @@ export default auth((req) => {
 		return Response.redirect(newUrl);
 	}
 
+
 	// Optional: Redirect authenticated users away from auth pages
 	if (req.auth && ['/login', '/register', '/forgot-password'].includes(pathname)) {
 		const newUrl = new URL('/', req.nextUrl.origin);
@@ -22,5 +23,15 @@ export default auth((req) => {
 });
 
 export const config = {
-	matcher: [MIDDLEWARE_MATCHER_PATTERN],
+	// matcher: [MIDDLEWARE_MATCHER_PATTERN],
+	matcher: [
+		/*
+		 * Match all request paths except for the ones starting with:
+		 * - api (API routes)
+		 * - _next/static (static files)
+		 * - _next/image (image optimization files)
+		 * - favicon.ico (favicon file)
+		 */
+		'/((?!api|_next/static|_next/image|favicon.ico).*)',
+	],
 };
