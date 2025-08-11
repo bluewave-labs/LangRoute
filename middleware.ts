@@ -1,24 +1,26 @@
-// import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
+import { MIDDLEWARE_MATCHER_PATTERN } from '@/middleware/matcher';
 
-// import { MIDDLEWARE_MATCHER_PATTERN } from '@/lib/config/routesConfig';
+export default auth((req) => {
+	// Access the user session via req.auth
+	const { pathname } = req.nextUrl;
 
-/**
- * Middleware placeholder for authentication and rate-limiting logic in Next.js.
- *
- * Currently passes requests through without modification.
- */
-export function middleware() {
-	// TODO: Add Auth logic
-	// TODO: Add rate-limit logic
-	return NextResponse.next();
-}
+	// If user is not authenticated and not on a public route, redirect to login
+	if (!req.auth && pathname !== '/login') {
+		const newUrl = new URL('/login', req.nextUrl.origin);
+		return Response.redirect(newUrl);
+	}
 
-// export default withAuth({
-// 	pages: {
-// 		// TODO: Define sign-in page
-// 	},
-// });
+
+	// Optional: Redirect authenticated users away from auth pages
+	if (req.auth && ['/login', '/register', '/forgot-password'].includes(pathname)) {
+		const newUrl = new URL('/', req.nextUrl.origin);
+		return Response.redirect(newUrl);
+	}
+
+	// Allow the request to proceed
+	return;
+});
 
 export const config = {
 	// matcher: [MIDDLEWARE_MATCHER_PATTERN],

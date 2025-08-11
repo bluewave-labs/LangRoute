@@ -1,54 +1,54 @@
-import React from 'react';
+'use client';
 
-/**
- * Renders a centered login form UI with email and password input fields.
- *
- * Displays a styled card containing labeled input fields for email and password, along with a submit button. No form logic or state management is included.
- *
- * @returns The React element representing the login page UI.
- */
+import React, { FormEvent } from 'react';
+
+import NextLink from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { Button, FormInput } from '@/components';
+
+import AuthFormWrapper from '../components/AuthFormWrapper';
+
 export default function LoginPage() {
+	const router = useRouter();
+
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		router.push('/dashboard');
+	};
+
 	return (
-		<div className='flex min-h-screen items-center justify-center bg-gray-100'>
-			<div className='w-full max-w-md rounded-lg bg-white p-8 shadow-md'>
-				<h1 className='mb-6 text-center text-2xl font-bold'>Login</h1>
-				<form>
-					<div className='mb-4'>
-						<label
-							htmlFor='email'
-							className='block text-sm font-medium text-gray-700'
-						>
-							Email
-						</label>
-						<input
-							type='email'
-							id='email'
-							className='mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:ring focus:ring-indigo-200 focus:outline-none'
-							placeholder='Enter your email'
-						/>
-					</div>
-					<div className='mb-4'>
-						<label
-							htmlFor='password'
-							className='block text-sm font-medium text-gray-700'
-						>
-							Password
-						</label>
-						<input
-							type='password'
-							id='password'
-							className='mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:ring focus:ring-indigo-200 focus:outline-none'
-							placeholder='Enter your password'
-						/>
-					</div>
-					<button
+		<AuthFormWrapper>
+			<h1 className='h1'>Login to your account</h1>
+			<form
+				className='min-w-[25em]'
+				onSubmit={handleSubmit}
+			>
+				<div className='mb-10 flex flex-col gap-5'>
+					<FormInput
+						label='Email'
+						type='email'
+						name='email'
+						placeHolder='m@example.com'
+					/>
+					<FormInput
+						label='Password'
+						type='password'
+						name='password'
+						placeHolder='********'
+					/>
+				</div>
+				<div>
+					<Button
 						type='submit'
-						className='w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 focus:ring focus:ring-indigo-300 focus:outline-none'
+						className='w-full'
 					>
 						Login
-					</button>
-				</form>
-			</div>
-		</div>
+					</Button>
+				</div>
+			</form>
+			<NextLink href='/forgot-password'>Forgot your password?</NextLink>
+		</AuthFormWrapper>
 	);
 }
