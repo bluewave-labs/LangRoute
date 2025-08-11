@@ -17,5 +17,9 @@ export const PASSWORD_RULES = {
  * @returns boolean - True if the password meets complexity rules, false otherwise
  */
 export function validatePasswordComplexity(password: string): boolean {
-	return password.length >= 8 && /[A-Z]/.test(password) && /[!@#$%^&*(),.?":{}|<>]/.test(password);
+	return (
+		password.length >= PASSWORD_RULES.MIN_LEN &&
+		PASSWORD_RULES.NEEDS_UPPERCASE.test(password) &&
+		PASSWORD_RULES.NEEDS_SYMBOL.test(password)
+	);
 }

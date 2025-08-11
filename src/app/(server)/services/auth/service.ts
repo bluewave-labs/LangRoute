@@ -3,6 +3,7 @@ import argon2 from 'argon2';
 import crypto from 'crypto';
 
 import prisma from '@/db/prisma';
+import { logWarn } from '@/lib/utils/logger';
 
 import { auth } from '@lib/auth';
 
@@ -50,8 +51,8 @@ export async function requireRole(roles: Role[]): Promise<void> {
  * Currently always allows (no TeamMembership rows yet).
  */
 export async function requireTeamRole(_roles: Role[]): Promise<void> {
-	console.warn('[AuthService] requireTeamRole not yet implemented');
-	console.warn(`${_roles.join(', ')} roles are not enforced yet`);
+	logWarn('[AuthService] requireTeamRole not yet implemented');
+	logWarn(`${_roles.join(', ')} roles are not enforced yet`);
 	return; // no-op until Phase 5
 }
 

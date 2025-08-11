@@ -12,7 +12,6 @@ import { handleApiError } from '@services';
  * and user permissions without requiring client-side session parsing.
  *
  * @returns JSON response containing user data or null if not authenticated
-
  */
 export async function GET(): Promise<NextResponse> {
 	try {
