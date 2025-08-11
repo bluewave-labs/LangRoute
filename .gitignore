@@ -34,7 +34,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
 
 # vercel
 .vercel
@@ -44,7 +44,6 @@ yarn-error.log*
 next-env.d.ts
 
 # Explicitly allow these directories
-!env/
 !prisma/
 !scripts/
 !docker/
@@ -52,3 +51,6 @@ next-env.d.ts
 !public/logo/
 
 /src/generated/prisma
+
+# Ignore Prisma migrations folder
+prisma/migrations/

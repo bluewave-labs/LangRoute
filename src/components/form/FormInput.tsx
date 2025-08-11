@@ -1,7 +1,7 @@
 import { ChangeEvent, FocusEvent } from 'react';
 
 import { Input, Label } from '@/components';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classnames';
 
 interface FormInputProps {
 	label?: string;
