@@ -3,7 +3,6 @@ import argon2 from 'argon2';
 import crypto from 'crypto';
 
 import prisma from '@/db/prisma';
-import { logWarn } from '@/lib/utils/logger';
 
 import { auth } from '@lib/auth';
 
@@ -16,6 +15,7 @@ import type {
 	RegisterUserData,
 	ResetPasswordData,
 } from '@lib/models/Auth';
+import { logWarn } from '@lib/utils/logger';
 import { validatePasswordComplexity } from '@lib/validation/validationUtils';
 
 /* ------------------------------------------------------------------ */

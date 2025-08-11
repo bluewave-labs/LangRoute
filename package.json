@@ -15,6 +15,9 @@
 		"dev:boot": "npm run env -- --env=local && npm run db boot && npm run dev"
 	},
 	"dependencies": {
+		"@radix-ui/react-dialog": "^1.1.14",
+		"@radix-ui/react-select": "^2.2.5",
+		"@radix-ui/react-separator": "^1.1.7",
 		"@auth/prisma-adapter": "^2.10.0",
 		"@prisma/client": "^6.12.0",
 		"@radix-ui/react-label": "^2.1.7",
@@ -23,6 +26,7 @@
 		"argon2": "^0.43.1",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
+		"cmdk": "^1.1.1",
 		"ioredis": "^5.6.1",
 		"lucide-react": "^0.525.0",
 		"next": "^15.4.4",
