@@ -2,8 +2,8 @@ import { ChangeEvent, FocusEvent } from 'react';
 
 import { cn } from '@lib/utils/classnames';
 
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
+import { Input } from '../../../../shadcn-ui/input';
+import { Label } from '../../../../shadcn-ui/label';
 
 interface FormInputProps {
 	label?: string;

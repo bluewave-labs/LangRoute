@@ -1,4 +1,4 @@
-import { Table } from '@components';
+import { Table } from '@shadcn-ui';
 
 import KeysTableBody from './KeysTableBody';
 import KeysTableHeader from './KeysTableHeader';

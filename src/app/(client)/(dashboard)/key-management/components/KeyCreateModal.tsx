@@ -1,6 +1,5 @@
 import {
 	Button,
-	FormInput,
 	Label,
 	Select,
 	SelectContent,
@@ -12,7 +11,9 @@ import {
 	SheetFooter,
 	SheetHeader,
 	SheetTitle,
-} from '@components';
+} from '@shadcn-ui';
+
+import { FormInput } from '@components';
 
 export default function KeyCreateModal() {
 	return (

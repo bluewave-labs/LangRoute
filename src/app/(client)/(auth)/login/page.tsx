@@ -5,7 +5,9 @@ import React, { FormEvent } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { Button, FormInput } from '@components';
+import { Button } from '@shadcn-ui';
+
+import { FormInput } from '@components';
 
 import AuthFormWrapper from '../components/AuthFormWrapper';
 

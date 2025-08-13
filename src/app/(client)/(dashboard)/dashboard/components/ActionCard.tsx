@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import Link from 'next/link';
 
-import { Button } from '@/app/(client)/components/ui/button';
+import { Button } from '@shadcn-ui';
 
 import DashboardCard from './DashboardCard';
 

@@ -1,4 +1,6 @@
-import { Button, SearchBar, Sheet, SheetContent, SheetTrigger } from '@components';
+import { Button, Sheet, SheetContent, SheetTrigger } from '@shadcn-ui';
+
+import { SearchBar } from '@components';
 
 import KeyCreateModal from './KeyCreateModal';
 import KeysTable from './KeysTable';

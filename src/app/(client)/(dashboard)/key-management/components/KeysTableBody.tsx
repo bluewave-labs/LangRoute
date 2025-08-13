@@ -1,4 +1,6 @@
-import { EmptyState, TableBody, TableCell, TableRow } from '@components';
+import { TableBody, TableCell, TableRow } from '@shadcn-ui';
+
+import { EmptyState } from '@components';
 
 export default function KeysTableBody() {
 	return (

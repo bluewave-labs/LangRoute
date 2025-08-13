@@ -1,10 +1,9 @@
 import { HTMLAttributes } from 'react';
 
-import { Input } from '@components';
+import { SearchIcon } from '@icons';
+import { Input } from '@shadcn-ui';
 
 import { cn } from '@lib/utils';
-
-import { SearchIcon } from '../../../../../public/assets/icons';
 
 interface SearchBarProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;

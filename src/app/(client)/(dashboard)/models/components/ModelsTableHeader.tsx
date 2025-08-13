@@ -1,4 +1,4 @@
-import { TableHead, TableHeader, TableRow } from '@components';
+import { TableHead, TableHeader, TableRow } from '@shadcn-ui';
 
 export default function ModelsTableHeader() {
 	return (

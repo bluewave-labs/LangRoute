@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Button } from '@/app/(client)/components/ui/button';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/app/(client)/components/ui/card';
+import { Button, Card, CardDescription, CardHeader, CardTitle } from '@shadcn-ui';
 
 interface GetStartedCardProps {
 	title: string;

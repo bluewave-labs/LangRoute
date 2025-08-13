@@ -1,4 +1,6 @@
-import { Button, Dialog, DialogContent, DialogTrigger, SearchBar } from '@components';
+import { Button, Dialog, DialogContent, DialogTrigger } from '@shadcn-ui';
+
+import { SearchBar } from '@components';
 
 import ModelCreateModal from './ModelCreateModal';
 import ModelsTable from './ModelsTable';

@@ -1,4 +1,4 @@
-import { Table } from '@components';
+import { Table } from '@shadcn-ui';
 
 import ModelsTableBody from './ModelsTableBody';
 import ModelsTableHeader from './ModelsTableHeader';

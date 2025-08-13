@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@components';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@shadcn-ui';
 
 interface DashboardCardProps {
 	title: string;

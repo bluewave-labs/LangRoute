@@ -10,13 +10,13 @@ import {
 	DialogTitle,
 	Label,
 	MultipleSelector,
+	Option,
 	Select,
 	SelectContent,
 	SelectGroup,
 	SelectTrigger,
 	SelectValue,
-} from '@components';
-import { Option } from '@components';
+} from '@shadcn-ui';
 
 export default function ModelCreateModal() {
 	// TODO: Define actual model options here or fetch them dynamically in the future
