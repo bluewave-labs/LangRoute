@@ -13,7 +13,7 @@ datasource db {
  */
 
 model User {
-  id             String    @id @default(cuid())
+  id             String    @id @default(uuid())
   name           String?
   email          String    @unique
   emailVerified  DateTime?
@@ -32,7 +32,7 @@ model User {
 }
 
 model Account {
-  id                String   @id @default(cuid())
+  id                String   @id @default(uuid())
   userId            String
   type              String
   provider          String
@@ -64,7 +64,7 @@ model VerificationToken {
 
 /// -- Future public-API authentication (stub, unused) --
 model ApiKey {
-  id         String    @id @default(cuid())
+  id         String    @id @default(uuid())
   userId     String
   key        String    @unique
   name       String?
@@ -90,7 +90,7 @@ enum Role {
  */
 
 model Team {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   name      String
   createdAt DateTime @default(now())
 
@@ -99,7 +99,7 @@ model Team {
 }
 
 model TeamMembership {
-  id     String @id @default(cuid())
+  id     String @id @default(uuid())
   teamId String
   userId String
   role   Role   @default(USER) // ADMIN | USER (reuse global enum)
@@ -112,7 +112,7 @@ model TeamMembership {
 }
 
 model InviteToken {
-  id         String    @id @default(cuid())
+  id         String    @id @default(uuid())
   teamId     String
   email      String
   token      String    @unique
