@@ -21,7 +21,7 @@ export interface BaseUser {
 	/** URL to user's avatar image, if available */
 	avatarUrl: string | null;
 	/** Optional display name for the user */
-	name?: string | null;
+	name: string | null;
 }
 
 /**

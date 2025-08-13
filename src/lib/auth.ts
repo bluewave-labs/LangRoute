@@ -1,14 +1,16 @@
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import { Role, User } from '@prisma/client';
-import argon2 from 'argon2';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { Role, User } from '@prisma/client';
+import argon2 from 'argon2';
+
 // import GitHubProvider from 'next-auth/providers/github';
 
-import prisma from '@/lib/db/prisma';
-import { LoginSchema } from '@/lib/validation/authSchemas';
+import prisma from '@/db/prisma';
+
+import { LoginSchema } from '@lib/validation/authSchemas';
 
 const {
 	AUTH_SECRET,

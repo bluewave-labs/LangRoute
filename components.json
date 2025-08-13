@@ -17,7 +17,8 @@
 		"lib": "@/lib",
 		"hooks": "@/hooks",
 		"services": "@/services",
-		"types": "@/types"
+		"types": "@/types",
+		"providers": "@/providers"
 	},
 	"iconLibrary": "lucide"
 }

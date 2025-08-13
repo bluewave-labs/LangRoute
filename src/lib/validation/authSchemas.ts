@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PASSWORD_RULES } from '@/lib/utils/passwordRules';
+import { PASSWORD_RULES } from '@lib/validation/validationUtils';
 
 /* ─── Re-usable primitives ─────────────────────────────── */
 
@@ -103,7 +103,7 @@ export const ChangePasswordSchema = z
 /* ─── Type Inference Exports ───────────────────────────── */
 
 /**
- * Type inference exports that match domain models in @/lib/models/Auth.
+ * Type inference exports that match domain models in @lib/models/Auth.
  * These provide validated data types for use in API routes and services.
  */
 

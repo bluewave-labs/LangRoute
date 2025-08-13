@@ -1,5 +1,6 @@
-import { auth } from '@/lib/auth';
-import { MIDDLEWARE_MATCHER_PATTERN } from '@/middleware/matcher';
+import { auth } from '@lib/auth';
+
+import { MIDDLEWARE_MATCHER_PATTERN } from '@lib/middleware/matcher';
 
 export default auth((req) => {
 	// Access the user session via req.auth
