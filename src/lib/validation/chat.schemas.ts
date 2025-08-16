@@ -1,7 +1,7 @@
 // src/lib/validation/chatSchemas.ts
 import { z } from 'zod';
 
-import { PARAMETER_LIMITS, ROLE_IDS } from '@/lib/config/chat';
+import { PARAMETER_LIMITS, ROLE_IDS } from '@lib/config/llmConfig';
 
 /**
  * Zod schemas define only the request SHAPE and generic bounds.

@@ -4,7 +4,7 @@
  * - Backend-facing only (no UI colors/icons, no dropdown helpers).
  * - Other modules (schemas, utils, services) should read from here.
  */
-import type { ModelConfig, RoleConfig } from '@/lib/models/ChatModel';
+import type { ModelConfig, RoleConfig } from '@lib/models/Chat';
 
 /* ── Models registry ───────────────────────────────────────────────────── */
 

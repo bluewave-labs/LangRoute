@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { ApiKeyService, authenticate, createErrorResponse, handleApiError } from '@services';
 
-import { CreateApiKeySchema } from '@lib/validation/apiKeySchemas';
+import { CreateApiKeySchema } from '@lib/validation/apiKey.schemas';
 
 /**
  * GET /api/apikeys

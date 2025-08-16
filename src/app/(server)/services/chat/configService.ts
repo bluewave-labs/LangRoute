@@ -3,8 +3,12 @@
  * Chat configuration service
  * Minimal facade over the chat registry (single source of truth).
  */
-import { SUPPORTED_MODELS, SUPPORTED_MODEL_IDS, type SupportedModelId } from '@/lib/config/chat';
-import type { ModelConfig } from '@/lib/models/ChatModel';
+import {
+	SUPPORTED_MODELS,
+	SUPPORTED_MODEL_IDS,
+	type SupportedModelId,
+} from '@lib/config/llmConfig';
+import type { ModelConfig } from '@lib/models/Chat';
 
 import { ServiceError } from '../system/errorService';
 

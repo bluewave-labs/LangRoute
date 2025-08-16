@@ -4,7 +4,7 @@
  */
 
 // Chat configuration
-export * from './chat';
+export * from './llmConfig';
 
 // Add other configurations here as they're created
 // export * from './api';

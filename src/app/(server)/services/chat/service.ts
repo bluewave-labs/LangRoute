@@ -3,7 +3,7 @@
  * Chat service for processing chat completions.
  * Handles OpenAI-compatible chat completion requests.
  */
-import type { ChatCompletionData } from '@/lib/validation/chatSchemas';
+import type { ChatCompletionData } from '@lib/validation/chat.schemas';
 
 import { ChatConfigService } from './configService';
 

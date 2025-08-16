@@ -1,6 +1,6 @@
 import { ApiKeyService, authenticate, createErrorResponse, handleApiError } from '@services';
 
-import { ApiKeyIdParamSchema } from '@lib/validation/apiKeySchemas';
+import { ApiKeyIdParamSchema } from '@lib/validation/apiKey.schemas';
 
 /**
  * Deletes a specific API key owned by the authenticated user.

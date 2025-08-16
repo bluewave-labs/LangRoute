@@ -11,4 +11,4 @@ export * from './User';
 export * from './Auth';
 
 // Chat model configurations and utilities
-export * from './ChatModel';
+export * from './Chat';

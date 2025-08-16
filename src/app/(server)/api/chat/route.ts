@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 
-import { ChatCompletionSchema } from '@/lib/validation/chatSchemas';
-
 import { ChatService, createErrorResponse, handleApiError } from '@services';
 
 import { withApiKey } from '@lib/middleware/apiKey';
+import { ChatCompletionSchema } from '@lib/validation/chat.schemas';
 
 /**
  * POST /api/chat

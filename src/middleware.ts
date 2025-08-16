@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-import { auth } from '@/lib/auth';
-import { isPublicRoute } from '@/lib/middleware/publicRoutes';
+import { auth } from '@lib/auth';
+
+import { isPublicRoute } from '@lib/middleware/publicRoutes';
 
 /**
  * Root-level authentication middleware for LangRoute.

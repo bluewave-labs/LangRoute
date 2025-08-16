@@ -19,7 +19,11 @@ import {
 	SelectValue,
 } from '@shadcn-ui';
 
-import { SUPPORTED_MODELS, SUPPORTED_MODEL_IDS, type SupportedModelId } from '@/lib/config/chat';
+import {
+	SUPPORTED_MODELS,
+	SUPPORTED_MODEL_IDS,
+	type SupportedModelId,
+} from '@lib/config/llmConfig';
 
 export default function ModelCreateModal() {
 	// Get all available model options for frontend use

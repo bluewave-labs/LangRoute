@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { AuthService, createErrorResponse, handleApiError } from '@services';
 
-import { ForgotPasswordSchema } from '@lib/validation/authSchemas';
+import { ForgotPasswordSchema } from '@lib/validation/auth.schemas';
 
 /**
  * POST /api/auth/forgot
