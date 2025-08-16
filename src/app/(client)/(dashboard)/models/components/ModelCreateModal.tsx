@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent } from 'react';
+import { FormEvent, useMemo } from 'react';
 
 import {
 	Button,
@@ -14,15 +14,31 @@ import {
 	Select,
 	SelectContent,
 	SelectGroup,
+	SelectItem,
 	SelectTrigger,
 	SelectValue,
 } from '@shadcn-ui';
 
+import { SUPPORTED_MODELS, SUPPORTED_MODEL_IDS, type SupportedModelId } from '@/lib/config/chat';
+
 export default function ModelCreateModal() {
-	// TODO: Define actual model options here or fetch them dynamically in the future
-	const OPTIONS: Option[] = [
-		// { label: 'gpt-4.5-preview', value: 'gpt-4.5-preview' }
-	];
+	// Get all available model options for frontend use
+	const modelOptions = useMemo((): Option[] => {
+		return SUPPORTED_MODEL_IDS.map((modelId: SupportedModelId) => {
+			const model = SUPPORTED_MODELS[modelId];
+			return {
+				label: `${model.label} (${model.provider})`,
+				value: model.id,
+				description: model.description,
+			};
+		});
+	}, []);
+
+	// Get unique providers
+	const providers = useMemo(() => {
+		const providerSet = new Set(Object.values(SUPPORTED_MODELS).map((model) => model.provider));
+		return Array.from(providerSet).sort();
+	}, []);
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -44,7 +60,16 @@ export default function ModelCreateModal() {
 								<SelectValue placeholder='Select a provider' />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectGroup>{/* <SelectItem value=''></SelectItem> */}</SelectGroup>
+								<SelectGroup>
+									{providers.map((provider) => (
+										<SelectItem
+											key={provider}
+											value={provider}
+										>
+											{provider.charAt(0).toUpperCase() + provider.slice(1)}
+										</SelectItem>
+									))}
+								</SelectGroup>
 							</SelectContent>
 						</Select>
 					</div>
@@ -53,7 +78,7 @@ export default function ModelCreateModal() {
 					<Label>Model</Label>
 					<div>
 						<MultipleSelector
-							defaultOptions={OPTIONS}
+							defaultOptions={modelOptions}
 							placeholder='Select models you like...'
 							emptyIndicator={
 								<p className='text-md text-center leading-6 text-gray-600 dark:text-gray-400'>

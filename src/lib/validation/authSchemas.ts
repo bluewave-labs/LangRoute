@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PASSWORD_RULES } from '@/lib/validation/validationUtils';
+import { PASSWORD_RULES } from '@lib/validation/validationUtils';
 
 /* ─── Re-usable primitives ─────────────────────────────── */
 

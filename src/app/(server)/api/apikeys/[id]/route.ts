@@ -3,14 +3,12 @@ import { ApiKeyService, authenticate, createErrorResponse, handleApiError } from
 import { ApiKeyIdParamSchema } from '@lib/validation/apiKeySchemas';
 
 /**
- * DELETE /api/apikeys/:id
- *
  * Deletes a specific API key owned by the authenticated user.
- * Returns 204 on success (no body).
  *
  * @param _request - The HTTP request object (unused).
  * @param context  - Context containing the route parameters.
  * @returns A response with status 204 on successful deletion.
+ * @throws ServiceError if the API key ID is invalid or the deletion fails.
  */
 export async function DELETE(
 	_request: Request,

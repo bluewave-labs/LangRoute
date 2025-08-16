@@ -10,7 +10,7 @@ import { CreateApiKeySchema } from '@lib/validation/apiKeySchemas';
  * Retrieves all API keys for the authenticated user.
  * Returns an array of API key objects containing id, key, name, and creation date.
  *
- * @returns JSON response with an array of the user's API keys.
+ * @returns JSON response with array of user's API keys
  */
 export async function GET(): Promise<NextResponse> {
 	try {
@@ -27,10 +27,10 @@ export async function GET(): Promise<NextResponse> {
  * POST /api/apikeys
  *
  * Creates a new API key for the authenticated user.
- * Accepts an optional name parameter for API key identification.
+ * Accepts optional name parameter for API key identification.
  *
- * @param request - HTTP request containing optional API key metadata.
- * @returns JSON response with created API key details.
+ * @param request - HTTP request containing optional API key metadata
+ * @returns JSON response with created API key details
  */
 export async function POST(request: Request): Promise<NextResponse> {
 	try {
