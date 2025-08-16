@@ -1,10 +1,13 @@
 // Cross-platform DB helper for Dockerized Postgres.
-// Usage: npm run db up|down|reset|logs|status|psql|seed|shutdown|boot|help
+// Usage: npm run db up|down|reset|nuke|logs|status|psql|seed|shutdown|boot|help
+// No external deps; uses built-in child_process.
 import { execSync } from 'node:child_process';
 import os from 'node:os';
 
 const COMPOSE = 'docker/docker-compose.db.yml';
 const CONTAINER = 'langroute-db';
+const VOLUME = 'langroute_pgdata';
+const NETWORK = 'langroute-net';
 
 function sh(cmd, opts = {}) {
 	execSync(cmd, { stdio: 'inherit', shell: true, ...opts });
@@ -128,10 +131,32 @@ function isContainerRunning(name = CONTAINER) {
 const cmds = {
 	up: () => sh(`docker compose -f ${COMPOSE} up -d`),
 	down: () => sh(`docker compose -f ${COMPOSE} down`),
+
 	reset: () => {
-		sh(`docker compose -f ${COMPOSE} down -v`);
+		sh(`docker compose -f ${COMPOSE} down`);
+		sh(`docker compose -f ${COMPOSE} up -d --force-recreate`);
+	},
+	nuke: () => {
+		// Stop and delete containers + compose-managed volumes + orphans
+		try {
+			sh(`docker compose -f ${COMPOSE} down -v --remove-orphans`);
+		} catch {}
+
+		// Extra safety: remove any lingering resources by explicit name
+		try {
+			sh(`docker rm -f ${CONTAINER}`);
+		} catch {}
+		try {
+			sh(`docker volume rm -f ${VOLUME}`);
+		} catch {}
+		try {
+			sh(`docker network rm ${NETWORK}`);
+		} catch {}
+
+		// Start fresh
 		sh(`docker compose -f ${COMPOSE} up -d`);
 	},
+
 	logs: () => sh(`docker logs -f ${CONTAINER}`),
 	status: () => sh(`docker ps --filter name=${CONTAINER}`),
 
@@ -258,16 +283,34 @@ const cmds = {
 
 	help: () => {
 		console.log(`
-LangRoute DB helper:
-  npm run db up         # start Postgres (detached)
-  npm run db down       # stop Postgres (keeps volume)
-  npm run db reset      # STOP + NUKE volume + START (⚠ destructive, dev only)
-  npm run db logs       # tail container logs
-  npm run db status     # show running container info
-  npm run db psql       # open psql inside the container
-  npm run db seed       # run prisma/seed.ts (ts-node)
-  npm run db shutdown   # stop compose + containers, stop Docker Desktop, (Windows) WSL shutdown
-  npm run db boot       # start Docker Desktop; wait until ready; start DB
+	>>================================================================================<<
+	||                                                                                ||
+	|| ██╗      █████╗ ███╗   ██╗ ██████╗ ██████╗  ██████╗ ██╗   ██╗████████╗███████╗ ||
+	|| ██║     ██╔══██╗████╗  ██║██╔════╝ ██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝██╔════╝ ||
+	|| ██║     ███████║██╔██╗ ██║██║  ███╗██████╔╝██║   ██║██║   ██║   ██║   █████╗   ||
+	|| ██║     ██╔══██║██║╚██╗██║██║   ██║██╔══██╗██║   ██║██║   ██║   ██║   ██╔══╝   ||
+	|| ███████╗██║  ██║██║ ╚████║╚██████╔╝██║  ██║╚██████╔╝╚██████╔╝   ██║   ███████╗ ||
+	|| ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝ ||
+	||                                                                                ||
+	>>================================================================================<<
+				==================================
+				 Open-source LLM Gateway & Proxy
+				==================================
+
+	DB Helper Commands:
+	------------------------------------------------------------
+	npm run db up         | 🟢  Start Postgres (detached)
+	npm run db down       | 🔴  Stop Postgres (keeps volume)
+	npm run db reset      | 🔄  Recreate containers without deleting volumes (keeps data)
+	npm run db nuke       | ☢️  STOP + DELETE volumes/network + START (⚠  Destructive, dev only)
+	npm run db logs       | 📜  Tail container logs
+	npm run db status     | 📊  Show running container info
+	npm run db psql       | 🐘  Open psql inside the container
+	npm run db seed       | 🌱  Run prisma/seed.ts (ts-node)
+	npm run db shutdown   | 🛑  Stop compose + containers, stop Docker Desktop, (Windows) WSL shutdown
+	npm run db boot       | 🚀  Start Docker Desktop; wait until ready; start DB
+	npm run db help       | ❓  Show this help
+
 `);
 	},
 };

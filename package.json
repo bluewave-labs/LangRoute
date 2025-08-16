@@ -3,8 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"predev": "npm run env -- --env=local",
-		"dev": "next dev --turbopack",
+		"dev": "node scripts/dev.mjs",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
@@ -12,7 +11,7 @@
 		"check": "npx tsc --noEmit && npm run lint",
 		"db": "node scripts/db-cli.mjs",
 		"env": "node scripts/prepare-env.mjs",
-		"dev:boot": "npm run env -- --env=local && npm run db boot && npm run dev"
+		"dev:boot": "npm run check && node scripts/prepare-env.mjs && npm run db boot && node scripts/dev.mjs"
 	},
 	"dependencies": {
 		"@radix-ui/react-dialog": "^1.1.14",

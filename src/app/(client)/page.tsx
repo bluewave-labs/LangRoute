@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { ArrowRight, Cpu, Database, Shield, Zap } from 'lucide-react';
 
-import { GoogleSignInButton } from '@components';
+import { GoogleAuthButton } from '@components';
 
 /**
  * LangRoute landing page - the main entry point for the application.
@@ -22,7 +22,7 @@ export default function HomePage() {
 				</div>
 
 				<nav className='flex items-center space-x-4'>
-					<GoogleSignInButton />
+					<GoogleAuthButton />
 					<Link
 						href='/login'
 						className='body1 hover:text-primary'
@@ -96,7 +96,7 @@ export default function HomePage() {
 								<Database className='h-6 w-6' />
 							</div>
 							<h3 className='h3 mb-2'>Multi-Provider</h3>
-							<p className='body2'>Route to OpenAI, Anthropic, Mistral, Azure OpenAI, and more.</p>
+							<p className='body2'>Route to Google, OpenAI, Anthropic, Mistral, and more.</p>
 						</div>
 
 						<div className='flex flex-col items-center text-center'>

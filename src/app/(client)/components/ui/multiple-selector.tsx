@@ -6,9 +6,10 @@ import { forwardRef, useEffect } from 'react';
 import { Command as CommandPrimitive, useCommandState } from 'cmdk';
 import { ChevronDownIcon, X } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
-import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command';
-import { cn } from '@/lib/utils';
+import { cn } from '@lib/utils';
+
+import { Badge } from './badge';
+import { Command, CommandGroup, CommandItem, CommandList } from './command';
 
 export interface Option {
 	value: string;

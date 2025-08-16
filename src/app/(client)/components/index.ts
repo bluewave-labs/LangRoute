@@ -4,9 +4,24 @@ export { default as EmptyState } from './common/EmptyState';
 export { default as PageHeader } from './common/PageHeader';
 
 export { Separator } from './ui/separator';
-export { Table } from './ui/table';
-export { Select } from './ui/select';
-export { Sheet } from './ui/sheet';
+export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+export {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from './ui/select';
+export {
+	Sheet,
+	SheetContent,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from './ui/sheet';
 
 export { default as FormInput } from './form/FormInput';
 
@@ -16,7 +31,15 @@ export { GoogleSignInButton } from './auth/GoogleSignInButton';
 export { Button } from './ui/button';
 export { Input } from './ui/input';
 export { Label } from './ui/label';
-export { Dialog } from './ui/dialog';
+export {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from './ui/dialog';
 export { Badge } from './ui/badge';
 export { Command } from './ui/command';
-export { default as MultipleSelector } from './ui/multiple-selector';
+export { default as MultipleSelector, type Option } from './ui/multiple-selector';
