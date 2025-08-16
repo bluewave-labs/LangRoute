@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { AuthService, createErrorResponse, handleApiError } from '@services';
 
-import { RegisterSchema } from '@lib/validation/authSchemas';
+import { RegisterSchema } from '@lib/validation/auth.schemas';
 
 /**
  * POST /api/auth/register

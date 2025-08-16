@@ -24,7 +24,9 @@
 			"@hooks/*": ["./src/app/(client)/hooks/*"],
 			"@lib/*": ["./src/lib/*"],
 			"@providers": ["./src/app/(client)/providers"],
-			"@services": ["./src/app/(server)/services"]
+			"@services": ["./src/app/(server)/services"],
+			"@icons": ["./public/assets/icons"],
+			"@shadcn-ui": ["./src/shadcn-ui"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

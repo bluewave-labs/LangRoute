@@ -26,6 +26,8 @@
 		"^react",
 		"^next",
 		"<THIRD_PARTY_MODULES>",
+		"^@icons/.*",
+		"^@shadcn-ui/.*",
 		"^@/.*",
 		"^@lib/auth.*",
 		"^@services.*",

@@ -54,10 +54,8 @@ function statusToCode(status: number): ErrorCode {
  * @returns A unique request ID string.
  */
 function makeRequestId(): string {
-	// Prefer Web Crypto if available (Edge/runtime-safe), fall back to Node crypto or a random string.
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const anyCrypto = (globalThis as any).crypto;
-	if (anyCrypto?.randomUUID) return anyCrypto.randomUUID();
+	const cryptoObj = (globalThis as { crypto?: typeof globalThis.crypto }).crypto;
+	if (cryptoObj?.randomUUID) return cryptoObj.randomUUID();
 	try {
 		return randomUUID();
 	} catch {

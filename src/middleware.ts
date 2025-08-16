@@ -1,60 +1,37 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-import { isPublicRoute } from '@/lib/middleware/public-routes';
+import { auth } from '@lib/auth';
+
+import { isPublicRoute } from '@lib/middleware/publicRoutes';
 
 /**
  * Root-level authentication middleware for LangRoute.
  * Protects all routes except public ones with session-based authentication.
  *
- * Uses NextAuth session validation via API call (Edge runtime compatible).
+ * Uses NextAuth v5 `auth` wrapper for optimal edge compatibility and performance.
  * Redirects unauthenticated users to login with callback URL preservation.
  */
-export default async function middleware(request: NextRequest) {
-	const { pathname } = request.nextUrl;
+export default auth((req) => {
+	const { pathname } = req.nextUrl;
 
 	// Skip authentication for public routes
 	if (isPublicRoute(pathname)) {
 		return NextResponse.next();
 	}
 
-	// Check for NextAuth session cookies first (performance optimization)
-	const sessionToken =
-		request.cookies.get('next-auth.session-token') ||
-		request.cookies.get('__Secure-next-auth.session-token');
-
-	if (!sessionToken) {
-		return redirectToLogin(request, pathname);
+	// At this point, req.auth is available due to the auth() wrapper
+	if (!req.auth) {
+		return redirectToLogin(req, pathname);
 	}
 
-	// Validate session by calling NextAuth session endpoint
-	// This ensures the cookie is valid and not expired/signed-out
-	try {
-		const sessionResponse = await fetch(new URL('/api/auth/session', request.url), {
-			headers: {
-				cookie: request.headers.get('cookie') || '',
-			},
-		});
-
-		if (!sessionResponse.ok) {
-			return redirectToLogin(request, pathname);
-		}
-
-		const session = await sessionResponse.json();
-
-		if (!session?.user) {
-			return redirectToLogin(request, pathname);
-		}
-
-		// Redirect authenticated users away from auth pages
-		if (['/login', '/register', '/forgot-password'].includes(pathname)) {
-			return NextResponse.redirect(new URL('/models', request.url));
-		}
-
-		return NextResponse.next();
-	} catch {
-		return redirectToLogin(request, pathname);
+	// Redirect authenticated users away from auth pages to default dashboard
+	if (['/login', '/register', '/forgot-password'].includes(pathname)) {
+		return NextResponse.redirect(new URL('/dashboard', req.url));
 	}
-}
+
+	return NextResponse.next();
+});
 
 /**
  * Helper function to redirect to login with callback URL preservation.

@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode } from 'react';
 
-import { Separator } from '@components';
+import { Separator } from '@shadcn-ui';
 
 import { cn } from '@lib/utils';
 

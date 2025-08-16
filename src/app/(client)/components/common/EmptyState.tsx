@@ -1,10 +1,9 @@
 import { HTMLAttributes, ReactNode } from 'react';
 
-import { Button } from '@components';
+import { EmptyStateIcon } from '@icons';
+import { Button } from '@shadcn-ui';
 
 import { cn } from '@lib/utils';
-
-import { EmptyStateIcon } from '../../../../../public/assets/icons';
 
 interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
 	message: string;
