@@ -96,3 +96,57 @@ export {
 
 // Tabs
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
+
+// Form
+export {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	useFormField,
+} from './form';
+
+// Progress
+export { Progress } from './progress';
+
+// Switch
+export { Switch } from './switch';
+
+// Tooltip
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+export {
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarHeader,
+	SidebarMenu,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarRail,
+	SidebarTrigger,
+	SidebarProvider,
+} from './sidebar';
+
+export { Avatar, AvatarFallback, AvatarImage } from './avatar';
+
+// src/shadcn-ui/index.ts  (add these lines)
+export {
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuGroup,
+	DropdownMenuSub,
+	DropdownMenuSubTrigger,
+	DropdownMenuSubContent,
+	DropdownMenuCheckboxItem,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuShortcut,
+} from './dropdown-menu';
