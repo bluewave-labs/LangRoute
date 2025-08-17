@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Button } from '@components';
+
 /**
  * Renders a centered "Forgot Password" page with a form for users to request a password reset by entering their email address.
  *
@@ -25,12 +27,16 @@ export default function ForgotPasswordPage() {
 							placeholder='Enter your email'
 						/>
 					</div>
-					<button
+					<Button
 						type='submit'
-						className='w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 focus:ring focus:ring-indigo-300 focus:outline-none'
+						variant='default'
+						size='default'
+						color='primary'
+						fullWidth
+						loading={false}
 					>
 						Reset Password
-					</button>
+					</Button>
 				</form>
 			</div>
 		</div>

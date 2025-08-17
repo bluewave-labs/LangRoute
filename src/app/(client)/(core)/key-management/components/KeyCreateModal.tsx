@@ -1,5 +1,4 @@
 import {
-	Button,
 	Label,
 	Select,
 	SelectContent,
@@ -13,7 +12,7 @@ import {
 	SheetTitle,
 } from '@shadcn-ui';
 
-import { FormInput } from '@components';
+import { Button, FormInput } from '@components';
 
 export default function KeyCreateModal() {
 	return (
@@ -85,7 +84,14 @@ export default function KeyCreateModal() {
 				</div>
 
 				<SheetFooter>
-					<Button type='submit'>Generate</Button>
+					<Button
+						type='submit'
+						variant='default'
+						color='primary'
+						loading={false}
+					>
+						Generate
+					</Button>
 				</SheetFooter>
 			</form>
 		</>

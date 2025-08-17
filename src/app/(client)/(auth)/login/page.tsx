@@ -5,9 +5,7 @@ import React, { FormEvent } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { Button } from '@shadcn-ui';
-
-import { FormInput } from '@components';
+import { Button, FormInput } from '@components';
 
 import AuthFormWrapper from '../components/AuthFormWrapper';
 
@@ -44,7 +42,9 @@ export default function LoginPage() {
 				<div>
 					<Button
 						type='submit'
-						className='w-full'
+						color='primary'
+						fullWidth
+						loading={false}
 					>
 						Login
 					</Button>
