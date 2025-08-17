@@ -20,13 +20,20 @@
 		],
 		"paths": {
 			"@/*": ["./src/*"],
-			"@components": ["./src/app/(client)/components"],
+			"@components": ["./src/app/(client)/components/index.ts"],
+			"@components/*": ["./src/app/(client)/components/*"],
+			"@hooks": ["./src/app/(client)/hooks/index.ts"],
 			"@hooks/*": ["./src/app/(client)/hooks/*"],
+			"@lib": ["./src/lib/index.ts"],
 			"@lib/*": ["./src/lib/*"],
-			"@providers": ["./src/app/(client)/providers"],
-			"@services": ["./src/app/(server)/services"],
+			"@providers": ["./src/app/(client)/providers/index.ts"],
+			"@providers/*": ["./src/app/(client)/providers/*"],
+			"@services": ["./src/app/(server)/services/index.ts"],
+			"@services/*": ["./src/app/(server)/services/*"],
 			"@icons": ["./public/assets/icons"],
-			"@shadcn-ui": ["./src/shadcn-ui"]
+			"@types/*": ["./src/types/*"],
+			"@shadcn-ui": ["./src/shadcn-ui/index.ts"],
+			"@shadcn-ui/*": ["./src/shadcn-ui/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
