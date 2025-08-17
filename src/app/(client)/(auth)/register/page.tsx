@@ -4,9 +4,7 @@ import React, { FormEvent } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { Button } from '@shadcn-ui';
-
-import { FormInput } from '@components';
+import { Button, FormInput } from '@components';
 
 import AuthFormWrapper from '../components/AuthFormWrapper';
 
@@ -62,7 +60,9 @@ export default function RegisterPage() {
 				<div>
 					<Button
 						type='submit'
-						className='w-full'
+						color='primary'
+						fullWidth
+						loading={false}
 					>
 						Create your account
 					</Button>
