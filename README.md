@@ -15,7 +15,8 @@
 - [Testing](#testing)
 - [CI/CD and deployment](#ci-cd-and-deployment)
 - [Conventions](#conventions)
-- [Security and disclosures](#security-and-disclosures)
+ - [Community](#community)
+ - [Security](#security)
 - [Troubleshooting / FAQ](#troubleshooting--faq)
 - [License](#license)
 
@@ -135,11 +136,13 @@ No GitHub workflows or deployment configuration are present yet (TODO).
 - TypeScript with strict compiler options.
 - ESLint (`next/core-web-vitals`) and Prettier enforce style.
 - Import sorting and Tailwind class ordering via Prettier plugins.
-- See [CONTRIBUTING.md](CONTRIBUTING.md) (coming soon) for contribution guidelines.
-- This project adheres to the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) (coming soon).
+ 
+## Community
+- Review the [Contributing guidelines](CONTRIBUTING.md)
+- Follow our [Code of Conduct](CODE_OF_CONDUCT.md)
 
-## Security and disclosures
-Security issues can be reported via [SECURITY.md](SECURITY.md) (coming soon).
+## Security
+Security issues can be reported via our [Security Policy](SECURITY.md).
 
 ## Troubleshooting / FAQ
 - Use Node.js 20+ to match the TypeScript and Next.js setup.
