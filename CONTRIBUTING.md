@@ -25,13 +25,15 @@ Small fixes can go straight to a PR. For larger restructures, start with an issu
 - If no issue exists, open one to align on scope before investing significant effort.
 
 ## Branching and workflow
-- Fork the repository (or create a branch if you have write access) and base your work on the default branch (`master`).
+- Fork the repository (or create a branch if you have write access) and base your work on the active base branch:
+  - If a `dev` branch exists and is documented as the integration branch, branch off `dev`.
+  - Otherwise, branch off the repository's default branch (usually `main` or `master`).
 - Name branches with a prefix:
   - `feature/your-feature`
   - `fix/your-bug`
   - `refactor/your-change`
   - `chore/your-update`
-- Keep branches focused and rebase on the latest default branch before opening a PR.
+- Keep branches focused and rebase on the latest base branch before opening a PR.
 
 ## Commit messages
 Use [Conventional Commit](https://www.conventionalcommits.org/) style:
