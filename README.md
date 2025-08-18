@@ -135,11 +135,11 @@ No GitHub workflows or deployment configuration are present yet (TODO).
 - TypeScript with strict compiler options.
 - ESLint (`next/core-web-vitals`) and Prettier enforce style.
 - Import sorting and Tailwind class ordering via Prettier plugins.
-- See [CONTRIBUTING.md](CONTRIBUTING.md) (coming soon) for contribution guidelines.
-- This project adheres to the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) (coming soon).
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+- This project adheres to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Security and disclosures
-Security issues can be reported via [SECURITY.md](SECURITY.md) (coming soon).
+Security issues can be reported via our [Security Policy](SECURITY.md).
 
 ## Troubleshooting / FAQ
 - Use Node.js 20+ to match the TypeScript and Next.js setup.
