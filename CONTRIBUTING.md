@@ -52,7 +52,7 @@ Write small, self-contained commits.
 
 ## Testing and quality
 - `npm run check` performs type checking and linting; ensure it passes before pushing.
-- Add or update tests when relevant. *(TODO: document test command once the test suite is available.)*
+- The automated test suite is not yet available. You are not required to add or update tests at this time. If you have suggestions for testing approaches, please discuss them in your issue or pull request.
 - Husky runs lint-staged on commit to format staged files automatically.
 
 ## Pull requests
