@@ -4,7 +4,7 @@ A step-by-step guide to running **LangRoute** locally for development and testin
 
 ## Prerequisites
 
-- **Node.js 18.18+** – required by the Next.js toolchain
+- **Node.js 20+** – required by the Next.js 15 toolchain
 - **npm** – this repository uses the npm CLI and includes a `package-lock.json`
 - **Docker Desktop** – PostgreSQL runs in a Docker container
 
@@ -22,17 +22,17 @@ A step-by-step guide to running **LangRoute** locally for development and testin
    This merges `.env.base` (optional) and `.env.local` into a single root `.env`.
 
 ### Key variables
-| Variable | Purpose |
-|----------|---------|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `POSTGRES_USER` | Database user for local Docker container |
-| `POSTGRES_PASSWORD` | Password for `POSTGRES_USER` |
-| `POSTGRES_DB` | Database name used by the app |
-| `DEBUG_LOGS` | Enable Prisma debug logging (`true`/`false`) |
-| `AUTH_SECRET` | Secret used by NextAuth |
-| `AUTH_URL` | Base URL for authentication callbacks |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | OAuth credentials (optional) |
-| `REDIS_URL` | Redis connection string (optional) |
+| Variable                                    | Purpose                                      |
+| ------------------------------------------- | -------------------------------------------- |
+| `DATABASE_URL`                              | PostgreSQL connection string                 |
+| `POSTGRES_USER`                             | Database user for local Docker container     |
+| `POSTGRES_PASSWORD`                         | Password for `POSTGRES_USER`                 |
+| `POSTGRES_DB`                               | Database name used by the app                |
+| `DEBUG_LOGS`                                | Enable Prisma debug logging (`true`/`false`) |
+| `AUTH_SECRET`                               | Secret used by NextAuth                      |
+| `AUTH_URL`                                  | Base URL for authentication callbacks        |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | OAuth credentials (optional)                 |
+| `REDIS_URL`                                 | Redis connection string (optional)           |
 
 See [`env/.env.example`](../env/.env.example) for the full list of variables.
 
@@ -76,17 +76,17 @@ npm run start
 
 ## Common scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start the Next.js dev server (regenerates `.env`) |
-| `npm run dev:boot` | Lint & type-check, prepare env, boot DB, then run dev server |
-| `npm run env` | Manually regenerate the root `.env` |
-| `npm run db boot` | Start Docker Desktop and the Postgres container |
+| Script                | Description                                                    |
+| --------------------- | -------------------------------------------------------------- |
+| `npm run dev`         | Start the Next.js dev server (regenerates `.env`)              |
+| `npm run dev:boot`    | Lint & type-check, prepare env, boot DB, then run dev server   |
+| `npm run env`         | Manually regenerate the root `.env`                            |
+| `npm run db boot`     | Start Docker Desktop and the Postgres container                |
 | `npm run db shutdown` | Stop the Postgres container and attempt to stop Docker Desktop |
-| `npm run db reset` | Recreate containers without deleting volumes |
-| `npm run db nuke` | Stop and remove volumes/network, then restart (destructive) |
-| `npm run check` | Type-check and lint the codebase |
-| `npm run build` | Build the app for production |
+| `npm run db reset`    | Recreate containers without deleting volumes                   |
+| `npm run db nuke`     | Stop and remove volumes/network, then restart (destructive)    |
+| `npm run check`       | Type-check and lint the codebase                               |
+| `npm run build`       | Build the app for production                                   |
 
 ## Troubleshooting
 
@@ -94,7 +94,7 @@ npm run start
 - **Port 5432 already in use** – stop local services using the port or change the mapping in `docker/docker-compose.db.yml`.
 - **Prisma migrate errors** – confirm the DB is running and the root `.env` exists, then re-run `npx prisma generate` and `npx prisma migrate dev`.
 - **Environment changes not applied** – re-run `npm run env` or restart with `npm run dev` to regenerate `.env`.
-- **Node version mismatch** – use Node.js 18.18 or newer.
+- **Node version mismatch** – use Node.js 18.18 (minimum) or newer.
 - **Stale database data** – `npm run db reset` recreates containers; `npm run db nuke` wipes volumes.
 
 ## Platform notes

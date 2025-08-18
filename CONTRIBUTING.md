@@ -27,7 +27,7 @@ Small fixes can go straight to a PR. For larger restructures, start with an issu
 ## Branching and workflow
 - Fork the repository (or create a branch if you have write access) and base your work on the active base branch:
   - If a `dev` branch exists and is documented as the integration branch, branch off `dev`.
-  - Otherwise, branch off the repository's default branch (usually `main` or `master`).
+  - Otherwise, branch off the repository's default branch (`master`).
 - Name branches with a prefix:
   - `feature/your-feature`
   - `fix/your-bug`
