@@ -62,7 +62,7 @@ Write small, self-contained commits.
 - Keep PRs focused; avoid unrelated refactors.
 
 ## Review process
-- Automated checks must pass before review. *(TODO: document CI checks once configured.)*
+- Automated checks will be required before review once CI is configured. *(TODO: document CI checks once configured.)*
 - Address reviewer feedback with follow-up commits and resolve open discussions.
 
 ## Security disclosures
