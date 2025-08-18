@@ -82,7 +82,7 @@ npm run start
 | `npm run dev:boot` | Lint & type-check, prepare env, boot DB, then run dev server |
 | `npm run env` | Manually regenerate the root `.env` |
 | `npm run db boot` | Start Docker Desktop and the Postgres container |
-| `npm run db shutdown` | Stop the container and Docker Desktop |
+| `npm run db shutdown` | Stop the Postgres container and attempt to stop Docker Desktop |
 | `npm run db reset` | Recreate containers without deleting volumes |
 | `npm run db nuke` | Stop and remove volumes/network, then restart (destructive) |
 | `npm run check` | Type-check and lint the codebase |
