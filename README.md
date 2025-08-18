@@ -23,7 +23,7 @@
 ## Overview  
 LangRoute is a flexible LLM proxy that routes, throttles, and logs calls across multiple model providers. Core logic runs on Node.js, Express, and PostgreSQL, while a Next.js + shadcn UI lets admins tweak configs and watch metrics. One endpoint in, the best model out.
 
-See the [architecture document](docs/architecture.md) (coming soon) for a deeper dive into system design.
+See the [architecture document](docs/architecture.md) for a deeper dive into system design.
 
 ## Features  
 - **Multi-model support**  
@@ -64,7 +64,7 @@ See the [architecture document](docs/architecture.md) (coming soon) for a deeper
 
 ## Quick start
 ### Prerequisites
-- Node.js 20+ (recommended)
+- Node.js 18.18+ (required by the Next.js toolchain)
 - npm (bundled with Node)
 
 ### Environment
@@ -86,7 +86,7 @@ npm run lint              # Run ESLint
 npm run check             # Type-check and lint
 ```
 
-See [docs/getting-started.md](docs/getting-started.md) (coming soon) for workflows and additional setup notes.
+See [docs/getting-started.md](docs/getting-started.md) for workflows and additional setup notes.
 
 ## Project structure
 ```

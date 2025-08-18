@@ -4,7 +4,7 @@ A step-by-step guide to running **LangRoute** locally for development and testin
 
 ## Prerequisites
 
-- **Node.js 18.18+** – required by the Next.js 15 toolchain
+- **Node.js 18.18+** – required by the Next.js toolchain
 - **npm** – this repository uses the npm CLI and includes a `package-lock.json`
 - **Docker Desktop** – PostgreSQL runs in a Docker container
 
