@@ -6,8 +6,8 @@ This document explains how to report vulnerabilities in LangRoute and what to ex
 ## Reporting a Vulnerability
 Please report security issues privately.
 
-- **GitHub Security Advisories:** Use the repository's **Security** tab and click **Report a vulnerability**.
-- **Email:** If GitHub advisories are unavailable, contact [security@yourdomain.example](mailto:security@yourdomain.example) **(TODO: replace with a monitored alias)**.
+- **GitHub Security Advisories:** Use the repository's Security tab and click **Report a vulnerability**: https://github.com/bluewave-labs/LangRoute/security/advisories/new
+- TODO: Add a project security email for reports once available.
 
 Please do not open public issues for security problems.
 
@@ -57,6 +57,6 @@ Out of scope:
 | TODO    | TODO (maintainers to define supported versions) |
 
 ## Contact / Encryption
-If you need to encrypt your report, please reach out via email to request our PGP key (TODO: provide key).
+If you need to encrypt your report, TODO: provide a project email and PGP key when available.
 
 Thank you for helping keep LangRoute and its users safe.
