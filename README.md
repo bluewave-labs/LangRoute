@@ -68,7 +68,7 @@ See the [architecture document](docs/architecture.md) for a deeper dive into sys
 
 ## Quick start
 ### Prerequisites
-- Node.js 20+ (recommended)
+- Node.js 20+
 - npm (bundled with Node)
 
 ### Environment

@@ -124,27 +124,19 @@ export default function HomePage() {
 
 					<div className='text-muted-foreground mt-4 flex items-center space-x-6 text-sm sm:mt-0'>
 						<a
-							href='https://github.com/bluewave-labs/langRoute'
+							href='https://github.com/bluewave-labs/LangRoute'
 							target='_blank'
 							rel='noopener noreferrer'
 							className='hover:text-foreground'
 						>
 							GitHub
 						</a>
-						<a
-							href='https://docs.langRoute.dev'
-							target='_blank'
-							rel='noopener noreferrer'
-							className='hover:text-foreground'
-						>
-							Documentation
-						</a>
-						<a
-							href='mailto:support@langRoute.dev'
-							className='hover:text-foreground'
-						>
-							Support
-						</a>
+						<span className='text-muted-foreground'>
+							[TODO: Insert external docs site link when available]
+						</span>
+						<span className='text-muted-foreground'>
+							[TODO: Insert support contact when available]
+						</span>
 					</div>
 				</div>
 			</footer>

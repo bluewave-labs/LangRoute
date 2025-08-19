@@ -94,7 +94,7 @@ npm run start
 - **Port 5432 already in use** – stop local services using the port or change the mapping in `docker/docker-compose.db.yml`.
 - **Prisma migrate errors** – confirm the DB is running and the root `.env` exists, then re-run `npx prisma generate` and `npx prisma migrate dev`.
 - **Environment changes not applied** – re-run `npm run env` or restart with `npm run dev` to regenerate `.env`.
-- **Node version mismatch** – use Node.js 18.18 (minimum) or newer.
+- **Node version mismatch** – use Node.js 20+.
 - **Stale database data** – `npm run db reset` recreates containers; `npm run db nuke` wipes volumes.
 
 ## Platform notes
