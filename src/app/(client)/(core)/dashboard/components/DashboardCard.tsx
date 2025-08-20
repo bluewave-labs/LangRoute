@@ -13,7 +13,9 @@ interface DashboardCardProps {
 
 /**
  * Reusable dashboard card component following Figma design specs
- * Features consistent spacing, typography, and hover effects
+ * - Tighter paddings and type scale
+ * - Subtle hover
+ * - Footer right-aligned and pinned to bottom
  */
 export default function DashboardCard({
 	title,
@@ -24,14 +26,18 @@ export default function DashboardCard({
 	className = '',
 }: DashboardCardProps) {
 	return (
-		<Card className={`group transition-shadow hover:shadow-md ${className}`}>
-			<CardHeader className='space-y-2'>
+		<Card
+			className={`group bg-card text-card-foreground flex h-full flex-col rounded-xl border shadow-sm transition-shadow hover:shadow-md ${className}`}
+		>
+			<CardHeader className='gap-2 p-5 pb-3'>
 				{icon && <div className='flex h-6 w-6 items-center justify-center'>{icon}</div>}
-				<CardTitle className='text-lg font-semibold'>{title}</CardTitle>
-				<CardDescription className='text-muted-foreground text-sm'>{description}</CardDescription>
+				<CardTitle className='text-base font-semibold md:text-lg'>{title}</CardTitle>
+				<CardDescription className='text-muted-foreground text-sm leading-relaxed'>
+					{description}
+				</CardDescription>
 			</CardHeader>
-			{children && <CardContent>{children}</CardContent>}
-			{footer && <CardFooter>{footer}</CardFooter>}
+			{children && <CardContent className='px-5 pb-0'>{children}</CardContent>}
+			{footer && <CardFooter className='mt-auto flex justify-end p-5 pt-0'>{footer}</CardFooter>}
 		</Card>
 	);
 }

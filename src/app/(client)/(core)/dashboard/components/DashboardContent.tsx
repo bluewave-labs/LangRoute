@@ -9,7 +9,7 @@ import GetStartedCard from './GetStartedCard';
 
 export default function DashboardContent() {
 	return (
-		<div className='mx-auto max-w-6xl space-y-8'>
+		<div className='mx-auto max-w-6xl space-y-8 md:space-y-9'>
 			{/* Get Started Section */}
 			<GetStartedCard
 				title='Get started with LangRoute'
@@ -27,7 +27,7 @@ export default function DashboardContent() {
 				/>
 
 				{/* Cards Grid */}
-				<div className='grid gap-6 sm:grid-cols-2'>
+				<div className='grid auto-rows-fr gap-6 sm:grid-cols-2'>
 					<ActionCard
 						title='Configure your LLM providers'
 						description='LangRoute connects to several providers. Just add your API key for your provider and model, and connect via LangRoute.'

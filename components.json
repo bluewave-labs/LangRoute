@@ -5,20 +5,20 @@
 	"tsx": true,
 	"tailwind": {
 		"config": "tailwind.config.js",
-		"css": "src/app/globals.css",
+		"css": "src/app/(client)/globals.css",
 		"baseColor": "gray",
 		"cssVariables": true,
 		"prefix": ""
 	},
 	"aliases": {
-		"components": "@/components",
-		"utils": "@/lib/utils",
-		"ui": "@/shadcn-ui",
-		"lib": "@/lib",
-		"hooks": "@/hooks",
-		"services": "@/services",
-		"types": "@/types",
-		"providers": "@/providers"
+		"components": "src/app/(client)/components",
+		"utils": "@lib/utils",
+		"ui": "src/shadcn-ui",
+		"lib": "src/lib",
+		"hooks": "src/app/(client)/hooks/ui",
+		"services": "src/app/(server)/services",
+		"types": "src/types",
+		"providers": "src/app/(client)/providers"
 	},
 	"iconLibrary": "lucide"
 }

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import Link from 'next/link';
 
-import { Button } from '@shadcn-ui';
+import { Button, ButtonProps } from '@components';
 
 import DashboardCard from './DashboardCard';
 
@@ -13,14 +13,15 @@ interface ActionCardProps {
 	actionIcon?: ReactNode;
 	href?: string;
 	onClick?: () => void;
-	variant?: 'default' | 'outline';
+	variant?: ButtonProps['variant']; // Align with Button's expected variant type
 	external?: boolean;
 	className?: string;
 }
 
 /**
  * Reusable action card component for dashboard navigation
- * Supports both internal navigation and external links
+ * Primary actions use the Figma blue (#334155). Secondary actions are outline buttons.
+ * Uses app-level Button wrapper to keep styles DRY and consistent.
  */
 export default function ActionCard({
 	title,
@@ -33,24 +34,23 @@ export default function ActionCard({
 	external = false,
 	className = '',
 }: ActionCardProps) {
-	const buttonContent = (
-		<Button
-			variant={variant}
-			className='w-full'
-			size='sm'
-			onClick={onClick}
-		>
-			{actionIcon && <span className='mr-2'>{actionIcon}</span>}
-			{actionLabel}
-		</Button>
-	);
+	const isPrimary = variant === 'default';
 
-	const actionElement = href ? (
+	// Determine button color based on variant
+	const buttonColor = isPrimary ? 'primary' : variant === 'link' ? 'primary' : 'neutral';
+
+	const buttonProps = {
+		variant,
+		color: buttonColor,
+		fullWidth: true,
+		startIcon: actionIcon,
+		className: !isPrimary ? 'self-end' : undefined,
+	} as const;
+
+	const ButtonInner = href ? (
 		<Button
-			variant={variant}
-			className='w-full'
-			size='sm'
 			asChild
+			{...buttonProps}
 		>
 			{external ? (
 				<a
@@ -58,25 +58,26 @@ export default function ActionCard({
 					target='_blank'
 					rel='noopener noreferrer'
 				>
-					{actionIcon && <span className='mr-2'>{actionIcon}</span>}
 					{actionLabel}
 				</a>
 			) : (
-				<Link href={href}>
-					{actionIcon && <span className='mr-2'>{actionIcon}</span>}
-					{actionLabel}
-				</Link>
+				<Link href={href}>{actionLabel}</Link>
 			)}
 		</Button>
 	) : (
-		buttonContent
+		<Button
+			onClick={onClick}
+			{...buttonProps}
+		>
+			{actionLabel}
+		</Button>
 	);
 
 	return (
 		<DashboardCard
 			title={title}
 			description={description}
-			footer={actionElement}
+			footer={ButtonInner}
 			className={className}
 		/>
 	);
