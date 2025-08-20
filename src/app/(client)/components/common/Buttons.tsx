@@ -177,31 +177,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
  * - Full TypeScript support with excellent IntelliSense
  * - Accessibility by default (ARIA, focus, keyboard)
  * - Polymorphic rendering with asChild (Radix Slot)
- *
- * @example
- * ```tsx
- * // Solid primary (brand) — default
- * <Button>Save</Button>
- *
- * // Outline primary (brand border/text)
- * <Button variant="outline" color="primary">Edit</Button>
- *
- * // Link primary (brand text)
- * <Button variant="link" color="primary" asChild>
- *   <a href="/docs">Learn more</a>
- * </Button>
- *
- * // Loading with text
- * <Button loading loadingText="Saving…">Save</Button>
- *
- * // With icons
- * <Button startIcon={<PlusIcon />}>New Project</Button>
- *
- * // Icon-only (requires aria-label)
- * <Button size="icon" aria-label="Close">
- *   <XIcon />
- * </Button>
- * ```
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	(
@@ -241,7 +216,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 			if (!icon) return null;
 			return (
 				<span
-					className={iconSize}
+					className={cn(
+						iconSize,
+						'flex items-center justify-center text-current',
+						'[&_svg]:fill-current [&_svg]:text-current',
+					)}
 					aria-hidden='true'
 				>
 					{icon}
@@ -297,6 +276,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 					variant !== 'link' && 'no-underline',
 					fullWidth && 'w-full',
 					className,
+					'cursor-pointer',
 				)}
 				{...props}
 			>

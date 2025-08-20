@@ -112,10 +112,10 @@
 
 @layer base {
 	* {
-		@apply border-border text-primary outline-ring/50;
+		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply text-foreground bg-background;
+		@apply text-primary bg-background;
 	}
 
 	/* Typography scale: heading + body text variants */
