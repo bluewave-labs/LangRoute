@@ -52,12 +52,13 @@ export default function Sidebar() {
 		// - 2xl screens: 22rem
 
 		<UISidebar
-			className='[--sidebar-width:12rem] xl:[--sidebar-width:15rem] 2xl:[--sidebar-width:18rem]'
+			className='[--sidebar-width-icon:3.75rem] [--sidebar-width:12rem] xl:[--sidebar-width:15rem] 2xl:[--sidebar-width:18rem]'
 			collapsible='icon'
 			header={<MobileHeader />}
 		>
 			{/* Desktop header (logo / brand) */}
-			<SidebarHeader className='hidden w-full flex-row items-center justify-between px-3 md:flex xl:px-4'>
+
+			<SidebarHeader className='hidden w-full flex-row items-center justify-between px-3 group-data-[collapsible=icon]:hidden md:flex xl:px-4'>
 				<div className='flex items-center gap-3 xl:gap-4'>
 					<LogoMark
 						className='text-muted-foreground h-9 w-9 xl:h-10 xl:w-10'
@@ -68,6 +69,15 @@ export default function Sidebar() {
 				<ThemeToggle />
 			</SidebarHeader>
 
+			{/* Compact brand bar — shows only in icon mode */}
+			<SidebarHeader className='hidden items-center justify-center px-2 py-2 group-data-[collapsible=icon]:flex'>
+				{/* Slightly larger than nav icons, fits inside the rail */}
+				<LogoMark
+					className='text-muted-foreground h-8 w-8'
+					aria-hidden
+				/>
+			</SidebarHeader>
+
 			{/* Nav */}
 			<SidebarContent>
 				<SidebarGroup>
@@ -75,6 +85,7 @@ export default function Sidebar() {
 						{NAV_ITEMS.map((item) => {
 							const Icon = item.icon;
 							const active = pathname === item.href || pathname?.startsWith(item.href + '/');
+
 							return (
 								<SidebarMenuItem key={item.href}>
 									<SidebarMenuButton
@@ -82,6 +93,7 @@ export default function Sidebar() {
 										isActive={!!active}
 										aria-current={active ? 'page' : undefined}
 										className='md:h-9 md:text-[15px] xl:h-10 xl:text-base'
+										tooltip={item.label} // shows when collapsed
 									>
 										<Link
 											href={item.href}
@@ -91,7 +103,10 @@ export default function Sidebar() {
 												className='h-5 w-5 md:h-6 md:w-6 xl:h-7 xl:w-7'
 												aria-hidden
 											/>
-											<span className='truncate'>{item.label}</span>
+											{/* Hide text label in icon-collapsed mode */}
+											<span className='truncate group-data-[collapsible=icon]:hidden'>
+												{item.label}
+											</span>
 										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
@@ -102,7 +117,7 @@ export default function Sidebar() {
 			</SidebarContent>
 
 			{/* Footer / account menu */}
-			<SidebarFooter>
+			<SidebarFooter className='group-data-[collapsible=icon]:hidden'>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<GoogleAuthButton variant='sidebar' />

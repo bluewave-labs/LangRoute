@@ -2,11 +2,9 @@ import { Role } from '@prisma/client';
 import argon2 from 'argon2';
 import crypto from 'crypto';
 
-import prisma from '@/db/prisma';
+import { ServiceError } from '@services';
 
 import { auth } from '@lib/auth';
-
-import { ServiceError } from '@services';
 
 import type {
 	ChangePasswordData,
@@ -15,8 +13,10 @@ import type {
 	RegisterUserData,
 	ResetPasswordData,
 } from '@lib/models/Auth';
-import { logWarn } from '@lib/utils/logger';
+import { logWarn } from '@lib/utils';
 import { validatePasswordComplexity } from '@lib/validation/validationUtils';
+
+import prisma from '@/db/prisma';
 
 /* ------------------------------------------------------------------ */
 /*  Guards                                                            */

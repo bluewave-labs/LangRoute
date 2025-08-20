@@ -8,7 +8,6 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
-	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -19,6 +18,8 @@ import {
 } from '@shadcn-ui';
 
 import { useGoogleSignInMutation, useSessionUser, useSignOutMutation } from '@hooks/data';
+
+import { Button } from '@components';
 
 type Props = {
 	variant?: 'button' | 'sidebar';
@@ -89,11 +90,9 @@ export default function GoogleAuthButton({ variant = 'button', className }: Prop
 			<Trigger
 				onClick={() => signInWithGoogle({ callbackUrl: '/dashboard' })}
 				variant={variant === 'sidebar' ? undefined : 'outline'}
-				className={
-					variant === 'sidebar'
-						? 'justify-between'
-						: `inline-flex items-center gap-2 ${className ?? ''}`
-				}
+				color={variant === 'sidebar' ? undefined : 'neutral'}
+				fullWidth={variant !== 'sidebar'}
+				className={variant === 'sidebar' ? 'justify-between' : className}
 				aria-label='Continue with Google'
 			>
 				<div className='flex items-center gap-2'>
@@ -105,21 +104,19 @@ export default function GoogleAuthButton({ variant = 'button', className }: Prop
 	}
 
 	// Signed in → dropdown menu with Sign out
-	const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
-
-	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Trigger className={variant === 'sidebar' ? 'justify-between' : `gap-2 ${className ?? ''}`}>
-					<div className='flex items-center gap-2'>
-						<Avatar className='h-6 w-6 rounded-md'>
-							<AvatarImage
-								src={user.avatarUrl ?? undefined}
-								alt={user.name || user.email}
-							/>
-							<AvatarFallback className='text-xs'>{initials}</AvatarFallback>
-						</Avatar>
-						{variant === 'sidebar' ? (
+	if (variant === 'sidebar') {
+		return (
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<SidebarMenuButton className='justify-between'>
+						<div className='flex items-center gap-2'>
+							<Avatar className='h-6 w-6 rounded-md'>
+								<AvatarImage
+									src={user.avatarUrl ?? undefined}
+									alt={user.name || user.email}
+								/>
+								<AvatarFallback className='text-xs'>{initials}</AvatarFallback>
+							</Avatar>
 							<div className='min-w-0'>
 								<h2 className='text-foreground truncate text-sm leading-tight font-semibold'>
 									{user.name ?? 'Account'}
@@ -128,11 +125,66 @@ export default function GoogleAuthButton({ variant = 'button', className }: Prop
 									{user.email}
 								</p>
 							</div>
-						) : (
-							<span className='max-w-[160px] truncate'>{user.name || user.email}</span>
-						)}
+						</div>
+					</SidebarMenuButton>
+				</DropdownMenuTrigger>
+
+				<DropdownMenuContent
+					align='end'
+					side='top'
+					className='m-3 w-60'
+				>
+					<DropdownMenuLabel>
+						<div className='flex items-center gap-2'>
+							<Avatar className='h-7 w-7 rounded-md'>
+								<AvatarImage
+									src={user.avatarUrl ?? undefined}
+									alt={user.name || user.email}
+								/>
+								<AvatarFallback className='text-xs'>{initials}</AvatarFallback>
+							</Avatar>
+							<div className='min-w-0'>
+								<p className='truncate text-sm font-medium'>{user.name ?? 'Account'}</p>
+								<p className='text-muted-foreground truncate text-xs'>{user.email}</p>
+							</div>
+						</div>
+					</DropdownMenuLabel>
+
+					<DropdownMenuSeparator />
+
+					<DropdownMenuItem
+						onClick={() => signOut({ callbackUrl: '/' })}
+						disabled={isSigningOut}
+						className='text-destructive focus:text-destructive'
+					>
+						<LogOut className='mr-2 h-4 w-4' />
+						{isSigningOut ? 'Signing out…' : 'Sign out'}
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		);
+	}
+
+	// Regular button variant
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant='ghost'
+					color='neutral'
+					className={`gap-2 ${className ?? ''}`}
+				>
+					<div className='flex items-center gap-2'>
+						<Avatar className='h-6 w-6 rounded-md'>
+							<AvatarImage
+								src={user.avatarUrl ?? undefined}
+								alt={user.name || user.email}
+							/>
+							<AvatarFallback className='text-xs'>{initials}</AvatarFallback>
+						</Avatar>
+						<span className='max-w-[160px] truncate'>{user.name || user.email}</span>
 					</div>
-				</Trigger>
+				</Button>
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent
