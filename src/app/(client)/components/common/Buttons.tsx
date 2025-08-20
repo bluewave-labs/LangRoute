@@ -36,20 +36,20 @@ const buttonColorVariants = cva('', {
 		{
 			variant: 'default',
 			color: 'primary',
-			class: 'bg-[#334155] text-white hover:bg-[#2b3a4a] focus-visible:ring-[#334155]/50',
+			class: 'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary/50',
 		},
 		// Primary brand styling for outline buttons
 		{
 			variant: 'outline',
 			color: 'primary',
 			class:
-				'border-[#334155] text-[#334155] hover:bg-[#334155]/10 hover:text-[#2b3a4a] dark:hover:bg-[#334155]/20 focus-visible:ring-[#334155]/20',
+				'border-primary text-primary hover:bg-primary/10 hover:text-primary/90 dark:hover:bg-primary/20 focus-visible:ring-primary/20',
 		},
 		// Primary brand styling for link buttons
 		{
 			variant: 'link',
 			color: 'primary',
-			class: 'text-[#334155] hover:text-[#2b3a4a] underline-offset-4 hover:underline',
+			class: 'text-primary hover:text-primary/80 underline-offset-4 hover:underline',
 		},
 		// Destructive outline styling
 		{
@@ -171,7 +171,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
  *
  * Features:
  * - Preserves shadcn's variant and size system exactly
- * - Adds brand color theming with Figma blue (#334155)
+ * - Adds brand color theming with LangRoute blue (#334155)
  * - Loading states with spinner and aria-busy
  * - Start/end icon slots with proper sizing
  * - Full TypeScript support with excellent IntelliSense

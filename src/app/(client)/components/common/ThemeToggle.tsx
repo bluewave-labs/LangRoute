@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
+import { Button } from '@components';
+
 export default function ThemeToggle() {
 	const { theme, setTheme, systemTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
@@ -12,11 +14,12 @@ export default function ThemeToggle() {
 	useEffect(() => setMounted(true), []);
 	if (!mounted) {
 		return (
-			<button
-				type='button'
+			<Button
+				variant='ghost'
+				size='icon'
 				aria-label='Toggle theme'
 				title='Toggle theme'
-				className='border-border text-muted-foreground inline-flex h-8 w-8 items-center justify-center rounded-md border'
+				disabled
 			/>
 		);
 	}
@@ -25,13 +28,14 @@ export default function ThemeToggle() {
 	const next = resolved === 'dark' ? 'light' : 'dark';
 
 	return (
-		<button
+		<Button
 			type='button'
 			onClick={() => setTheme(next!)}
+			variant='ghost'
+			size='icon'
+			color='neutral'
 			aria-label='Toggle theme'
 			title='Toggle theme'
-			// rotate on state change; smooth hover; keep border tokens
-			className={`border-border text-muted-foreground hover:text-foreground inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border`}
 		>
 			{/* Cross-fade icons */}
 			<span className='relative inline-block h-4 w-4'>
@@ -44,6 +48,6 @@ export default function ThemeToggle() {
 					aria-hidden
 				/>
 			</span>
-		</button>
+		</Button>
 	);
 }
