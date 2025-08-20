@@ -276,7 +276,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 					variant !== 'link' && 'no-underline',
 					fullWidth && 'w-full',
 					className,
-					'cursor-pointer',
+					!isDisabled && 'cursor-pointer',
 				)}
 				{...props}
 			>
