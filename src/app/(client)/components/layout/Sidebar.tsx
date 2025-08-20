@@ -9,14 +9,13 @@ import {
 	SidebarGroup,
 	SidebarHeader,
 	SidebarMenu,
-	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarRail,
 	SidebarTrigger,
 	Sidebar as UISidebar,
 } from '@shadcn-ui';
 
-import { GoogleAuthButton, ThemeToggle } from '@components';
+import { GoogleAuthButton, NavButton, ThemeToggle } from '@components';
 
 import { NAV_ITEMS } from '@lib/config/nav';
 
@@ -88,27 +87,28 @@ export default function Sidebar() {
 
 							return (
 								<SidebarMenuItem key={item.href}>
-									<SidebarMenuButton
+									<NavButton
 										asChild
 										isActive={!!active}
-										aria-current={active ? 'page' : undefined}
-										className='md:h-9 md:text-[15px] xl:h-10 xl:text-base'
-										tooltip={item.label} // shows when collapsed
-									>
-										<Link
-											href={item.href}
-											className='gap-2.5 no-underline decoration-transparent hover:no-underline xl:gap-3'
-										>
+										size='default'
+										startIcon={
 											<Icon
 												className='h-5 w-5 md:h-6 md:w-6 xl:h-7 xl:w-7'
 												aria-hidden
 											/>
+										}
+										className='w-full justify-start gap-2.5 md:h-9 md:text-[15px] xl:h-10 xl:gap-3 xl:text-base'
+									>
+										<Link
+											href={item.href}
+											className='no-underline decoration-transparent hover:no-underline'
+										>
 											{/* Hide text label in icon-collapsed mode */}
 											<span className='truncate group-data-[collapsible=icon]:hidden'>
 												{item.label}
 											</span>
 										</Link>
-									</SidebarMenuButton>
+									</NavButton>
 								</SidebarMenuItem>
 							);
 						})}
