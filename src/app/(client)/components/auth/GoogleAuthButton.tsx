@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import { Button } from '@components';
+import { Button } from '@shadcn-ui';
 
 import { useGoogleSignInMutation, useSessionUser, useSignOutMutation } from '../../hooks/data';
 
