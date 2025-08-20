@@ -90,7 +90,9 @@ export const ButtonGroupItem = React.forwardRef<HTMLButtonElement, ButtonGroupIt
 					isSelected && 'z-10',
 					className,
 				)}
-				aria-pressed={isSelected}
+				role='radio'
+				aria-checked={isSelected}
+				tabIndex={isSelected ? 0 : -1}
 				onClick={handleClick}
 				{...props}
 			>
@@ -148,6 +150,43 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
 			[value, onValueChange, size],
 		);
 
+		// Handle keyboard navigation for radiogroup
+		const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+			if (type !== 'single') return;
+
+			const items = Array.from(event.currentTarget.querySelectorAll('[role="radio"]'));
+			const currentIndex = items.findIndex((item) => item === event.target);
+
+			let nextIndex = currentIndex;
+
+			switch (event.key) {
+				case 'ArrowRight':
+				case 'ArrowDown':
+					event.preventDefault();
+					nextIndex = (currentIndex + 1) % items.length;
+					break;
+				case 'ArrowLeft':
+				case 'ArrowUp':
+					event.preventDefault();
+					nextIndex = (currentIndex - 1 + items.length) % items.length;
+					break;
+				case 'Home':
+					event.preventDefault();
+					nextIndex = 0;
+					break;
+				case 'End':
+					event.preventDefault();
+					nextIndex = items.length - 1;
+					break;
+				default:
+					return;
+			}
+
+			const nextItem = items[nextIndex] as HTMLElement;
+			nextItem?.focus();
+			nextItem?.click();
+		};
+
 		return (
 			<ButtonGroupContext.Provider value={contextValue}>
 				<div
@@ -155,6 +194,7 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
 					role={type === 'single' ? 'radiogroup' : 'toolbar'}
 					aria-label={ariaLabel}
 					className={cn('flex', className)}
+					onKeyDown={handleKeyDown}
 					{...props}
 				>
 					{children}
