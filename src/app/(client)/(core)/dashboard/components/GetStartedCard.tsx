@@ -44,7 +44,6 @@ export default function GetStartedCard({
 					</div>
 					<Button
 						variant='default'
-						size='sm'
 						color='primary'
 						onClick={onAction}
 					>
