@@ -84,7 +84,7 @@ export const ButtonGroupItem = React.forwardRef<HTMLButtonElement, ButtonGroupIt
 					'relative -ml-px first:ml-0',
 					// Round only the ends of the group
 					'first:rounded-r-none last:rounded-l-none',
-					'not-first:not-last:rounded-none',
+					'[&:not(:first-child):not(:last-child)]:rounded-none',
 					// Z-index management for borders
 					'hover:z-10 focus:z-10',
 					isSelected && 'z-10',
