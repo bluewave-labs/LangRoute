@@ -7,5 +7,8 @@ export * from './apiKey/service';
 export { ChatService } from './chat/service';
 export * from './chat/service';
 
+export { UsageService } from './usage/service';
+export * from './usage/service';
+
 export * as SystemError from './system/errorService';
 export { createErrorResponse, handleApiError, ServiceError } from './system/errorService';
