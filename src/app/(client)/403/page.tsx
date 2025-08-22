@@ -1,4 +1,7 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
+
+import { Button } from '@components';
 
 export const metadata: Metadata = {
 	title: '403 - Forbidden | LangRoute',
@@ -18,7 +21,16 @@ export default function ForbiddenPage() {
 	return (
 		<main className='grid min-h-screen place-content-center p-8 text-center'>
 			<h1 className='mb-4 text-3xl font-semibold'>403 – Forbidden</h1>
-			<p className='text-muted-foreground'>You don&apos;t have permission to access this page.</p>
+			<p className='text-muted-foreground mb-6'>
+				You don&apos;t have permission to access this page.
+			</p>
+			<Button
+				variant='default'
+				color='primary'
+				asChild
+			>
+				<Link href='/'>Go Back</Link>
+			</Button>
 		</main>
 	);
 }

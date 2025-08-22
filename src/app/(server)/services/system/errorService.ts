@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { randomUUID } from 'crypto';
 
-import { logError } from '@lib/utils/logger';
+import { logError } from '@lib/utils';
 
 /**
  * Canonical error codes used in API responses.

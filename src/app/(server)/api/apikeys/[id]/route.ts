@@ -12,11 +12,12 @@ import { ApiKeyIdParamSchema } from '@lib/validation/apiKey.schemas';
  */
 export async function DELETE(
 	_request: Request,
-	context: { params: { id: string } },
+	context: { params: Promise<{ id: string }> },
 ): Promise<Response> {
 	try {
 		// Validate path params (UUID in Zod v4 syntax)
-		const parsed = ApiKeyIdParamSchema.safeParse(context.params);
+		const params = await context.params;
+		const parsed = ApiKeyIdParamSchema.safeParse(params);
 		if (!parsed.success) {
 			return createErrorResponse('Invalid API key ID', 422, parsed.error.format());
 		}

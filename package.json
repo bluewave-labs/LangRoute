@@ -11,7 +11,7 @@
 		"check": "npx tsc --noEmit && npm run lint",
 		"db": "node scripts/db-cli.mjs",
 		"env": "node scripts/prepare-env.mjs",
-		"dev:boot": "npm run check && node scripts/prepare-env.mjs && npm run db boot && node scripts/dev.mjs"
+		"dev:boot": "npm run check && node scripts/prepare-env.mjs && npm run db boot && npm run dev"
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.10.0",

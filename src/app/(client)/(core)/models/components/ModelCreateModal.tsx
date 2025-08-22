@@ -3,7 +3,6 @@
 import { FormEvent, useMemo } from 'react';
 
 import {
-	Button,
 	DialogClose,
 	DialogFooter,
 	DialogHeader,
@@ -18,6 +17,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@shadcn-ui';
+
+import { Button } from '@components';
 
 import {
 	SUPPORTED_MODELS,
@@ -95,9 +96,21 @@ export default function ModelCreateModal() {
 
 				<DialogFooter>
 					<DialogClose asChild>
-						<Button variant='outline'>Cancel</Button>
+						<Button
+							variant='outline'
+							color='neutral'
+						>
+							Cancel
+						</Button>
 					</DialogClose>
-					<Button type='submit'>Add model</Button>
+					<Button
+						type='submit'
+						variant='default'
+						color='primary'
+						loading={false}
+					>
+						Add model
+					</Button>
 				</DialogFooter>
 			</form>
 		</>

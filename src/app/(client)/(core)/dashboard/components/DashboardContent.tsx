@@ -14,7 +14,12 @@ export default function DashboardContent() {
 			<GetStartedCard
 				title='Get started with LangRoute'
 				description='Integrating LangRoute takes a few minutes and front end coding skills may be required. If you are not a developer, invite one of your coworkers to your team to help set things up.'
-				icon={<Rocket className='h-5 w-5' />}
+				icon={
+					<Rocket
+						size={30}
+						className='h-6 w-6'
+					/>
+				}
 				actionLabel='Invite your team members'
 				actionIcon={<UserPlus className='h-4 w-4' />}
 			/>
@@ -23,7 +28,7 @@ export default function DashboardContent() {
 			<div className='space-y-4'>
 				<SectionHeader
 					title='Next up...'
-					icon={<span className='text-muted-foreground text-xs font-medium'>⚡</span>}
+					icon={<span className='text-muted-foreground text-xl font-medium'>⚡</span>}
 				/>
 
 				{/* Cards Grid */}

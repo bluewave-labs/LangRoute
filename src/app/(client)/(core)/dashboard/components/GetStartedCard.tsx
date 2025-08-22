@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 
-import { Button, Card, CardDescription, CardHeader, CardTitle } from '@shadcn-ui';
+import { Card, CardDescription, CardHeader, CardTitle } from '@shadcn-ui';
+
+import { Button } from '@components';
 
 interface GetStartedCardProps {
 	title: string;
@@ -30,7 +32,7 @@ export default function GetStartedCard({
 			<CardHeader className='p-5'>
 				<div className='flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0'>
 					<div className='flex items-center space-x-3'>
-						<div className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#334155]/10 text-[#334155]'>
+						<div className='bg-primary/10 text-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg'>
 							{icon}
 						</div>
 						<div className='min-w-0 flex-1'>
@@ -42,8 +44,7 @@ export default function GetStartedCard({
 					</div>
 					<Button
 						variant='default'
-						size='sm'
-						className='h-9 shrink-0 rounded-md bg-[#334155] p-3 text-white hover:bg-[#2b3a4a] focus-visible:ring-2 focus-visible:ring-[#334155]/50 focus-visible:ring-offset-2 focus-visible:outline-none'
+						color='primary'
 						onClick={onAction}
 					>
 						{actionIcon && <span className='mr-2'>{actionIcon}</span>}

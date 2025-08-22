@@ -8,7 +8,6 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
-	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -20,11 +19,29 @@ import {
 
 import { useGoogleSignInMutation, useSessionUser, useSignOutMutation } from '@hooks/data';
 
-type Props = {
+import { Button } from '@components/common/Buttons';
+
+interface GoogleAuthButtonProps {
 	variant?: 'button' | 'sidebar';
 	className?: string;
-};
+}
 
+interface UserAvatarProps {
+	user: NonNullable<ReturnType<typeof useSessionUser>['user']>;
+	size?: 'sm' | 'md';
+	showName?: boolean;
+	className?: string;
+}
+
+interface AuthDropdownContentProps {
+	user: NonNullable<ReturnType<typeof useSessionUser>['user']>;
+	onSignOut: () => void;
+	isSigningOut: boolean;
+}
+
+/**
+ * Google icon component for consistent branding
+ */
 function GoogleIcon() {
 	return (
 		<svg
@@ -53,13 +70,12 @@ function GoogleIcon() {
 	);
 }
 
-export default function GoogleAuthButton({ variant = 'button', className }: Props) {
-	const { user, isLoading: isSessionLoading } = useSessionUser();
-	const { mutate: signInWithGoogle, isPending: isSigningIn } = useGoogleSignInMutation();
-	const { mutate: signOut, isPending: isSigningOut } = useSignOutMutation();
-
+/**
+ * Reusable user avatar component with name display
+ */
+function UserAvatar({ user, size = 'sm', showName = false, className = '' }: UserAvatarProps) {
 	const initials = useMemo(() => {
-		const basis = user?.name || user?.email || 'U';
+		const basis = user.name || user.email || 'U';
 		return basis
 			.split(' ')
 			.map((p) => p[0])
@@ -68,105 +84,191 @@ export default function GoogleAuthButton({ variant = 'button', className }: Prop
 			.toUpperCase();
 	}, [user]);
 
-	// Fallback "button" variant (non-sidebar usage)
-	if (isSessionLoading) {
-		const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
-		return (
-			<Trigger
-				className={variant === 'sidebar' ? 'justify-between' : ''}
-				disabled
-			>
-				<div className='h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
-				<span className='sr-only'>Loading…</span>
-			</Trigger>
-		);
-	}
+	const avatarSizeClasses = {
+		sm: 'h-6 w-6',
+		md: 'h-7 w-7',
+	};
 
-	// Signed out → plain Google CTA (no menu)
-	if (!user) {
-		const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
-		return (
-			<Trigger
-				onClick={() => signInWithGoogle({ callbackUrl: '/dashboard' })}
-				variant={variant === 'sidebar' ? undefined : 'outline'}
-				className={
-					variant === 'sidebar'
-						? 'justify-between'
-						: `inline-flex items-center gap-2 ${className ?? ''}`
-				}
-				aria-label='Continue with Google'
-			>
-				<div className='flex items-center gap-2'>
-					<GoogleIcon />
-					<span className='truncate'>{isSigningIn ? 'Signing in…' : 'Continue with Google'}</span>
+	return (
+		<div className={`flex items-center gap-2 ${className}`}>
+			<Avatar className={`${avatarSizeClasses[size]} rounded-md`}>
+				<AvatarImage
+					src={user.avatarUrl ?? undefined}
+					alt={user.name || user.email}
+				/>
+				<AvatarFallback className='text-xs'>{initials}</AvatarFallback>
+			</Avatar>
+			{showName && (
+				<div className='min-w-0'>
+					<h2 className='text-foreground truncate text-sm leading-tight font-semibold'>
+						{user.name ?? 'Account'}
+					</h2>
+					<p className='text-muted-foreground max-w-[160px] truncate text-xs leading-tight'>
+						{user.email}
+					</p>
 				</div>
-			</Trigger>
-		);
-	}
+			)}
+		</div>
+	);
+}
 
-	// Signed in → dropdown menu with Sign out
+/**
+ * Reusable dropdown menu content for authenticated user
+ */
+function AuthDropdownContent({ user, onSignOut, isSigningOut }: AuthDropdownContentProps) {
+	return (
+		<DropdownMenuContent
+			align='end'
+			side='top'
+			className='m-3 w-60'
+		>
+			<DropdownMenuLabel>
+				<UserAvatar
+					user={user}
+					size='md'
+					showName
+				/>
+			</DropdownMenuLabel>
+
+			<DropdownMenuSeparator />
+
+			<DropdownMenuItem
+				onClick={onSignOut}
+				disabled={isSigningOut}
+				className='text-destructive focus:text-destructive'
+			>
+				<LogOut className='mr-2 h-4 w-4' />
+				{isSigningOut ? 'Signing out…' : 'Sign out'}
+			</DropdownMenuItem>
+		</DropdownMenuContent>
+	);
+}
+
+/**
+ * Loading state component that adapts to variant
+ */
+function LoadingState({ variant }: { variant: 'button' | 'sidebar' }) {
 	const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
 
 	return (
+		<Trigger
+			className={variant === 'sidebar' ? 'justify-between' : ''}
+			disabled
+		>
+			<div className='h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
+			<span className='sr-only'>Loading…</span>
+		</Trigger>
+	);
+}
+
+/**
+ * Sign-in state component that adapts to variant
+ */
+function SignInState({
+	variant,
+	className,
+	onSignIn,
+	isSigningIn,
+}: {
+	variant: 'button' | 'sidebar';
+	className?: string;
+	onSignIn: () => void;
+	isSigningIn: boolean;
+}) {
+	const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
+
+	return (
+		<Trigger
+			onClick={onSignIn}
+			variant={variant === 'sidebar' ? undefined : 'outline'}
+			color={variant === 'sidebar' ? undefined : 'neutral'}
+			className={variant === 'sidebar' ? 'justify-between' : className}
+			aria-label='Continue with Google'
+		>
+			<div className='flex items-center gap-2'>
+				<GoogleIcon />
+				<span className='truncate'>{isSigningIn ? 'Signing in…' : 'Continue with Google'}</span>
+			</div>
+		</Trigger>
+	);
+}
+
+/**
+ * Professional Google authentication button with DRY principles
+ *
+ * Features:
+ * - Unified component for both button and sidebar variants
+ * - Extracted reusable sub-components for better maintainability
+ * - Consistent loading and error states
+ * - Proper accessibility attributes
+ * - Clean separation of concerns
+ */
+export default function GoogleAuthButton({ variant = 'button', className }: GoogleAuthButtonProps) {
+	const { user, isLoading: isSessionLoading } = useSessionUser();
+	const { mutate: signInWithGoogle, isPending: isSigningIn } = useGoogleSignInMutation();
+	const { mutate: signOut, isPending: isSigningOut } = useSignOutMutation();
+
+	const handleSignIn = () => signInWithGoogle({ callbackUrl: '/dashboard' });
+	const handleSignOut = () => signOut({ callbackUrl: '/' });
+
+	// Loading state
+	if (isSessionLoading) {
+		return <LoadingState variant={variant} />;
+	}
+
+	// Signed out state
+	if (!user) {
+		return (
+			<SignInState
+				variant={variant}
+				className={className}
+				onSignIn={handleSignIn}
+				isSigningIn={isSigningIn}
+			/>
+		);
+	}
+
+	// Signed in state with dropdown menu
+	if (variant === 'sidebar') {
+		return (
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<SidebarMenuButton className='justify-between'>
+						<UserAvatar
+							user={user}
+							showName
+						/>
+					</SidebarMenuButton>
+				</DropdownMenuTrigger>
+
+				<AuthDropdownContent
+					user={user}
+					onSignOut={handleSignOut}
+					isSigningOut={isSigningOut}
+				/>
+			</DropdownMenu>
+		);
+	}
+
+	// Regular button variant with dropdown
+	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Trigger className={variant === 'sidebar' ? 'justify-between' : `gap-2 ${className ?? ''}`}>
-					<div className='flex items-center gap-2'>
-						<Avatar className='h-6 w-6 rounded-md'>
-							<AvatarImage
-								src={user.avatarUrl ?? undefined}
-								alt={user.name || user.email}
-							/>
-							<AvatarFallback className='text-xs'>{initials}</AvatarFallback>
-						</Avatar>
-						{variant === 'sidebar' ? (
-							<div className='min-w-0'>
-								<h2 className='text-foreground truncate text-sm leading-tight font-semibold'>
-									{user.name ?? 'Account'}
-								</h2>
-								<p className='text-muted-foreground max-w-[160px] truncate text-xs leading-tight'>
-									{user.email}
-								</p>
-							</div>
-						) : (
-							<span className='max-w-[160px] truncate'>{user.name || user.email}</span>
-						)}
-					</div>
-				</Trigger>
+				<Button
+					variant='ghost'
+					color='neutral'
+					className={`gap-2 ${className ?? ''}`}
+				>
+					<UserAvatar user={user} />
+					<span className='max-w-[160px] truncate'>{user.name || user.email}</span>
+				</Button>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent
-				align='end'
-				side='top'
-				className='m-3 w-60'
-			>
-				<DropdownMenuLabel>
-					<div className='flex items-center gap-2'>
-						<Avatar className='h-7 w-7 rounded-md'>
-							<AvatarImage
-								src={user.avatarUrl ?? undefined}
-								alt={user.name || user.email}
-							/>
-							<AvatarFallback className='text-xs'>{initials}</AvatarFallback>
-						</Avatar>
-						<div className='min-w-0'>
-							<p className='truncate text-sm font-medium'>{user.name ?? 'Account'}</p>
-							<p className='text-muted-foreground truncate text-xs'>{user.email}</p>
-						</div>
-					</div>
-				</DropdownMenuLabel>
-
-				<DropdownMenuSeparator />
-
-				<DropdownMenuItem
-					onClick={() => signOut({ callbackUrl: '/' })}
-					disabled={isSigningOut}
-					className='text-destructive focus:text-destructive'
-				>
-					<LogOut className='mr-2 h-4 w-4' />
-					{isSigningOut ? 'Signing out…' : 'Sign out'}
-				</DropdownMenuItem>
-			</DropdownMenuContent>
+			<AuthDropdownContent
+				user={user}
+				onSignOut={handleSignOut}
+				isSigningOut={isSigningOut}
+			/>
 		</DropdownMenu>
 	);
 }

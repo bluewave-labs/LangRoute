@@ -1,6 +1,6 @@
-import { Button, Dialog, DialogContent, DialogTrigger } from '@shadcn-ui';
+import { Dialog, DialogContent, DialogTrigger } from '@shadcn-ui';
 
-import { SearchBar } from '@components';
+import { Button, SearchBar } from '@components';
 
 import ModelCreateModal from './ModelCreateModal';
 import ModelsTable from './ModelsTable';
@@ -12,7 +12,12 @@ export default function ModelsContent() {
 				<SearchBar />
 
 				<DialogTrigger asChild>
-					<Button>Add new provider/model</Button>
+					<Button
+						variant='default'
+						color='primary'
+					>
+						Add new provider/model
+					</Button>
 				</DialogTrigger>
 			</div>
 			<div className='rounded-md border'>
