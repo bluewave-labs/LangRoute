@@ -52,34 +52,25 @@ export default function Sidebar() {
 		// - 2xl screens: 22rem
 
 		<UISidebar
-			className='[--sidebar-width-icon:3.75rem] [--sidebar-width:12rem] xl:[--sidebar-width:15rem] 2xl:[--sidebar-width:18rem]'
+			className='[--sidebar-width-icon:4.2rem] [--sidebar-width:14rem] xl:[--sidebar-width:15rem] 2xl:[--sidebar-width:16rem]'
 			collapsible='icon'
 			header={<MobileHeader />}
 		>
 			{/* Desktop header (logo / brand) */}
 
-			<SidebarHeader className='hidden w-full flex-row items-center justify-between px-3 group-data-[collapsible=icon]:hidden md:flex xl:px-4'>
-				<div className='flex items-center gap-3 xl:gap-4'>
+			<SidebarHeader className='ml-1 hidden w-full flex-row items-center justify-between md:flex'>
+				<div className='flex items-center gap-1 xl:gap-2'>
 					<LogoMark
-						className='text-muted-foreground h-9 w-9 xl:h-10 xl:w-10'
+						className='h-10 w-10 rounded-lg xl:h-12 xl:w-12'
 						aria-hidden
 					/>
-					<LogoWordmark className='ml-1 text-[15px] font-semibold xl:text-base' />
+					<LogoWordmark className='ml-1 text-[15px] font-semibold group-data-[collapsible=icon]:hidden xl:text-base' />
 				</div>
 				<ThemeToggle />
 			</SidebarHeader>
 
-			{/* Compact brand bar — shows only in icon mode */}
-			<SidebarHeader className='hidden items-center justify-center px-2 py-2 group-data-[collapsible=icon]:flex'>
-				{/* Slightly larger than nav icons, fits inside the rail */}
-				<LogoMark
-					className='text-muted-foreground h-8 w-8'
-					aria-hidden
-				/>
-			</SidebarHeader>
-
 			{/* Nav */}
-			<SidebarContent>
+			<SidebarContent className='pt-2'>
 				<SidebarGroup>
 					<SidebarMenu>
 						{NAV_ITEMS.map((item) => {
@@ -87,12 +78,15 @@ export default function Sidebar() {
 							const active = pathname === item.href || pathname?.startsWith(item.href + '/');
 
 							return (
-								<SidebarMenuItem key={item.href}>
+								<SidebarMenuItem
+									key={item.href}
+									className='text-muted-foreground hover:bg-muted/50 ml-2 flex text-xl font-medium'
+								>
 									<SidebarMenuButton
 										asChild
 										isActive={!!active}
 										aria-current={active ? 'page' : undefined}
-										className='md:h-9 md:text-[15px] xl:h-10 xl:text-base'
+										className='md:h-9 md:text-sm xl:h-10 xl:text-base'
 										tooltip={item.label} // shows when collapsed
 									>
 										<Link
@@ -100,7 +94,7 @@ export default function Sidebar() {
 											className='gap-2.5 no-underline decoration-transparent hover:no-underline xl:gap-3'
 										>
 											<Icon
-												className='h-5 w-5 md:h-6 md:w-6 xl:h-7 xl:w-7'
+												className='md:!h-4 md:!w-4 xl:!h-5.5 xl:!w-5.5'
 												aria-hidden
 											/>
 											{/* Hide text label in icon-collapsed mode */}
@@ -117,7 +111,7 @@ export default function Sidebar() {
 			</SidebarContent>
 
 			{/* Footer / account menu */}
-			<SidebarFooter className='group-data-[collapsible=icon]:hidden'>
+			<SidebarFooter className='m-2'>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<GoogleAuthButton variant='sidebar' />

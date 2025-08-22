@@ -23,9 +23,24 @@ export default function ThemeToggle() {
 			/>
 		);
 	}
-
 	const resolved = theme === 'system' ? systemTheme : theme;
 	const next = resolved === 'dark' ? 'light' : 'dark';
+
+	{
+		/* Cross-fade icons */
+	}
+	const toggle = (
+		<span className='text-primary relative inline-block md:!h-4 md:!w-4 xl:!h-5.5 xl:!w-5.5'>
+			<Sun
+				className={`absolute inset-0 transition-transform md:!h-4 md:!w-4 xl:!h-5.5 xl:!w-5.5 ${resolved === 'dark' ? 'rotate-180' : 'rotate-0'} transition-opacity duration-300 ${resolved === 'dark' ? 'opacity-100' : 'opacity-0'}`}
+				aria-hidden
+			/>
+			<Moon
+				className={`absolute inset-0 transition-transform duration-300 md:!h-4 md:!w-4 xl:!h-5.5 xl:!w-5.5 ${resolved === 'dark' ? 'rotate-180' : 'rotate-0'} transition-opacity ${resolved === 'dark' ? 'opacity-0' : 'opacity-100'}`}
+				aria-hidden
+			/>
+		</span>
+	);
 
 	return (
 		<Button
@@ -33,21 +48,11 @@ export default function ThemeToggle() {
 			onClick={() => setTheme(next!)}
 			variant='ghost'
 			size='icon'
+			startIcon={toggle}
 			color='neutral'
 			aria-label='Toggle theme'
 			title='Toggle theme'
-		>
-			{/* Cross-fade icons */}
-			<span className='relative inline-block h-4 w-4'>
-				<Sun
-					className={`absolute inset-0 h-4 w-4 transition-transform ${resolved === 'dark' ? 'rotate-180' : 'rotate-0'} transition-opacity duration-300 ${resolved === 'dark' ? 'opacity-100' : 'opacity-0'}`}
-					aria-hidden
-				/>
-				<Moon
-					className={`absolute inset-0 h-4 w-4 transition-transform duration-300 ${resolved === 'dark' ? 'rotate-180' : 'rotate-0'} transition-opacity ${resolved === 'dark' ? 'opacity-0' : 'opacity-100'}`}
-					aria-hidden
-				/>
-			</span>
-		</Button>
+			className='mx-2 group-data-[collapsible=icon]:hidden'
+		></Button>
 	);
 }

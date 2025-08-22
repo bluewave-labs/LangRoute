@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { cn } from '@/lib/utils';
+
 type Props = React.SVGProps<SVGSVGElement> & {
 	title?: string;
 	decorative?: boolean;
@@ -14,7 +16,7 @@ export function LogoMark({ title = 'LangRoute', decorative = true, className, ..
 			role='img'
 			aria-label={decorative ? undefined : title}
 			aria-hidden={decorative ? true : undefined}
-			className={className}
+			className={cn(className, 'text-primary')}
 			{...props}
 		>
 			{/* Rounded square bg uses currentColor (controlled via parent text-* classes) */}
@@ -61,3 +63,33 @@ export function LogoWordmark({
 		</span>
 	);
 }
+
+// ******************************************************************************************
+// TODO: Replace the current placeholder logo with a professional logo.
+// - Can use an image-based logo if preferred.
+// - The PNG should be copied to: /public/assets/icons/langroute-mark.png
+// ******************************************************************************************
+
+// type Props = Omit<React.ComponentPropsWithoutRef<typeof Image>, 'src' | 'alt'> & {
+// 	title?: string;
+// 	decorative?: boolean;
+// };
+
+// export function LogoMark({ title = 'LangRoute', decorative = true, className, ...props }: Props) {
+// 	const src = '/assets/icons/langroute-mark.png';
+
+// 	return (
+// 		<Image
+// 			src={src}
+// 			alt={decorative ? '' : title}
+// 			role='img'
+// 			aria-hidden={decorative ? true : undefined}
+// 			className={className}
+// 			width={100}
+// 			height={100}
+// 			priority
+// 			unoptimized
+// 			{...props}
+// 		/>
+// 	);
+// }

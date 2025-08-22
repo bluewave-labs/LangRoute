@@ -206,7 +206,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 			sm: 'size-3.5',
 			default: 'size-4',
 			lg: 'size-5',
-			icon: 'size-4',
+			icon: '!size-16', //This doesn't work as the button size is restricted so changing this size has no effect on the icon.
 		};
 
 		const iconSize = iconSizeClasses[size || 'default'];

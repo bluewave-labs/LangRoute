@@ -1,8 +1,13 @@
 import Link from 'next/link';
 
-import { ArrowRight, Cpu, Database, Shield, Zap } from 'lucide-react';
+import { Cpu, Database, Shield, Zap } from 'lucide-react';
 
-import { GoogleAuthButton } from '@components';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shadcn-ui';
+
+import GoogleAuthButton from '@components/auth/GoogleAuthButton';
+import { Button } from '@components/common/Buttons';
+import { HeroCTAButtons, NavButtons } from '@components/common/ConditionalButtons';
+import { LogoMark, LogoWordmark } from '@components/layout/Logo';
 
 /**
  * LangRoute landing page - the main entry point for the application.
@@ -15,32 +20,22 @@ export default function HomePage() {
 			{/* Header */}
 			<header className='container mx-auto flex items-center justify-between px-6 py-8'>
 				<div className='flex items-center space-x-2'>
-					<div className='bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg'>
-						<Cpu className='h-5 w-5' />
-					</div>
-					<h1 className='text-xl font-semibold'>LangRoute</h1>
+					<LogoMark className='bg-primary/10 text-primary-foreground h-12 w-12 rounded-lg' />
+					<LogoWordmark className='text-xl font-semibold' />
 				</div>
 
 				<nav className='flex items-center space-x-4'>
 					<GoogleAuthButton />
-					<Link
-						href='/login'
-						className='body1 hover:text-primary'
-					>
-						Sign In
-					</Link>
-					<Link
-						href='/register'
-						className='bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium transition-colors'
-					>
-						Get Started
-					</Link>
+					<NavButtons />
+					<Button asChild>
+						<Link href='/register'>Get Started</Link>
+					</Button>
 				</nav>
 			</header>
 
 			{/* Hero Section */}
 			<main className='container mx-auto flex-1 px-6 py-16'>
-				<div className='mx-auto max-w-4xl text-center'>
+				<div className='mx-auto max-w-6xl text-center'>
 					<h2 className='text-foreground mb-6 text-4xl font-bold tracking-tight sm:text-6xl'>
 						Self-hostable{' '}
 						<span className='from-primary to-chart-1 bg-gradient-to-r bg-clip-text text-transparent'>
@@ -56,58 +51,66 @@ export default function HomePage() {
 					</p>
 
 					<div className='mb-12 flex flex-col items-center justify-center gap-4 sm:flex-row'>
-						<Link
-							href='/register'
-							className='bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center rounded-md px-6 py-3 text-base font-medium transition-colors'
-						>
-							Start Free Trial
-							<ArrowRight className='ml-2 h-4 w-4' />
-						</Link>
-						<Link
-							href='/login'
-							className='border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center rounded-md border px-6 py-3 text-base font-medium transition-colors'
-						>
-							Sign In to Dashboard
-						</Link>
+						<HeroCTAButtons />
 					</div>
 
 					{/* Features Grid */}
-					<div className='grid gap-8 sm:grid-cols-2 lg:grid-cols-4'>
-						<div className='flex flex-col items-center text-center'>
-							<div className='bg-primary/10 text-primary mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
-								<Shield className='h-6 w-6' />
-							</div>
-							<h3 className='h3 mb-2'>Self-Hosted</h3>
-							<p className='body2'>
-								Deploy on your infrastructure. Full control over your data and API keys.
-							</p>
-						</div>
+					<div className='grid gap-8 py-5 sm:grid-cols-2 lg:grid-cols-4'>
+						<Card className='gap-0 border-0 bg-transparent text-center shadow-none'>
+							<CardHeader className='px-0 pb-4'>
+								<div className='bg-primary/10 text-primary mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
+									<Shield className='h-6 w-6' />
+								</div>
+								<CardTitle className='text-lg'>Self-Hosted</CardTitle>
+							</CardHeader>
+							<CardContent className='px-0'>
+								<CardDescription className='text-base'>
+									Deploy on your infrastructure. Full control over your data and API keys.
+								</CardDescription>
+							</CardContent>
+						</Card>
 
-						<div className='flex flex-col items-center text-center'>
-							<div className='bg-chart-1/10 text-chart-1 mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
-								<Zap className='h-6 w-6' />
-							</div>
-							<h3 className='h3 mb-2'>OpenAI Compatible</h3>
-							<p className='body2'>Drop-in replacement for OpenAI API. No code changes required.</p>
-						</div>
+						<Card className='gap-0 border-0 bg-transparent text-center shadow-none'>
+							<CardHeader className='px-0 pb-4'>
+								<div className='bg-chart-1/10 text-chart-1 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
+									<Zap className='h-6 w-6' />
+								</div>
+								<CardTitle className='text-lg'>OpenAI Compatible</CardTitle>
+							</CardHeader>
+							<CardContent className='px-0'>
+								<CardDescription className='text-base'>
+									Drop-in replacement for OpenAI API. No code changes required.
+								</CardDescription>
+							</CardContent>
+						</Card>
 
-						<div className='flex flex-col items-center text-center'>
-							<div className='bg-chart-2/10 text-chart-2 mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
-								<Database className='h-6 w-6' />
-							</div>
-							<h3 className='h3 mb-2'>Multi-Provider</h3>
-							<p className='body2'>Route to Google, OpenAI, Anthropic, Mistral, and more.</p>
-						</div>
+						<Card className='gap-0 border-0 bg-transparent text-center shadow-none'>
+							<CardHeader className='px-0 pb-4'>
+								<div className='bg-chart-2/10 text-chart-2 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
+									<Database className='h-6 w-6' />
+								</div>
+								<CardTitle className='text-lg'>Multi-Provider</CardTitle>
+							</CardHeader>
+							<CardContent className='px-0'>
+								<CardDescription className='text-base'>
+									Route to Google, OpenAI, Anthropic, Mistral, and more.
+								</CardDescription>
+							</CardContent>
+						</Card>
 
-						<div className='flex flex-col items-center text-center'>
-							<div className='bg-chart-3/10 text-chart-3 mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
-								<Cpu className='h-6 w-6' />
-							</div>
-							<h3 className='h3 mb-2'>Real-time Analytics</h3>
-							<p className='body2'>
-								Live logs, usage metrics, cost tracking, and performance monitoring.
-							</p>
-						</div>
+						<Card className='gap-0 border-0 bg-transparent text-center shadow-none'>
+							<CardHeader className='px-0 pb-4'>
+								<div className='bg-chart-3/10 text-chart-3 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg'>
+									<Cpu className='h-6 w-6' />
+								</div>
+								<CardTitle className='text-lg'>Real-time Analytics</CardTitle>
+							</CardHeader>
+							<CardContent className='px-0'>
+								<CardDescription className='text-base'>
+									Live logs, usage metrics, cost tracking, and performance monitoring.
+								</CardDescription>
+							</CardContent>
+						</Card>
 					</div>
 				</div>
 			</main>
@@ -116,10 +119,8 @@ export default function HomePage() {
 			<footer className='bg-muted/30 border-t'>
 				<div className='container mx-auto flex flex-col items-center justify-between px-6 py-8 sm:flex-row'>
 					<div className='flex items-center space-x-2'>
-						<div className='bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded'>
-							<Cpu className='h-4 w-4' />
-						</div>
-						<span className='text-sm font-medium'>LangRoute</span>
+						<LogoMark className='bg-primary/10 text-primary-foreground h-10 w-10 rounded-lg' />
+						<LogoWordmark className='text-sm font-medium' />
 					</div>
 
 					<div className='text-muted-foreground mt-4 flex items-center space-x-6 text-sm sm:mt-0'>
