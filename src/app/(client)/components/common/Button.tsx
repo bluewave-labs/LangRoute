@@ -54,24 +54,22 @@ function Spinner({ className }: { className?: string }) {
 function sizeLucideIcon(node: React.ReactNode, size: ButtonSize): React.ReactNode {
 	if (!React.isValidElement(node)) return node;
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const t = node.type as any;
+	const t = node.type;
 	const isLucide =
 		typeof t === 'function' &&
+		// @ts-expect-error: displayName and name may not exist on all types
 		(t.displayName?.startsWith('Lucide') || t.name?.startsWith('Lucide'));
 	if (!isLucide) return node;
 
 	// If caller already provided size prop or explicit tailwind size classes, skip.
 	// (Allows caller overrides like h-4 w-4 or !h-5)
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const props: any = node.props;
+	const props = node.props as { className?: string; size?: number };
 	const className: string | undefined = props.className;
 	const hasExplicitSizeClass =
 		typeof className === 'string' && /\b(!?h-|!?w-|!?size-)/.test(className);
 
 	if (props.size || hasExplicitSizeClass) return node;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return React.cloneElement(node as any, {
+	return React.cloneElement(node as React.ReactElement<{ size?: number }>, {
 		size: ICON_SIZE[size],
 	});
 }
