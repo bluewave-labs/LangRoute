@@ -208,8 +208,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 		if (asChild) {
 			if (process.env.NODE_ENV !== 'production' && !childWrapperEl) {
-				console.error('Button: asChild requires a single valid React element as its child.');
-				return null;
+				const errorMsg = 'Button: asChild requires a single valid React element as its child.';
+				console.error(errorMsg);
+				throw new Error(errorMsg);
 			}
 			const injected = (
 				<>
