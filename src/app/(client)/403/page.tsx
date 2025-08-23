@@ -26,7 +26,6 @@ export default function ForbiddenPage() {
 			</p>
 			<Button
 				variant='default'
-				color='primary'
 				asChild
 			>
 				<Link href='/'>Go Back</Link>

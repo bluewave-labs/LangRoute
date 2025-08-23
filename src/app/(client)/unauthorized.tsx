@@ -9,7 +9,6 @@ export default function UnauthorizedPage() {
 			<p>Please log in to access this page.</p>
 			<Button
 				variant='default'
-				color='primary'
 				asChild
 			>
 				<Link href='/login'>Go to Login</Link>

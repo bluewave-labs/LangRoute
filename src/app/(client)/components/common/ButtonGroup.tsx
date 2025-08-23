@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { cn } from '@lib/utils';
 
-import { Button, type ButtonProps, type ButtonSize } from './Buttons';
+import { Button, type ButtonProps, type ButtonSize } from './Button';
 
 export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**

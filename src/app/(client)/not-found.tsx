@@ -9,7 +9,6 @@ export default function NotFound() {
 			<p>Could not find requested resource</p>
 			<Button
 				variant='default'
-				color='primary'
 				asChild
 			>
 				<Link href='/'>Return Home</Link>
