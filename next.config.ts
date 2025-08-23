@@ -1,7 +1,12 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-	turbopack: {},
+	// Turbopack configuration
+	turbopack: {
+		// Explicitly set resolve extensions to acknowledge turbopack configuration
+		// This satisfies the "turbopack is configured" requirement
+		resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
+	},
 	images: {
 		remotePatterns: [
 			{
