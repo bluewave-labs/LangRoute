@@ -148,11 +148,19 @@ function AuthDropdownContent({ user, onSignOut, isSigningOut }: AuthDropdownCont
  * Loading state component that adapts to variant
  */
 function LoadingState({ variant }: { variant: 'button' | 'sidebar' }) {
-	const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
+	if (variant === 'sidebar') {
+		return (
+			<SidebarMenuButton className='justify-between'>
+				<div className='flex items-center gap-2'>
+					<div className='size-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
+					<span className='opacity-60'>Loading...</span>
+				</div>
+			</SidebarMenuButton>
+		);
+	}
 
 	return (
-		<Trigger
-			className={variant === 'sidebar' ? 'justify-between' : ''}
+		<Button
 			loading
 			aria-label='Loading authentication'
 		/>
@@ -173,20 +181,38 @@ function SignInState({
 	onSignIn: () => void;
 	isSigningIn: boolean;
 }) {
-	const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
+	if (variant === 'sidebar') {
+		return (
+			<SidebarMenuButton
+				onClick={onSignIn}
+				className='justify-between'
+			>
+				<div className='flex items-center gap-2'>
+					{isSigningIn ? (
+						<div className='size-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
+					) : (
+						<GoogleIcon />
+					)}
+					<span className={isSigningIn ? 'opacity-60' : ''}>
+						{isSigningIn ? 'Signing in...' : 'Continue with Google'}
+					</span>
+				</div>
+			</SidebarMenuButton>
+		);
+	}
 
 	return (
-		<Trigger
+		<Button
 			onClick={onSignIn}
-			variant={variant === 'sidebar' ? undefined : 'outline'}
-			className={variant === 'sidebar' ? 'justify-between' : className}
+			variant='outline'
+			className={className}
 			aria-label='Continue with Google'
 			loading={isSigningIn}
 			loadingText='Signing in...'
 			startIcon={<GoogleIcon />}
 		>
 			{!isSigningIn && 'Continue with Google'}
-		</Trigger>
+		</Button>
 	);
 }
 

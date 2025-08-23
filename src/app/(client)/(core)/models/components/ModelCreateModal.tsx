@@ -96,17 +96,11 @@ export default function ModelCreateModal() {
 
 				<DialogFooter>
 					<DialogClose asChild>
-						<Button
-							variant='outline'
-							color='neutral'
-						>
-							Cancel
-						</Button>
+						<Button variant='outline'>Cancel</Button>
 					</DialogClose>
 					<Button
 						type='submit'
 						variant='default'
-						color='primary'
 						loading={false}
 					>
 						Add model

@@ -21,7 +21,9 @@ export default function ThemeToggle() {
 				aria-label='Toggle theme'
 				title='Toggle theme'
 				disabled
-			/>
+			>
+				<Moon className='size-6' />
+			</Button>
 		);
 	}
 

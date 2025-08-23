@@ -19,18 +19,15 @@ export function NavButtons() {
 		return (
 			<Button
 				variant='ghost'
-				color='neutral'
-				disabled
-			>
-				Loading...
-			</Button>
+				loading
+				loadingText='Loading...'
+			/>
 		);
 	}
 
 	return user ? (
 		<Button
 			variant='ghost'
-			color='neutral'
 			asChild
 		>
 			<Link href='/dashboard'>Go to Dashboard</Link>
@@ -38,7 +35,6 @@ export function NavButtons() {
 	) : (
 		<Button
 			variant='ghost'
-			color='neutral'
 			asChild
 		>
 			<Link href='/login'>Sign In</Link>
@@ -59,16 +55,14 @@ export function HeroCTAButtons() {
 				<Button
 					size='lg'
 					loading
-				>
-					Loading...
-				</Button>
+					loadingText='Loading...'
+				/>
 				<Button
 					variant='outline'
 					size='lg'
-					disabled
-				>
-					Loading...
-				</Button>
+					loading
+					loadingText='Loading...'
+				/>
 			</>
 		);
 	}

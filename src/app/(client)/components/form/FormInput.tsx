@@ -63,11 +63,11 @@ export default function FormInput({
 					<Button
 						variant='ghost'
 						size='icon'
-						color='neutral'
 						type='button'
 						onClick={togglePasswordVisibility}
 						aria-label={showPassword ? 'Hide password' : 'Show password'}
 						className='absolute top-1/2 right-2 h-7 w-7 -translate-y-1/2'
+						iconOnly
 					>
 						{showPassword ? <EyeOffIcon /> : <EyeIcon />}
 					</Button>

@@ -28,10 +28,10 @@ export default function SearchBar({ className, onSearch, ...props }: SearchBarPr
 			<Button
 				variant='ghost'
 				size='icon'
-				color='neutral'
 				onClick={onSearch}
 				aria-label='Search'
 				className='absolute top-1/2 right-2 h-7 w-7 -translate-y-1/2'
+				iconOnly
 			>
 				<SearchIcon />
 			</Button>

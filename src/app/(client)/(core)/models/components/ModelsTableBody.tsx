@@ -19,8 +19,8 @@ const ExampleModelRow = ({ modelName, provider }: { modelName: string; provider:
 				<Button
 					variant='ghost'
 					size='icon'
-					color='neutral'
 					aria-label={`Edit ${provider} ${modelName}`}
+					iconOnly
 				>
 					<svg
 						width='16'
@@ -35,10 +35,10 @@ const ExampleModelRow = ({ modelName, provider }: { modelName: string; provider:
 					</svg>
 				</Button>
 				<Button
-					variant='ghost'
+					variant='destructive'
 					size='icon'
-					color='destructive'
 					aria-label={`Delete ${provider} ${modelName}`}
+					iconOnly
 				>
 					<svg
 						width='16'

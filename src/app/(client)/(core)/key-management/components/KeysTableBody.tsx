@@ -15,8 +15,8 @@ const ExampleKeyRow = ({ keyName }: { keyName: string }) => (
 				<Button
 					variant='ghost'
 					size='icon'
-					color='neutral'
 					aria-label={`Copy ${keyName}`}
+					iconOnly
 				>
 					<svg
 						width='16'
@@ -38,10 +38,10 @@ const ExampleKeyRow = ({ keyName }: { keyName: string }) => (
 					</svg>
 				</Button>
 				<Button
-					variant='ghost'
+					variant='destructive'
 					size='icon'
-					color='destructive'
 					aria-label={`Revoke ${keyName}`}
+					iconOnly
 				>
 					<svg
 						width='16'

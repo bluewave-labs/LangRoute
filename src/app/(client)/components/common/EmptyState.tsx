@@ -1,7 +1,8 @@
 import { HTMLAttributes, ReactNode } from 'react';
 
 import { EmptyStateIcon } from '@icons';
-import { Button } from '@shadcn-ui';
+
+import { Button } from '@components';
 
 import { cn } from '@lib/utils';
 

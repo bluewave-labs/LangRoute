@@ -87,7 +87,6 @@ export default function KeyCreateModal() {
 					<Button
 						type='submit'
 						variant='default'
-						color='primary'
 						loading={false}
 					>
 						Generate
