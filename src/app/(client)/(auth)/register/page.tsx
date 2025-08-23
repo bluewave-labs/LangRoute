@@ -60,7 +60,6 @@ export default function RegisterPage() {
 				<div>
 					<Button
 						type='submit'
-						color='primary'
 						fullWidth
 						loading={false}
 					>

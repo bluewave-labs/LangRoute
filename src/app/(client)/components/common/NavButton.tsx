@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@lib/utils';
 
-import { Button, type ButtonProps } from './Buttons';
+import { Button, type ButtonProps } from './Button';
 
 export interface NavButtonProps extends Omit<ButtonProps, 'variant' | 'color'> {
 	/**
@@ -17,12 +17,6 @@ export interface NavButtonProps extends Omit<ButtonProps, 'variant' | 'color'> {
 	 * @default "ghost"
 	 */
 	variant?: ButtonProps['variant'];
-
-	/**
-	 * Override color (defaults to neutral for nav items)
-	 * @default "neutral"
-	 */
-	color?: ButtonProps['color'];
 }
 
 /**
@@ -34,33 +28,17 @@ export interface NavButtonProps extends Omit<ButtonProps, 'variant' | 'color'> {
  * - Supports asChild for Next.js Link integration
  * - Maintains full Button API compatibility
  * - Brand-colored active states using design tokens
- *
- * Usage:
- * ```tsx
- * <NavButton asChild isActive={pathname === '/dashboard'}>
- *   <Link href="/dashboard">
- *     <Icon className="w-4 h-4" />
- *     Dashboard
- *   </Link>
- * </NavButton>
- * ```
  */
 export const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(
-	(
-		{ className, isActive = false, variant = 'ghost', color = 'neutral', children, ...props },
-		ref,
-	) => {
+	({ className, isActive = false, variant = 'ghost', children, ...props }, ref) => {
 		// Active state classes - additive to Button's base styling
 		const activeClasses = isActive
 			? cn(
-					// Active background and text colors using design tokens
 					'bg-primary/10 text-primary',
 					'hover:bg-primary/15 hover:text-primary',
 					'dark:bg-primary/20 dark:text-primary-foreground',
 					'dark:hover:bg-primary/25',
-					// Enhanced focus ring for active items
 					'focus-visible:ring-primary/30',
-					// Font weight emphasis for active state
 					'font-medium',
 				)
 			: '';
@@ -69,7 +47,6 @@ export const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(
 			<Button
 				ref={ref}
 				variant={variant}
-				color={color}
 				className={cn(activeClasses, className)}
 				aria-current={isActive ? 'page' : undefined}
 				{...props}

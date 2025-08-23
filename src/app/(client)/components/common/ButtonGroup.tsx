@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { cn } from '@lib/utils';
 
-import { Button, type ButtonProps, type ButtonSize } from './Buttons';
+import { Button, type ButtonProps, type ButtonSize } from './Button';
 
 export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -61,8 +61,8 @@ const ButtonGroupContext = React.createContext<{
  * Automatically receives size and selection state from parent ButtonGroup.
  *
  * Selection state mapping:
- * - Unselected: variant="outline" color="neutral"
- * - Selected: variant="default" color="primary"
+ * - Unselected: variant="outline"
+ * - Selected: variant="default"
  */
 export const ButtonGroupItem = React.forwardRef<HTMLButtonElement, ButtonGroupItemProps>(
 	({ value, selected, className, children, onClick, ...props }, ref) => {
@@ -79,7 +79,6 @@ export const ButtonGroupItem = React.forwardRef<HTMLButtonElement, ButtonGroupIt
 			<Button
 				ref={ref}
 				variant={isSelected ? 'default' : 'outline'}
-				color={isSelected ? 'primary' : 'neutral'}
 				size={context?.size ?? 'sm'}
 				className={cn(
 					// Connected button styling - remove adjacent borders
@@ -117,8 +116,8 @@ ButtonGroupItem.displayName = 'ButtonGroupItem';
  * - Size="sm" default for compact grouping
  *
  * Selection state mapping:
- * - Unselected items: variant="outline" color="neutral"
- * - Selected items: variant="default" color="primary"
+ * - Unselected items: variant="outline"
+ * - Selected items: variant="default"
  *
  * Usage:
  * ```tsx

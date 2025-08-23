@@ -5,9 +5,10 @@ import { Cpu, Database, Shield, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shadcn-ui';
 
 import GoogleAuthButton from '@components/auth/GoogleAuthButton';
-import { Button } from '@components/common/Buttons';
 import { HeroCTAButtons, NavButtons } from '@components/common/ConditionalButtons';
 import { LogoMark, LogoWordmark } from '@components/layout/Logo';
+
+import { Button } from '@/app/(client)/components/common/Button';
 
 /**
  * LangRoute landing page - the main entry point for the application.

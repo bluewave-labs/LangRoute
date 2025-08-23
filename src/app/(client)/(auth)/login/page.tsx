@@ -42,7 +42,6 @@ export default function LoginPage() {
 				<div>
 					<Button
 						type='submit'
-						color='primary'
 						fullWidth
 						loading={false}
 					>

@@ -31,7 +31,6 @@ export default function ForgotPasswordPage() {
 						type='submit'
 						variant='default'
 						size='default'
-						color='primary'
 						fullWidth
 						loading={false}
 					>

@@ -44,10 +44,9 @@ export default function GetStartedCard({
 					</div>
 					<Button
 						variant='default'
-						color='primary'
 						onClick={onAction}
+						startIcon={actionIcon}
 					>
-						{actionIcon && <span className='mr-2'>{actionIcon}</span>}
 						{actionLabel}
 					</Button>
 				</div>

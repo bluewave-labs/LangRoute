@@ -12,12 +12,7 @@ export default function ModelsContent() {
 				<SearchBar />
 
 				<DialogTrigger asChild>
-					<Button
-						variant='default'
-						color='primary'
-					>
-						Add new provider/model
-					</Button>
+					<Button variant='default'>Add new provider/model</Button>
 				</DialogTrigger>
 			</div>
 			<div className='rounded-md border'>

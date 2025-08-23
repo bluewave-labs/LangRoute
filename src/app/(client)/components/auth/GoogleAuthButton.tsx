@@ -19,7 +19,7 @@ import {
 
 import { useGoogleSignInMutation, useSessionUser, useSignOutMutation } from '@hooks/data';
 
-import { Button } from '@components/common/Buttons';
+import { Button } from '@components';
 
 interface GoogleAuthButtonProps {
 	variant?: 'button' | 'sidebar';
@@ -137,7 +137,7 @@ function AuthDropdownContent({ user, onSignOut, isSigningOut }: AuthDropdownCont
 				disabled={isSigningOut}
 				className='text-destructive focus:text-destructive'
 			>
-				<LogOut className='mr-2 h-4 w-4' />
+				<LogOut className='mr-2' />
 				{isSigningOut ? 'Signing out…' : 'Sign out'}
 			</DropdownMenuItem>
 		</DropdownMenuContent>
@@ -148,16 +148,22 @@ function AuthDropdownContent({ user, onSignOut, isSigningOut }: AuthDropdownCont
  * Loading state component that adapts to variant
  */
 function LoadingState({ variant }: { variant: 'button' | 'sidebar' }) {
-	const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
+	if (variant === 'sidebar') {
+		return (
+			<SidebarMenuButton className='justify-between'>
+				<div className='flex items-center gap-2'>
+					<div className='size-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
+					<span className='opacity-60'>Loading...</span>
+				</div>
+			</SidebarMenuButton>
+		);
+	}
 
 	return (
-		<Trigger
-			className={variant === 'sidebar' ? 'justify-between' : ''}
-			disabled
-		>
-			<div className='h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
-			<span className='sr-only'>Loading…</span>
-		</Trigger>
+		<Button
+			loading
+			aria-label='Loading authentication'
+		/>
 	);
 }
 
@@ -175,21 +181,38 @@ function SignInState({
 	onSignIn: () => void;
 	isSigningIn: boolean;
 }) {
-	const Trigger = variant === 'sidebar' ? SidebarMenuButton : Button;
+	if (variant === 'sidebar') {
+		return (
+			<SidebarMenuButton
+				onClick={onSignIn}
+				className='justify-between'
+			>
+				<div className='flex items-center gap-2'>
+					{isSigningIn ? (
+						<div className='size-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
+					) : (
+						<GoogleIcon />
+					)}
+					<span className={isSigningIn ? 'opacity-60' : ''}>
+						{isSigningIn ? 'Signing in...' : 'Continue with Google'}
+					</span>
+				</div>
+			</SidebarMenuButton>
+		);
+	}
 
 	return (
-		<Trigger
+		<Button
 			onClick={onSignIn}
-			variant={variant === 'sidebar' ? undefined : 'outline'}
-			color={variant === 'sidebar' ? undefined : 'neutral'}
-			className={variant === 'sidebar' ? 'justify-between' : className}
+			variant='outline'
+			className={className}
 			aria-label='Continue with Google'
+			loading={isSigningIn}
+			loadingText='Signing in...'
+			startIcon={<GoogleIcon />}
 		>
-			<div className='flex items-center gap-2'>
-				<GoogleIcon />
-				<span className='truncate'>{isSigningIn ? 'Signing in…' : 'Continue with Google'}</span>
-			</div>
-		</Trigger>
+			{!isSigningIn && 'Continue with Google'}
+		</Button>
 	);
 }
 
@@ -256,10 +279,8 @@ export default function GoogleAuthButton({ variant = 'button', className }: Goog
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant='ghost'
-					color='neutral'
-					className={`gap-2 ${className ?? ''}`}
+					startIcon={<UserAvatar user={user} />}
 				>
-					<UserAvatar user={user} />
 					<span className='max-w-[160px] truncate'>{user.name || user.email}</span>
 				</Button>
 			</DropdownMenuTrigger>

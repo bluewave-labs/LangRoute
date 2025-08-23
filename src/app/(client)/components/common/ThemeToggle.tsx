@@ -17,30 +17,21 @@ export default function ThemeToggle() {
 			<Button
 				variant='ghost'
 				size='icon'
+				iconOnly
 				aria-label='Toggle theme'
 				title='Toggle theme'
 				disabled
-			/>
+			>
+				<Moon className='size-6' />
+			</Button>
 		);
 	}
+
 	const resolved = theme === 'system' ? systemTheme : theme;
 	const next = resolved === 'dark' ? 'light' : 'dark';
 
-	{
-		/* Cross-fade icons */
-	}
-	const toggle = (
-		<span className='text-primary relative inline-block md:!h-4 md:!w-4 xl:!h-5.5 xl:!w-5.5'>
-			<Sun
-				className={`absolute inset-0 transition-transform md:!h-4 md:!w-4 xl:!h-5.5 xl:!w-5.5 ${resolved === 'dark' ? 'rotate-180' : 'rotate-0'} transition-opacity duration-300 ${resolved === 'dark' ? 'opacity-100' : 'opacity-0'}`}
-				aria-hidden
-			/>
-			<Moon
-				className={`absolute inset-0 transition-transform duration-300 md:!h-4 md:!w-4 xl:!h-5.5 xl:!w-5.5 ${resolved === 'dark' ? 'rotate-180' : 'rotate-0'} transition-opacity ${resolved === 'dark' ? 'opacity-0' : 'opacity-100'}`}
-				aria-hidden
-			/>
-		</span>
-	);
+	// Choose one icon; keep it simple (lucide icons preferred)
+	const Icon = resolved === 'dark' ? Sun : Moon;
 
 	return (
 		<Button
@@ -48,11 +39,12 @@ export default function ThemeToggle() {
 			onClick={() => setTheme(next!)}
 			variant='ghost'
 			size='icon'
-			startIcon={toggle}
-			color='neutral'
+			iconOnly
 			aria-label='Toggle theme'
 			title='Toggle theme'
-			className='mx-2 group-data-[collapsible=icon]:hidden'
-		></Button>
+			className='group-data-[collapsible=icon]:hidden'
+		>
+			<Icon className='size-6' />
+		</Button>
 	);
 }
